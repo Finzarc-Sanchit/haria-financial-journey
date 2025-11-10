@@ -131,12 +131,12 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
           borderBottom: isScrolled ? '1px solid rgba(255,255,255,0.3)' : '1px solid rgba(255,255,255,0.2)'
         }}
       >
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <button 
               onClick={handleLogoClick}
-              className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
+              className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer -ml-2"
             >
               <img src={logo} alt="Haria Investments Logo" className="w-12 h-12 object-contain" />
               <div>
@@ -154,7 +154,7 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
             </button>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-4">
+            <div className="hidden lg:flex items-center space-x-3 flex-1 justify-center">
               {/* Insurance Dropdown */}
               <div
                 className="relative"
@@ -163,11 +163,11 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
               >
                 <button 
                   onClick={() => handleNavigationClick('/life-insurance')}
-                  className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-sm flex items-center gap-1" 
+                  className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-base flex items-center gap-1 whitespace-nowrap" 
                   style={{ textShadow: '0 1px 2px rgba(255,255,255,0.8), 0 0 6px rgba(255,255,255,0.3)' }}
                 >
                   Insurance
-                  <ChevronDown className={`w-3 h-3 transition-transform ${isInsuranceDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isInsuranceDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 <AnimatePresence>
                   {isInsuranceDropdownOpen && (
@@ -200,11 +200,11 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
               >
                 <button 
                   onClick={() => handleNavigationClick('/mutual-funds')}
-                  className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-sm flex items-center gap-1" 
+                  className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-base flex items-center gap-1 whitespace-nowrap" 
                   style={{ textShadow: '0 1px 2px rgba(255,255,255,0.8), 0 0 6px rgba(255,255,255,0.3)' }}
                 >
                   Investment
-                  <ChevronDown className={`w-3 h-3 transition-transform ${isInvestmentDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isInvestmentDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 <AnimatePresence>
                   {isInvestmentDropdownOpen && (
@@ -233,7 +233,7 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
               <Link
                 to="/fixed-income"
                 onClick={() => handleNavigationClick('/fixed-income')}
-                className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-sm"
+                className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-base whitespace-nowrap"
                 style={{ textShadow: '0 1px 2px rgba(255,255,255,0.8), 0 0 6px rgba(255,255,255,0.3)' }}
               >
                 Fixed Income
@@ -247,11 +247,11 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
               >
                 <button 
                   onClick={() => handleNavigationClick('/commodity-trading')}
-                  className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-sm flex items-center gap-1" 
+                  className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-base flex items-center gap-1 whitespace-nowrap" 
                   style={{ textShadow: '0 1px 2px rgba(255,255,255,0.8), 0 0 6px rgba(255,255,255,0.3)' }}
                 >
                   Commodities
-                  <ChevronDown className={`w-3 h-3 transition-transform ${openDropdown === 'commodities' ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${openDropdown === 'commodities' ? 'rotate-180' : ''}`} />
                 </button>
                 <AnimatePresence>
                   {openDropdown === 'commodities' && (
@@ -284,11 +284,11 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
               >
                 <button 
                   onClick={() => handleNavigationClick('/sip-calculator')}
-                  className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-sm flex items-center gap-1" 
+                  className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-base flex items-center gap-1 whitespace-nowrap" 
                   style={{ textShadow: '0 1px 2px rgba(255,255,255,0.8), 0 0 6px rgba(255,255,255,0.3)' }}
                 >
                   Calculator
-                  <ChevronDown className={`w-3 h-3 transition-transform ${isCalcDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isCalcDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 <AnimatePresence>
                   {isCalcDropdownOpen && (
@@ -317,7 +317,7 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
               <Link
                 to="/financial-health-form"
                 onClick={() => handleNavigationClick('/financial-health-form')}
-                className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-sm"
+                className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-base whitespace-nowrap"
                 style={{ textShadow: '0 1px 2px rgba(255,255,255,0.8), 0 0 6px rgba(255,255,255,0.3)' }}
               >
                 Financial Health Form
@@ -325,7 +325,7 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
             </div>
 
             {/* CTA Button */}
-            <div className="hidden lg:flex ml-6">
+            <div className="hidden lg:flex -mr-2">
               <button 
                 onClick={handleScheduleConsultation}
                 className="bg-secondary hover:bg-secondary/90 text-white px-8 py-3 rounded-full font-semibold font-crimson transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
