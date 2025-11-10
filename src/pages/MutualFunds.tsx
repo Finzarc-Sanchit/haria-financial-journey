@@ -366,10 +366,10 @@ const MutualFunds = () => {
 
                         {/* Results Display */}
                         <div className="space-y-6">
-                            <Card className="bg-gradient-to-br from-secondary/20 to-transparent border-secondary/20">
+                            <Card className="bg-gradient-to-br from-tertiary/10 to-transparent border-tertiary/20">
                                 <CardContent className="p-6">
                                     <div className="text-center">
-                                        <div className="text-3xl font-playfair font-bold text-secondary mb-2">
+                                        <div className="text-3xl font-playfair font-bold text-tertiary mb-2">
                                             ₹{totalValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                                         </div>
                                         <p className="text-tertiary/70 font-crimson">Total Value</p>
@@ -378,9 +378,9 @@ const MutualFunds = () => {
                             </Card>
 
                             <div className="grid grid-cols-2 gap-4">
-                                <Card>
+                                <Card className="bg-gradient-to-br from-secondary/20 to-transparent border-secondary/20">
                                     <CardContent className="p-4 text-center">
-                                        <div className="text-xl font-playfair font-bold text-tertiary mb-1">
+                                        <div className="text-xl font-playfair font-bold text-secondary mb-1">
                                             ₹{totalInvestment.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                                         </div>
                                         <p className="text-sm text-tertiary/70 font-crimson">Total Investment</p>
@@ -460,98 +460,6 @@ const MutualFunds = () => {
                 </div>
             </section>
 
-            {/* Top Performing Funds */}
-            <section id="top-funds" className="py-16 bg-gradient-to-br from-secondary/10 to-secondary/5">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center mb-16"
-                    >
-                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
-                            TOP PERFORMERS
-                        </p>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
-                            Top Performing Funds
-                        </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Our best-performing mutual fund schemes
-                        </p>
-                    </motion.div>
-
-                    <motion.div
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: true, amount: 0.2 }}
-                        variants={{
-                            hidden: {},
-                            show: { transition: { staggerChildren: 0.1 }}
-                        }}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                    >
-                        {topFunds.map((fund, index) => (
-                            <motion.div 
-                                key={index}
-                                initial={{ opacity: 0, y: 40 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.6 }}
-                                className="h-full"
-                            >
-                                <Card
-                                    className="group border-2 border-transparent overflow-hidden shadow-lg transition-all duration-300 h-full flex flex-col"
-                                >
-                                    <CardHeader>
-                                        <div className="flex items-center justify-between mb-2">
-                                            <Badge className="bg-secondary/20 text-secondary">
-                                                {fund.category}
-                                            </Badge>
-                                        </div>
-                                        <CardTitle className="text-xl font-playfair text-tertiary">
-                                            {fund.name}
-                                        </CardTitle>
-                                    </CardHeader>
-
-                                    <CardContent className="flex flex-col flex-grow">
-                                        <div className="flex-grow">
-                                            <div className="space-y-4">
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-sm text-tertiary/70 font-crimson">NAV</span>
-                                                    <span className="font-semibold text-tertiary font-playfair">{fund.nav}</span>
-                                                </div>
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-sm text-tertiary/70 font-crimson">1 Year Returns</span>
-                                                    <span className="font-semibold text-green-600 font-playfair">{fund.returns}</span>
-                                                </div>
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-sm text-tertiary/70 font-crimson">Risk Level</span>
-                                                    <Badge className={
-                                                        fund.risk === 'High' ? 'bg-red-100 text-red-600' :
-                                                            fund.risk === 'Moderate' ? 'bg-yellow-100 text-yellow-600' :
-                                                                'bg-green-100 text-green-600'
-                                                    }>
-                                                        {fund.risk}
-                                                    </Badge>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <Button 
-                                            className="w-full mt-6 bg-secondary hover:bg-secondary/90 text-white font-crimson font-semibold"
-                                            onClick={() => navigate('/contact')}
-                                        >
-                                            Invest Now
-                                            <ArrowRight className="ml-2 h-4 w-4" />
-                                        </Button>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
 
             {/* CTA Section */}
             <CTASection />

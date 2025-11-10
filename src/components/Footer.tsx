@@ -65,11 +65,11 @@ const Footer = () => {
                                 { label: 'General Insurance', to: '/general-insurance' },
                                 { label: 'Mutual Funds', to: '/mutual-funds' },
                                 { label: 'Equity Trading', to: '/equity-investment' },
-                                { label: 'Portfolio Management', to: '/portfolio-management' },
                                 { label: 'Fixed Income', to: '/fixed-income' },
                                 { label: 'Commodity Trading', to: '/commodity-trading' },
                                 { label: 'Gold & Silver', to: '/gold-silver' },
                                 { label: 'Other Derivatives', to: '/other-derivatives' },
+                                { label: 'Financial Health Form', to: '/financial-health-form' },
                             ].map((item) => (
                                 <li key={item.label}>
                                     <Link 
@@ -88,10 +88,6 @@ const Footer = () => {
                     <div data-aos="fade-up" data-aos-delay="200">
                         <h4 className="font-playfair text-lg font-bold mb-4 text-tertiary uppercase tracking-wide">Credentials</h4>
                         <ul className="font-crimson text-tertiary/70 space-y-3 text-base">
-                            <li className="flex items-start gap-2">
-                                <Award className="w-4 h-4 text-secondary mt-0.5 flex-shrink-0" />
-                                <span>IRDAI Registered</span>
-                            </li>
                             <li className="flex items-start gap-2">
                                 <Award className="w-4 h-4 text-secondary mt-0.5 flex-shrink-0" />
                                 <span>AMFI Registered & Mutual Fund Distributor</span>

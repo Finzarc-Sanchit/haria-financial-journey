@@ -21,7 +21,6 @@ import OtherDerivatives from "./pages/OtherDerivatives";
 import LumpsumCalculator from "./pages/LumpsumCalculator";
 import CAGRCalculator from "./pages/CAGRCalculator";
 import Navigation from "@/components/Navigation";
-import PortfolioManagement from "./pages/PortfolioManagement";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -29,6 +28,7 @@ import AnalyticsProvider from "./components/AnalyticsProvider";
 import CookieConsent from "./components/CookieConsent";
 import { useAnalyticsContext } from "./components/AnalyticsProvider";
 import Contact from "./pages/Contact";
+import FinancialHealthForm from "./pages/FinancialHealthForm";
 
 // ErrorBoundary component
 class ErrorBoundary extends React.Component<{ children: React.ReactNode; }, { hasError: boolean; }> {
@@ -77,8 +77,8 @@ const AppContent = () => {
         <Route path="/other-derivatives" element={<OtherDerivatives />} />
         <Route path="/lumpsum-calculator" element={<LumpsumCalculator />} />
         <Route path="/cagr-calculator" element={<CAGRCalculator />} />
-        <Route path="/portfolio-management" element={<PortfolioManagement />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/financial-health-form" element={<FinancialHealthForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={
           <ProtectedRoute>

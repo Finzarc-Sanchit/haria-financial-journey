@@ -389,17 +389,7 @@ export const CircularCarousel = ({
           position: relative;
           width: 100%;
           height: 100%;
-          background: #1a5f7a;
-        }
-        .product-image-wrapper::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(26, 95, 122, 0.7);
-          z-index: 1;
+          background: transparent;
         }
         .product-image {
           width: 100%;

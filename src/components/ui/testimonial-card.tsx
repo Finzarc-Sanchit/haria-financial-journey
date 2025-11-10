@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils"
 import { User, UserRound } from "lucide-react"
+import { useState } from "react"
 
 export interface TestimonialAuthor {
   name: string
@@ -17,7 +18,7 @@ export interface TestimonialCardProps {
 // Function to detect gender based on name
 const detectGender = (name: string): 'male' | 'female' => {
   const firstName = name.split(' ')[0].toLowerCase();
-  const femaleNames = ['isha', 'priya', 'anjali', 'neha', 'pooja', 'kavita', 'sneha', 'divya', 'swati', 'nikita'];
+  const femaleNames = ['isha', 'priya', 'anjali', 'neha', 'pooja', 'kavita', 'sneha', 'divya', 'swati', 'nikita', 'heta'];
   return femaleNames.includes(firstName) ? 'female' : 'male';
 };
 
@@ -27,8 +28,15 @@ export function TestimonialCard({
   href,
   className
 }: TestimonialCardProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const Card: any = href ? 'a' : 'div'
   const gender = detectGender(author.name);
+  
+  // Truncate text to approximately 2-3 lines (around 150 characters)
+  const shouldTruncate = text.length > 150;
+  const displayText = shouldTruncate && !isExpanded 
+    ? text.slice(0, 150) + '...' 
+    : text;
   
   return (
     <Card
@@ -65,9 +73,22 @@ export function TestimonialCard({
           </p>
         </div>
       </div>
-      <p className="sm:text-md mt-4 text-sm text-muted-foreground font-crimson leading-relaxed">
-        {text}
-      </p>
+      <div>
+        <p className="sm:text-md mt-4 text-sm text-muted-foreground font-crimson leading-relaxed">
+          {displayText}
+        </p>
+        {shouldTruncate && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setIsExpanded(!isExpanded);
+            }}
+            className="mt-2 text-sm font-semibold text-secondary hover:text-secondary/80 transition-colors font-crimson"
+          >
+            {isExpanded ? 'Read less' : 'Read more'}
+          </button>
+        )}
+      </div>
     </Card>
   )
 }

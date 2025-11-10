@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Badge } from "@/components/ui/badge";
 import {
   MessageCircle,
   FileBarChart,
@@ -33,7 +32,6 @@ const ProcessSection = () => {
       number: '01',
       icon: MessageCircle,
       title: 'Initial Consultation',
-      duration: '30 minutes, complimentary',
       description: 'Comprehensive discussion of your financial goals, current situation, and concerns',
       expectations: [
         'No-pressure environment focused on understanding your needs',
@@ -54,7 +52,6 @@ const ProcessSection = () => {
       number: '02',
       icon: FileBarChart,
       title: 'Comprehensive Financial Analysis',
-      duration: '1-2 weeks',
       description: 'Detailed analysis of your current financial position, risk tolerance, and goal feasibility',
       expectations: [
         'Advanced planning software for scenario analysis',
@@ -74,7 +71,6 @@ const ProcessSection = () => {
       number: '03',
       icon: Settings,
       title: 'Implementation & Onboarding',
-      duration: '2-4 weeks',
       description: 'Systematic portfolio construction and account setup based on approved plan',
       expectations: [
         'Streamlined account opening with institutional custodians',
@@ -94,7 +90,6 @@ const ProcessSection = () => {
       number: '04',
       icon: RefreshCw,
       title: 'Ongoing Relationship Management',
-      duration: 'Ongoing',
       description: 'Proactive portfolio management with regular reviews and strategic adjustments',
       expectations: [
         'Quarterly portfolio reviews and rebalancing',
@@ -140,15 +135,12 @@ const ProcessSection = () => {
     title: step.title,
     content: (
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl border border-white/10">
-        {/* Icon and Duration Header */}
+        {/* Icon Header */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
               <step.icon className="w-7 h-7 text-white" />
             </div>
-            <Badge className="bg-secondary text-white text-sm font-crimson px-4 py-1">
-              {step.duration}
-            </Badge>
           </div>
         </div>
 

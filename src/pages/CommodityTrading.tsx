@@ -52,18 +52,18 @@ const CommodityTrading = () => {
         {
             id: "options",
             title: "Options Trading",
-            description: "Advanced derivatives with limited risk",
+            description: "Advanced derivatives",
             icon: Target,
             rate: "Limited Risk",
             tenure: "1-6 months",
             minAmount: "₹25,000",
-            features: ["Limited risk exposure", "Unlimited profit potential", "Flexible strategies", "Multiple trading approaches"],
+            features: ["Unlimited profit potential", "Flexible strategies", "Multiple trading approaches"],
             image: "/Commodity Trading/option-trading.jpg"
         },
         {
             id: "commodities",
             title: "Commodity Trading",
-            description: "Direct trading in physical commodities",
+            description: "",
             icon: Globe,
             rate: "Inflation Hedge",
             tenure: "Spot - 12 months",
@@ -317,96 +317,6 @@ const CommodityTrading = () => {
                 </div>
             </section>
 
-            {/* Trading Strategies Section */}
-            <section className="py-16 bg-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center mb-16"
-                    >
-                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
-                            TRADING STRATEGIES
-                        </p>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
-                            Expert Trading Strategies
-                        </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Proven strategies for successful commodity trading
-                        </p>
-                    </motion.div>
-
-                    <motion.div
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: true, amount: 0.2 }}
-                        variants={{
-                            hidden: {},
-                            show: { transition: { staggerChildren: 0.1 }}
-                        }}
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-                    >
-                        {tradingStrategies.map((strategy, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
-                                className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group p-6 md:p-8 flex flex-col min-h-[500px] border-2 border-transparent hover:border-secondary/50"
-                            >
-                                <div className="flex items-center justify-between mb-6">
-                                    <strategy.icon className="w-10 h-10 text-secondary group-hover:scale-110 transition-all flex-shrink-0" />
-                                    <span className="text-sm font-crimson text-tertiary/70 uppercase tracking-wider">
-                                        {strategy.risk}
-                                    </span>
-                                </div>
-
-                                <h3 className="font-playfair text-2xl md:text-3xl font-bold text-tertiary mb-4 leading-tight">
-                                    {strategy.name}
-                                </h3>
-
-                                <p className="text-tertiary/70 mb-6 font-crimson text-base leading-relaxed flex-grow-0">
-                                    {strategy.description}
-                                </p>
-
-                                <div className="space-y-2 mb-6">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-sm text-tertiary/70 font-crimson">Success Rate</span>
-                                        <span className="font-semibold text-tertiary font-playfair">{strategy.successRate}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-sm text-tertiary/70 font-crimson">Expected Returns</span>
-                                        <span className="font-semibold text-secondary font-playfair">{strategy.returns}</span>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-2 mb-auto">
-                                    {strategy.features.map((feature, idx) => (
-                                        <div key={idx} className="flex items-start text-sm">
-                                            <CheckCircle className="h-4 w-4 text-secondary mr-2 flex-shrink-0 mt-0.5" />
-                                            <span className="text-tertiary/70 font-crimson leading-relaxed">{feature}</span>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="mt-6">
-                                    <button
-                                        onClick={() => navigate('/contact')}
-                                        className="bg-secondary hover:bg-secondary/90 text-white hover:scale-105 transition-all duration-300 px-8 py-4 rounded-full font-semibold font-crimson flex items-center gap-2 group-hover:gap-4 w-full justify-center shadow-lg"
-                                    >
-                                        Learn Strategy
-                                        <ArrowRight className="w-5 h-5" />
-                                    </button>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
-
             {/* Advanced Trading Features Section */}
             <section className="py-16 bg-[#FAFAFA]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -618,8 +528,8 @@ const CommodityTrading = () => {
                                             alt={insight.title}
                                             className="w-full h-full object-cover"
                                         />
-                                        {/* Bluish Overlay */}
-                                        <div className="absolute inset-0 bg-tertiary/80 group-hover:bg-tertiary/70 transition-all duration-300"></div>
+                                        {/* Dark Overlay for text readability */}
+                                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
                                     </div>
                                     
                                     {/* Content */}

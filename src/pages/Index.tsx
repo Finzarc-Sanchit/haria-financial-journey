@@ -13,27 +13,19 @@ import CTASection from "@/components/CTASection";
 const testimonials = [
   {
     author: {
-      name: "Aarav Sharma",
-      handle: "@aarav_fin",
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=faces",
+      name: "Heta Gogri",
+      handle: "Practicing Chartered Accountant",
+      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=faces",
     },
-    text: "Haria's disciplined approach helped me start a long-term SIP confidently. Their team provided clear guidance on asset allocation and helped me understand the importance of staying invested during market volatility. The personalized attention and regular portfolio reviews have been exceptional. I've seen consistent growth in my investments over the past 3 years, and I'm confident about my financial future.",
+    text: "I've been doing SIPs with Haria Investments for about 3–4 years now, and the experience has been really positive throughout. The team is approachable, patient, and always ready to explain things clearly. They regularly review my portfolio, suggest changes when needed, and make sure my investments stay aligned with my goals. The returns have been good, and I genuinely feel my money is being handled with care and expertise. What I appreciate most is that they never push products — they focus on what's right for you. It's been a very comfortable and trustworthy relationship.",
   },
   {
     author: {
-      name: "Isha Patel",
-      handle: "@isha_invests",
-      avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&h=150&fit=crop&crop=faces",
+      name: "Ashley",
+      handle: "Musician from Bangalore",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=faces",
     },
-    text: "Clear, unbiased guidance tailored to my family's financial goals. The team at Haria took time to understand our unique situation - planning for our children's education, our retirement, and managing our existing investments. Their comprehensive approach covered everything from insurance needs to tax-efficient investment strategies. The transparency in their recommendations and the regular communication has built tremendous trust.",
-  },
-  {
-    author: {
-      name: "Rohit Verma",
-      handle: "@rohitv",
-      avatar: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=150&h=150&fit=crop&crop=faces",
-    },
-    text: "Their portfolio strategy balanced growth and stability perfectly for me. As someone who was new to investing, I was initially overwhelmed by the options available. Haria's team simplified everything and created a diversified portfolio that matched my risk appetite and financial goals. The educational sessions they provided helped me understand market dynamics better. Today, I feel confident making informed decisions about my investments.",
+    text: "I heard about Haria investments through a common friend and I said to myself I definitely need to go pay them a visit. Being a small time business owner based in bangalore I took the first flight out that day and paid them a visit only to be greeted so warmly and professionally that I knew that this is surely the place that I would entrust my money in. Been approached by the so called best in the business by many companies things really didn't somehow narrow down for me with Investing but when I met mr. Rohan and when he began talking about the company, the approach, the attitude and keep things simple short sweet and to the point, it took me max of 45 mins that day before I signed up and even pumped in the money. It's been little over year now with mr Rohan and team and I'm so happy to be associated with them and I know that my money is in the best hands and I know I'll see my returns very soon and a big way. My SIP's are on point, timely updates and constant follow ups has just made this whole experience wonderful being from a different city altogether. I'm so glad to be associated with them and I don't hesitate whenever Rohan calls me and updates me and asks me I want to up the investment which I gladly agree to always. My wife too has now invested with Haria investors and if anyone reading this and is in two minds I highly suggest and recommend Haria investors and do get in touch with Rohan and he will gladly sort out your finances for you and you can sit back gladly and know that your money is in the best of hands. More power to you all. Keep doing what you doing. Many blessings.",
   },
 ];
 

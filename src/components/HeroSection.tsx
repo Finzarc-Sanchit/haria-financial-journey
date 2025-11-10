@@ -107,18 +107,14 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right Side - Video */}
+          {/* Right Side - Image */}
           <div className="relative bg-gray-900 min-h-[400px] lg:min-h-screen overflow-hidden">
-            {/* Hero Video */}
-            <video 
-              autoPlay 
-              loop 
-              muted 
-              playsInline
+            {/* Hero Image */}
+            <img 
+              src="/hero-section-image.jpg" 
+              alt="Haria Investments Financial Planning"
               className="absolute inset-0 w-full h-full object-cover"
-            >
-              <source src="/hero-section-video.mp4" type="video/mp4" />
-            </video>
+            />
             
             {/* Decorative Yellow Shape (like in reference) */}
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary opacity-20 rounded-full transform translate-x-1/2 translate-y-1/2 z-10"></div>
