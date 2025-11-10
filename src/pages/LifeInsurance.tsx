@@ -24,26 +24,21 @@ interface Product {
 
 const LifeInsurance = () => {
     const [testimonialIndex, setTestimonialIndex] = useState(0);
+    const [expandedTestimonials, setExpandedTestimonials] = useState<Set<number>>(new Set());
     const { isOpen, openPopup, closePopup } = useContactPopup();
     const navigate = useNavigate();
 
     const testimonials = [
         {
-            name: "Priya Sharma",
-            role: "Software Engineer",
-            text: "Haria helped me choose the perfect term insurance plan. The claims process was incredibly smooth.",
+            name: "Heta Gogri",
+            role: "Practicing Chartered Accountant",
+            text: "I've been doing SIPs with Haria Investments for about 3–4 years now, and the experience has been really positive throughout. The team is approachable, patient, and always ready to explain things clearly. They regularly review my portfolio, suggest changes when needed, and make sure my investments stay aligned with my goals. The returns have been good, and I genuinely feel my money is being handled with care and expertise. What I appreciate most is that they never push products — they focus on what's right for you. It's been a very comfortable and trustworthy relationship.",
             rating: 5
         },
         {
-            name: "Rajesh Kumar",
-            role: "Business Owner",
-            text: "The whole life policy has been a great investment for my family's future security.",
-            rating: 5
-        },
-        {
-            name: "Anita Patel",
-            role: "Doctor",
-            text: "Excellent service and comprehensive coverage. Highly recommend for family protection.",
+            name: "Ashley",
+            role: "Musician from Bangalore",
+            text: "I heard about Haria investments through a common friend and I said to myself I definitely need to go pay them a visit. Being a small time business owner based in bangalore I took the first flight out that day and paid them a visit only to be greeted so warmly and professionally that I knew that this is surely the place that I would entrust my money in. Been approached by the so called best in the business by many companies things really didn't somehow narrow down for me with Investing but when I met mr. Rohan and when he began talking about the company, the approach, the attitude and keep things simple short sweet and to the point, it took me max of 45 mins that day before I signed up and even pumped in the money. It's been little over year now with mr Rohan and team and I'm so happy to be associated with them and I know that my money is in the best hands and I know I'll see my returns very soon and a big way. My SIP's are on point, timely updates and constant follow ups has just made this whole experience wonderful being from a different city altogether. I'm so glad to be associated with them and I don't hesitate whenever Rohan calls me and updates me and asks me I want to up the investment which I gladly agree to always. My wife too has now invested with Haria investors and if anyone reading this and is in two minds I highly suggest and recommend Haria investors and do get in touch with Rohan and he will gladly sort out your finances for you and you can sit back gladly and know that your money is in the best of hands. More power to you all. Keep doing what you doing. Many blessings.",
             rating: 5
         }
     ];
@@ -163,6 +158,29 @@ const LifeInsurance = () => {
         }, 5000);
         return () => clearInterval(timer);
     }, []);
+
+    // Reset expanded state when testimonial changes
+    useEffect(() => {
+        setExpandedTestimonials(new Set());
+    }, [testimonialIndex]);
+
+    // Truncate text to approximately 2-3 lines (around 150-200 characters)
+    const truncateText = (text: string, maxLength: number = 180) => {
+        if (text.length <= maxLength) return text;
+        return text.slice(0, maxLength) + '...';
+    };
+
+    const toggleTestimonial = (index: number) => {
+        setExpandedTestimonials(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(index)) {
+                newSet.delete(index);
+            } else {
+                newSet.add(index);
+            }
+            return newSet;
+        });
+    };
 
     useEffect(() => {
         const applyHash = () => {
@@ -350,26 +368,44 @@ const LifeInsurance = () => {
                             <div className="flex transition-transform duration-500" style={{
                                 transform: `translateX(-${testimonialIndex * 100}%)`
                             }}>
-                                {testimonials.map((testimonial, index) => (
-                                    <div key={index} className="w-full flex-shrink-0 text-center px-4">
-                                        <div className="flex justify-center mb-4">
-                                            {[...Array(testimonial.rating)].map((_, i) => (
-                                                <Star key={i} className="h-6 w-6 text-secondary fill-current" />
-                                            ))}
-                                        </div>
-                                        <p className="text-xl md:text-2xl font-crimson text-tertiary mb-6 italic">
-                                            "{testimonial.text}"
-                                        </p>
-                                        <div>
-                                            <div className="font-playfair font-semibold text-tertiary text-lg">
-                                                {testimonial.name}
+                                {testimonials.map((testimonial, index) => {
+                                    const isExpanded = expandedTestimonials.has(index);
+                                    const shouldTruncate = testimonial.text.length > 180;
+                                    const displayText = isExpanded || !shouldTruncate 
+                                        ? testimonial.text 
+                                        : truncateText(testimonial.text);
+                                    
+                                    return (
+                                        <div key={index} className="w-full flex-shrink-0 text-center px-4">
+                                            <div className="flex justify-center mb-4">
+                                                {[...Array(testimonial.rating)].map((_, i) => (
+                                                    <Star key={i} className="h-6 w-6 text-secondary fill-current" />
+                                                ))}
                                             </div>
-                                            <div className="text-base text-tertiary/60 font-crimson">
-                                                {testimonial.role}
+                                            <div className="mb-4">
+                                                <p className="text-xl md:text-2xl font-crimson text-tertiary italic">
+                                                    "{displayText}"
+                                                </p>
+                                                {shouldTruncate && (
+                                                    <button
+                                                        onClick={() => toggleTestimonial(index)}
+                                                        className="mt-3 text-secondary hover:text-secondary/80 font-crimson font-semibold text-sm transition-colors underline"
+                                                    >
+                                                        {isExpanded ? 'Read Less' : 'Read More'}
+                                                    </button>
+                                                )}
+                                            </div>
+                                            <div>
+                                                <div className="font-playfair font-semibold text-tertiary text-lg">
+                                                    {testimonial.name}
+                                                </div>
+                                                <div className="text-base text-tertiary/60 font-crimson">
+                                                    {testimonial.role}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </div>
 
