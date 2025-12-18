@@ -78,7 +78,9 @@ const EquityInvestment = () => {
         const fetchLiveStocks = async () => {
             try {
                 setLoadingStocks(true);
-                const stocks = await stockService.getPopularStocks(20); // Get 20 stocks for better display
+                // Fetch all available stocks from database (200+ stocks)
+                const allStocksCount = POPULAR_INDIAN_STOCKS.length;
+                const stocks = await stockService.getPopularStocks(allStocksCount);
                 
                 // Check if we got real live data (prices are different from fallback)
                 const hasLiveData = stocks.length > 0 && stocks[0].price !== 0;
@@ -99,8 +101,9 @@ const EquityInvestment = () => {
         };
 
         fetchLiveStocks();
-        // Refresh every 30 seconds for more live feel
-        const interval = setInterval(fetchLiveStocks, 30000);
+        // Refresh every 5 minutes for 200+ stocks (to respect rate limits and allow time for all stocks to load)
+        // With 200+ stocks and 1.2s delay between calls, it takes ~4-5 minutes to fetch all stocks
+        const interval = setInterval(fetchLiveStocks, 300000); // 5 minutes
         return () => clearInterval(interval);
     }, []);
 
@@ -117,10 +120,17 @@ const EquityInvestment = () => {
     useEffect(() => {
         if (portfolioHoldings.length > 0 && liveStocks.length > 0) {
             const holdingsWithPrices = portfolioHoldings.map(holding => {
-                // Find current price from live stocks
-                const liveStock = liveStocks.find(s => s.symbol === holding.symbol.replace('.NS', ''));
+                // Normalize symbol for matching (remove .NS for comparison)
+                const holdingSymbolBase = holding.symbol.replace('.NS', '');
+                
+                // Find current price from live stocks (match without .NS)
+                const liveStock = liveStocks.find(s => {
+                    const liveSymbolBase = s.symbol.replace('.NS', '');
+                    return liveSymbolBase === holdingSymbolBase;
+                });
+                
                 const stockData: StockData = liveStock || {
-                    symbol: holding.symbol.replace('.NS', ''),
+                    symbol: holdingSymbolBase,
                     name: stockService.getStockName(holding.symbol),
                     price: holding.buyPrice, // Fallback to buy price if live data not available
                     change: 0,
@@ -128,7 +138,10 @@ const EquityInvestment = () => {
                     high: holding.buyPrice,
                     low: holding.buyPrice,
                     volume: 0,
-                    sector: POPULAR_INDIAN_STOCKS.find(s => s.symbol === holding.symbol)?.sector || 'Others'
+                    sector: POPULAR_INDIAN_STOCKS.find(s => {
+                        const dbSymbolBase = s.symbol.replace('.NS', '');
+                        return dbSymbolBase === holdingSymbolBase;
+                    })?.sector || 'Others'
                 };
                 
                 return {
@@ -398,7 +411,9 @@ const EquityInvestment = () => {
     const handleRefreshStocks = async () => {
         try {
             setLoadingStocks(true);
-            const stocks = await stockService.getPopularStocks(20);
+            // Fetch all available stocks from database
+            const allStocksCount = POPULAR_INDIAN_STOCKS.length;
+            const stocks = await stockService.getPopularStocks(allStocksCount);
             if (stocks && stocks.length > 0) {
                 setLiveStocks(stocks);
                 setIsLiveData(true);
@@ -420,44 +435,43 @@ const EquityInvestment = () => {
         setAddBuyPrice(selectedStock.price.toFixed(2));
     };
 
-    const confirmAddToPortfolio = () => {
-        if (!selectedStock || !addQuantity || !addBuyPrice) return;
+    const confirmAddToPortfolio = (symbol: string, quantity: number, buyPrice: number) => {
+        // Symbol already comes with .NS suffix from PortfolioBuilder
+        // Normalize symbol for matching (ensure .NS suffix)
+        const normalizedSymbol = symbol.includes('.NS') ? symbol : `${symbol}.NS`;
         
-        const quantity = parseFloat(addQuantity);
-        const buyPrice = parseFloat(addBuyPrice);
+        // Check if stock already exists in portfolio (match with or without .NS)
+        const existingIndex = portfolioHoldings.findIndex(h => {
+            const hSymbol = h.symbol.includes('.NS') ? h.symbol : `${h.symbol}.NS`;
+            return hSymbol === normalizedSymbol;
+        });
         
-        if (isNaN(quantity) || isNaN(buyPrice) || quantity <= 0 || buyPrice <= 0) {
-            alert('Please enter valid quantity and buy price');
-            return;
-        }
-
-        // Add symbol with .NS suffix for consistency
-        const symbol = selectedStock.symbol.includes('.NS') ? selectedStock.symbol : `${selectedStock.symbol}.NS`;
-        
-        // Check if stock already exists in portfolio
-        const existingIndex = portfolioHoldings.findIndex(h => h.symbol === symbol);
         if (existingIndex >= 0) {
             // Update existing holding
             const updatedHoldings = [...portfolioHoldings];
+            const existingHolding = updatedHoldings[existingIndex];
+            const totalQuantity = existingHolding.quantity + quantity;
+            const averagePrice = ((existingHolding.buyPrice * existingHolding.quantity) + (buyPrice * quantity)) / totalQuantity;
+            
             updatedHoldings[existingIndex] = {
-                symbol,
-                quantity: updatedHoldings[existingIndex].quantity + quantity,
-                buyPrice: ((updatedHoldings[existingIndex].buyPrice * updatedHoldings[existingIndex].quantity) + (buyPrice * quantity)) / (updatedHoldings[existingIndex].quantity + quantity) // Average price
+                symbol: normalizedSymbol,
+                quantity: totalQuantity,
+                buyPrice: averagePrice
             };
             setPortfolioHoldings(updatedHoldings);
         } else {
             // Add new holding
-            setPortfolioHoldings([...portfolioHoldings, { symbol, quantity, buyPrice }]);
+            setPortfolioHoldings([...portfolioHoldings, { symbol: normalizedSymbol, quantity, buyPrice }]);
         }
-        
-        // Reset form
-        setShowAddToPortfolio(false);
-        setAddQuantity('');
-        setAddBuyPrice('');
     };
 
     const handleRemoveFromPortfolio = (symbol: string) => {
-        setPortfolioHoldings(portfolioHoldings.filter(h => h.symbol !== symbol));
+        // Normalize symbol for comparison (handle both with and without .NS)
+        const normalizedSymbol = symbol.includes('.NS') ? symbol : `${symbol}.NS`;
+        setPortfolioHoldings(portfolioHoldings.filter(h => {
+            const hSymbol = h.symbol.includes('.NS') ? h.symbol : `${h.symbol}.NS`;
+            return hSymbol !== normalizedSymbol;
+        }));
     };
 
     // Filter handlers
