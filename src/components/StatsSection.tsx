@@ -47,8 +47,8 @@ export function StatsSection() {
           };
           
           animateYearCounter('year', currentYear, 1957, 2000);
-          animateCounter('aum', 100, 2500);
-          animateCounter('clients', 1000, 2000);
+          animateCounter('aum', 150, 2500);
+          animateCounter('clients', 1500, 2000);
           animateCounter('generations', 4, 1500);
         }
       },

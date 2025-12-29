@@ -99,6 +99,7 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
   const investmentLinks = [
     { label: 'Mutual Funds', to: '/mutual-funds' },
     { label: 'Equity Investment', to: '/equity-investment' },
+    { label: 'Fixed Income', to: '/fixed-income' },
   ];
 
   const calculatorLinks = [
@@ -228,16 +229,6 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
                   )}
                 </AnimatePresence>
               </div>
-
-              {/* Fixed Income - Single Page */}
-              <Link
-                to="/fixed-income"
-                onClick={() => handleNavigationClick('/fixed-income')}
-                className="text-tertiary hover:text-secondary transition-colors font-crimson font-semibold text-base whitespace-nowrap"
-                style={{ textShadow: '0 1px 2px rgba(255,255,255,0.8), 0 0 6px rgba(255,255,255,0.3)' }}
-              >
-                Fixed Income
-              </Link>
 
               {/* Commodities Dropdown */}
               <div
@@ -418,16 +409,6 @@ const Navigation: React.FC<NavigationProps> = ({ isTransparent = false }) => {
                       </div>
                     )}
                   </div>
-
-                  {/* Mobile Fixed Income - Direct Link */}
-                  <Link
-                    to="/fixed-income"
-                    className="flex items-center text-tertiary font-crimson font-semibold text-lg py-2 hover:text-secondary transition-colors"
-                    onClick={() => handleNavigationClick('/fixed-income')}
-                  >
-                    <PiggyBank className="w-5 h-5 mr-3" />
-                    Fixed Income
-                  </Link>
 
                   {/* Mobile Commodities */}
                   <div>

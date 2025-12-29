@@ -1,6 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
     Car,
     Home,
@@ -20,14 +19,10 @@ import ContactPopup from '@/components/ui/ContactPopup';
 import { useContactPopup } from '@/hooks/useContactPopup';
 import { useNavigate } from 'react-router-dom';
 import CTASection from '@/components/CTASection';
-import CircularCarousel from '@/components/ui/circular-carousel';
+import ProductGrid from '@/components/ui/product-grid';
 
 const GeneralInsurance = () => {
-    const [selectedService, setSelectedService] = useState("car");
     const { isOpen, openPopup, closePopup } = useContactPopup();
-    const [activeTabRect, setActiveTabRect] = useState({ left: 0, width: 0 });
-    const tabsListRef = useRef<HTMLDivElement>(null);
-    const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
     const navigate = useNavigate();
 
     const services = [
@@ -43,7 +38,7 @@ const GeneralInsurance = () => {
                     description: "Complete coverage including own damage and third party",
                     badge: "99% claims settled",
                     icon: Shield,
-                    rate: "Starting ₹5,000/year",
+                    rate: "Starting ₹1,000/year",
                     tenure: "1-3 years",
                     minAmount: "₹5,000",
                     features: ["Own damage cover", "Third party liability", "24/7 roadside assistance", "Cashless repairs"],
@@ -55,7 +50,7 @@ const GeneralInsurance = () => {
                     description: "Legal compliance coverage for third party damages",
                     badge: "Mandatory",
                     icon: CheckCircle,
-                    rate: "Starting ₹2,000/year",
+                    rate: "Starting ₹800/year",
                     tenure: "1-3 years",
                     minAmount: "₹2,000",
                     features: ["Legal compliance", "Third party liability", "Affordable premium", "Quick issuance"],
@@ -67,7 +62,7 @@ const GeneralInsurance = () => {
                     description: "Get full claim value without depreciation",
                     badge: "Premium",
                     icon: Star,
-                    rate: "Starting ₹8,000/year",
+                    rate: "Starting ₹2,000/year",
                     tenure: "1-3 years",
                     minAmount: "₹8,000",
                     features: ["No depreciation", "Full claim value", "Premium coverage", "New car benefits"],
@@ -84,38 +79,14 @@ const GeneralInsurance = () => {
                 {
                     id: "fire-allied-perils",
                     title: "Fire & Allied Perils",
-                    description: "Covers loss due to fire, lightning, explosion etc.",
+                    description: "Covers loss due to fire, explosion etc.",
                     badge: "Essential",
                     icon: Flame,
-                    rate: "Starting ₹5,000/year",
+                    rate: "Starting ₹1,000/year",
                     tenure: "1-3 years",
-                    minAmount: "₹15 Lakhs",
-                    features: ["Fire damage cover", "Lightning protection", "Explosion coverage", "Quick settlement"],
+                    minAmount: "₹50,000",
+                    features: ["Fire damage cover", "Flood damage cover", "Explosion coverage", "Quick settlement"],
                     image: "/General insurance/Fire-Allied-Perils.jpg"
-                },
-                {
-                    id: "electrical-fire",
-                    title: "Electrical Fire",
-                    description: "Protects from fire due to electrical faults",
-                    badge: "Sensitive zones",
-                    icon: Shield,
-                    rate: "Starting ₹8,000/year",
-                    tenure: "1-3 years",
-                    minAmount: "₹20 Lakhs",
-                    features: ["Electrical fault cover", "Short circuit protection", "Equipment damage", "Wiring coverage"],
-                    image: "/General insurance/Electrical-Fire.jpg"
-                },
-                {
-                    id: "natural-calamity-fire",
-                    title: "Natural Calamity Fire",
-                    description: "Covers fire caused by natural calamities",
-                    badge: "Disaster coverage",
-                    icon: Globe,
-                    rate: "Starting ₹10,000/year",
-                    tenure: "1-3 years",
-                    minAmount: "₹25 Lakhs",
-                    features: ["Natural disaster cover", "Wildfire protection", "Storm damage", "Comprehensive coverage"],
-                    image: "/General insurance/Natural-Calamity.jpg"
                 }
             ]
         },
@@ -131,35 +102,11 @@ const GeneralInsurance = () => {
                     description: "Complete home structure and contents protection",
                     badge: "Recommended",
                     icon: Home,
-                    rate: "Starting ₹3,000/year",
+                    rate: "Starting ₹1,000/year",
                     tenure: "1-3 years",
-                    minAmount: "₹10 Lakhs",
+                    minAmount: "₹1 Lakh",
                     features: ["Structure cover", "Contents protection", "Natural calamities", "Theft coverage"],
                     image: "/General insurance/home-insurance.jpg"
-                },
-                {
-                    id: "commercial-property",
-                    title: "Commercial Property",
-                    description: "Business property and assets coverage",
-                    badge: "Business",
-                    icon: Building,
-                    rate: "Starting ₹10,000/year",
-                    tenure: "1-3 years",
-                    minAmount: "₹25 Lakhs",
-                    features: ["Business assets", "Inventory cover", "Fire & theft", "Business interruption"],
-                    image: "/General insurance/commercial-property.jpg"
-                },
-                {
-                    id: "fire-insurance",
-                    title: "Fire Insurance",
-                    description: "Protection against fire and related perils",
-                    badge: "Essential",
-                    icon: Flame,
-                    rate: "Starting ₹5,000/year",
-                    tenure: "1-3 years",
-                    minAmount: "₹15 Lakhs",
-                    features: ["Fire damage", "Smoke damage", "Allied perils", "Quick settlement"],
-                    image: "/General insurance/Fire-insurance.jpg"
                 }
             ]
         },
@@ -170,26 +117,14 @@ const GeneralInsurance = () => {
             description: "Global travel protection and assistance",
             subCategories: [
                 {
-                    id: "domestic-travel",
-                    title: "Domestic Travel",
-                    description: "Within-country travel protection",
-                    badge: "Local",
-                    icon: MapPin,
-                    rate: "Starting ₹50/day",
-                    tenure: "Per trip",
-                    minAmount: "₹1 Lakh",
-                    features: ["Medical emergencies", "Trip cancellation", "Baggage loss", "Flight delay"],
-                    image: "/General insurance/domestic-travel.jpg"
-                },
-                {
                     id: "international-travel",
                     title: "International Travel",
                     description: "Worldwide travel coverage and assistance",
                     badge: "Global",
                     icon: Globe,
-                    rate: "Starting ₹500/day",
+                    rate: "Starting ₹500/per trip",
                     tenure: "Per trip",
-                    minAmount: "₹5 Lakhs",
+                    minAmount: "50k dollars",
                     features: ["Global coverage", "Emergency evacuation", "Passport loss", "24/7 assistance"],
                     image: "/General insurance/international-travel.jpg"
                 },
@@ -201,7 +136,7 @@ const GeneralInsurance = () => {
                     icon: Building,
                     rate: "Starting ₹300/day",
                     tenure: "Annual/Per trip",
-                    minAmount: "₹3 Lakhs",
+                    minAmount: "50k dollars",
                     features: ["Business equipment", "Meeting delays", "Corporate benefits", "Multi-trip options"],
                     image: "/General insurance/business travel.jpg"
                 }
@@ -209,13 +144,12 @@ const GeneralInsurance = () => {
         }
     ];
 
-    // Select tab from URL hash and scroll to section
+    // Scroll to section from URL hash
     useEffect(() => {
         const applyHash = () => {
             const hash = window.location.hash.replace('#', '');
             if (hash && ['car', 'fire', 'property', 'travel'].includes(hash)) {
-                setSelectedService(hash);
-                const target = document.getElementById('all-services');
+                const target = document.getElementById(hash);
                 if (target) {
                     setTimeout(() => {
                         target.scrollIntoView({ behavior: 'smooth' });
@@ -227,24 +161,6 @@ const GeneralInsurance = () => {
         window.addEventListener('hashchange', applyHash);
         return () => window.removeEventListener('hashchange', applyHash);
     }, []);
-
-    // Update active tab indicator position on tab change or resize
-    useEffect(() => {
-        function updateIndicator() {
-            const activeTab = tabRefs.current[selectedService];
-            const list = tabsListRef.current;
-            if (activeTab && list) {
-                const tabRect = activeTab.getBoundingClientRect();
-                const listRect = list.getBoundingClientRect();
-                setActiveTabRect({ left: tabRect.left - listRect.left, width: tabRect.width });
-            }
-        }
-        updateIndicator();
-        window.addEventListener('resize', updateIndicator);
-        return () => window.removeEventListener('resize', updateIndicator);
-    }, [selectedService]);
-
-    const currentService = services.find(s => s.id === selectedService);
 
     const scrollToSection = (sectionId: string) => {
         const element = document.getElementById(sectionId);
@@ -334,20 +250,6 @@ const GeneralInsurance = () => {
                                     </button>
                                 </motion.div>
 
-                                {/* Trust Badge */}
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.8 }}
-                                    className="mt-8 flex items-center gap-2 text-white/60 text-sm font-crimson"
-                                >
-                                    <div className="flex -space-x-2">
-                                        <div className="w-8 h-8 rounded-full bg-secondary border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/20 border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/10 border-2 border-tertiary"></div>
-                                    </div>
-                                    <span>Trusted by families since 1957</span>
-                                </motion.div>
                             </div>
                         </div>
 
@@ -380,62 +282,80 @@ const GeneralInsurance = () => {
                         >
                             All Insurance Services
                         </motion.h2>
-                        <motion.p
-                            className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto"
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
-                        >
-                            Complete protection for every aspect of your life
-                        </motion.p>
+                        <div className="flex justify-center">
+                            <motion.p
+                                className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center"
+                                initial={{ opacity: 0, y: 40 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                transition={{ duration: 0.6, delay: 0.1 }}
+                            >
+                                Complete protection for every aspect of your life
+                            </motion.p>
+                        </div>
                     </div>
 
-                    <Tabs value={selectedService} onValueChange={setSelectedService} className="w-full">
-                        <TabsList ref={tabsListRef} className="grid w-full grid-cols-4 bg-white/50 relative overflow-hidden">
-                            {/* Sliding indicator */}
+                    {/* Services in Vertical Layout */}
+                    <div className="space-y-16">
+                        {services.map((service, serviceIndex) => (
                             <motion.div
-                                className="absolute top-0 left-0 h-full rounded-md bg-secondary z-0"
-                                animate={{ left: activeTabRect.left, width: activeTabRect.width }}
-                                transition={{ type: 'tween', duration: 0.4 }}
-                                style={{ pointerEvents: 'none' }}
-                            />
-                            {services.map((service) => (
-                                <TabsTrigger
-                                    key={service.id}
-                                    value={service.id}
-                                    ref={el => (tabRefs.current[service.id] = el)}
-                                    className="data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=active]:z-10 relative transition-colors font-crimson"
-                                >
-                                    <service.icon className="h-4 w-4 mr-2" />
-                                    <span className="md:hidden">{service.title.split(' ')[0]}</span>
-                                    <span className="hidden md:inline">{service.title}</span>
-                                </TabsTrigger>
-                            ))}
-                        </TabsList>
-
-                        {services.map((service) => (
-                            <TabsContent key={service.id} value={service.id} className="mt-8">
-                                <div id={service.id}>
-                                    <CircularCarousel
-                                        products={service.subCategories}
-                                        autoplay={true}
-                                        colors={{
-                                            title: "#1a5f7a",
-                                            description: "#6b7280",
-                                            content: "#4b5563",
-                                        }}
-                                        fontSizes={{
-                                            title: "28px",
-                                            description: "16px",
-                                            content: "16px",
-                                        }}
-                                        onInvestNow={() => navigate('/contact')}
-                                    />
+                                key={service.id}
+                                id={service.id}
+                                initial={{ opacity: 0, y: 40 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.2 }}
+                                transition={{ duration: 0.8, delay: serviceIndex * 0.1 }}
+                                className="space-y-8"
+                            >
+                                {/* Service Header with Vignette Box */}
+                                <div className="relative w-full overflow-hidden rounded-2xl mb-8">
+                                    {/* Vignette Effect Box */}
+                                    <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 via-secondary/10 to-tertiary/10">
+                                        {/* Vignette overlay */}
+                                        <div 
+                                            className="absolute inset-0"
+                                            style={{
+                                                background: 'radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0.2) 100%)'
+                                            }}
+                                        />
+                                    </div>
+                                    
+                                    {/* Header Content Over Box */}
+                                    <div className="relative z-10 px-8 py-10 md:px-12 md:py-14">
+                                        <div className="flex items-center gap-4 md:gap-6">
+                                            <div className="p-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg flex-shrink-0">
+                                                <service.icon className="h-10 w-10 md:h-12 md:w-12 text-secondary" />
+                                            </div>
+                                            <div className="flex-1">
+                                                <h3 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-bold text-tertiary mb-3">
+                                                    {service.title}
+                                                </h3>
+                                                <p className="text-lg md:text-xl font-crimson text-tertiary/80 leading-relaxed">
+                                                    {service.description}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </TabsContent>
+
+                                {/* Service Cards */}
+                                <ProductGrid
+                                    products={service.subCategories}
+                                    colors={{
+                                        title: "#1a5f7a",
+                                        description: "#6b7280",
+                                        content: "#4b5563",
+                                    }}
+                                    fontSizes={{
+                                        title: "28px",
+                                        description: "16px",
+                                        content: "16px",
+                                    }}
+                                    onInvestNow={() => navigate('/contact')}
+                                />
+                            </motion.div>
                         ))}
-                    </Tabs>
+                    </div>
                 </div>
             </section>
 
@@ -455,9 +375,11 @@ const GeneralInsurance = () => {
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
                             Why Choose Our Insurance Services?
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Comprehensive protection with expert guidance and support
-                        </p>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
+                                Comprehensive protection with expert guidance and support
+                            </p>
+                        </div>
                     </motion.div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">

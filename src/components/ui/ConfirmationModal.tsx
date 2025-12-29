@@ -55,7 +55,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
             {/* Modal Content */}
             <div className="relative z-50 mx-4 w-full max-w-lg">
-                <div className="bg-white/90 rounded-2xl shadow-xl p-8 flex flex-col items-center text-center border border-gold/30">
+                <div className="bg-white/90 rounded-2xl shadow-xl p-8 flex flex-col items-center text-center border border-[#81a2b1]/30">
                     {/* Cinematic checkmark animation */}
                     <div className="relative mb-4 flex items-center justify-center" style={{ width: 56, height: 56 }}>
                         <>
@@ -128,7 +128,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
                     <Button
                         asChild
-                        className="mt-2 px-6 py-2 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/90 font-crimson font-semibold shadow-gold/20 transition-all w-full text-xl focus:outline-none focus:ring-2 focus:ring-secondary/60 focus:ring-offset-2"
+                        className="mt-2 px-6 py-2 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/90 font-crimson font-semibold shadow-[#81a2b1]/20 transition-all w-full text-xl focus:outline-none focus:ring-2 focus:ring-secondary/60 focus:ring-offset-2"
                     >
                         <button
                             onClick={() => {

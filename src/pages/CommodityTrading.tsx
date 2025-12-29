@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { CircularCarousel } from "@/components/ui/circular-carousel";
+import ProductGrid from "@/components/ui/product-grid";
 import {
     TrendingUp,
     Shield,
@@ -44,8 +40,8 @@ const CommodityTrading = () => {
             description: "Trade standardized contracts with leverage",
             icon: Calendar,
             rate: "High Leverage",
-            tenure: "1-12 months",
-            minAmount: "₹50,000",
+            tenure: "1 day to 1 month",
+            minAmount: "₹3,00,000",
             features: ["High leverage opportunities", "Standardized contracts", "High liquidity", "Effective hedging tool"],
             image: "/Commodity Trading/future-trading.jpg"
         },
@@ -55,8 +51,8 @@ const CommodityTrading = () => {
             description: "Advanced derivatives",
             icon: Target,
             rate: "Limited Risk",
-            tenure: "1-6 months",
-            minAmount: "₹25,000",
+            tenure: "1 day to 1 month",
+            minAmount: "₹3,00,000",
             features: ["Unlimited profit potential", "Flexible strategies", "Multiple trading approaches"],
             image: "/Commodity Trading/option-trading.jpg"
         },
@@ -66,8 +62,8 @@ const CommodityTrading = () => {
             description: "",
             icon: Globe,
             rate: "Inflation Hedge",
-            tenure: "Spot - 12 months",
-            minAmount: "₹1,00,000",
+            tenure: "1 day to 1 month",
+            minAmount: "₹3,00,000",
             features: ["Physical delivery option", "Spot trading available", "Portfolio diversification", "Inflation hedge protection"],
             image: "/Commodity Trading/commodity-trading.jpg"
         }
@@ -194,36 +190,13 @@ const CommodityTrading = () => {
 
                                 {/* Description */}
                                 <motion.p 
-                                    className="text-base md:text-lg font-crimson text-white/90 leading-relaxed mb-8"
+                                    className="text-base md:text-lg font-crimson text-white/90 leading-relaxed mb-8 text-justify"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.8, delay: 0.4 }}
                                 >
                                     Access futures, options, and commodity markets with professional trading strategies. Diversify your portfolio with gold, silver, crude oil, and more.
                     </motion.p>
-
-                    {/* Live Commodity Ticker */}
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.5 }}
-                                    className="bg-white/10 backdrop-blur-sm rounded-lg p-4 mb-8"
-                                >
-                                    <div className="flex items-center justify-between text-sm mb-2">
-                                        <span className="text-white/80 font-crimson">Live Prices</span>
-                                        <Badge className="bg-green-500/20 text-green-400">Market Open</Badge>
-                            </div>
-                                    <div className="flex items-center justify-between">
-                                    <div>
-                                            <span className="font-semibold text-white font-playfair block">{commodities[commodityTicker].name}</span>
-                                            <span className="text-xs text-white/70 font-crimson">{commodities[commodityTicker].unit}</span>
-                                    </div>
-                                        <span className="font-semibold text-white font-playfair">₹{commodities[commodityTicker].price.toLocaleString()}</span>
-                                        <span className={`font-semibold font-playfair ${commodities[commodityTicker].change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                            {commodities[commodityTicker].change >= 0 ? '+' : ''}{commodities[commodityTicker].change}%
-                                        </span>
-                        </div>
-                    </motion.div>
 
                                 {/* CTA Buttons */}
                                 <motion.div 
@@ -247,20 +220,6 @@ const CommodityTrading = () => {
                                     </button>
                                 </motion.div>
 
-                                {/* Trust Badge */}
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.8 }}
-                                    className="mt-8 flex items-center gap-2 text-white/60 text-sm font-crimson"
-                                >
-                                    <div className="flex -space-x-2">
-                                        <div className="w-8 h-8 rounded-full bg-secondary border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/20 border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/10 border-2 border-tertiary"></div>
-                                    </div>
-                                    <span>Trusted by families since 1957</span>
-                    </motion.div>
                             </div>
                         </div>
 
@@ -293,15 +252,16 @@ const CommodityTrading = () => {
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
                             Derivative Trading Options
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Choose from futures, options, and direct commodity trading
-                        </p>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
+                                Choose from futures, options, and direct commodity trading
+                            </p>
+                        </div>
                     </motion.div>
 
-                    {/* Carousel */}
-                    <CircularCarousel
+                    {/* Grid */}
+                    <ProductGrid
                         products={tradingProducts}
-                        autoplay={true}
                         colors={{
                             title: "#1a5f7a",
                             description: "#6b7280",
@@ -317,248 +277,63 @@ const CommodityTrading = () => {
                 </div>
             </section>
 
-            {/* Advanced Trading Features Section */}
-            <section className="py-16 bg-[#FAFAFA]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center mb-16"
-                    >
-                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
-                            ADVANCED TRADING FEATURES
-                        </p>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
-                            Professional Trading Tools
-                        </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Advanced features for serious traders
-                        </p>
-                    </motion.div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        {/* Real-time P&L Calculator */}
-                        <motion.div
-                            initial={{ opacity: 0, x: -30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <Card className="h-full border-2 border-gray-200 hover:border-secondary/50 transition-all">
-                                <CardHeader>
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <BarChart3 className="w-8 h-8 text-tertiary" />
-                                        <CardTitle className="text-2xl md:text-3xl font-playfair text-tertiary">
-                                            Real-time P&L Calculator
-                                        </CardTitle>
-                                    </div>
-                                </CardHeader>
-                                <CardContent className="space-y-6">
-                                    {/* Current P&L */}
-                                    <div className="bg-gray-50 rounded-xl p-6">
-                                        <div className="text-center">
-                                            <div className="text-4xl font-playfair font-bold text-tertiary mb-2">
-                                                ₹13,500
-                                            </div>
-                                            <p className="text-tertiary/70 font-crimson">Current P&L</p>
-                                        </div>
-                                    </div>
-
-                                    {/* Stats Grid */}
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                            <div className="text-2xl font-playfair font-bold text-tertiary mb-1">
-                                                ₹50,000
-                                            </div>
-                                            <p className="text-sm text-tertiary/70 font-crimson">Initial Capital</p>
-                                        </div>
-                                        <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                            <div className="text-2xl font-playfair font-bold text-green-600 mb-1">
-                                                +25%
-                                            </div>
-                                            <p className="text-sm text-tertiary/70 font-crimson">ROI</p>
-                                        </div>
-                                    </div>
-
-                                    {/* Risk Level */}
-                                    <div>
-                                        <div className="flex justify-between items-center mb-2">
-                                            <span className="text-sm font-crimson text-tertiary/70">Risk Level</span>
-                                            <span className="text-sm font-crimson font-semibold text-red-600">High</span>
-                                        </div>
-                                        <Progress value={75} className="h-2" />
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-
-                        {/* Risk Management */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <Card className="h-full border-2 border-gray-200 hover:border-secondary/50 transition-all">
-                                <CardHeader>
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <Shield className="w-8 h-8 text-tertiary" />
-                                        <CardTitle className="text-2xl md:text-3xl font-playfair text-tertiary">
-                                            Risk Management
-                                        </CardTitle>
-                                    </div>
-                                </CardHeader>
-                                <CardContent className="space-y-6">
-                                    {/* Risk Items */}
-                                    <div className="space-y-4">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                                                <CheckCircle className="w-5 h-5 text-green-600" />
-                                            </div>
-                                            <div>
-                                                <h4 className="font-playfair font-semibold text-lg text-tertiary mb-1">
-                                                    Position Sizing
-                                                </h4>
-                                                <p className="text-sm text-tertiary/70 font-crimson">
-                                                    Never risk more than 2% of capital per trade
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                                                <CheckCircle className="w-5 h-5 text-green-600" />
-                                            </div>
-                                            <div>
-                                                <h4 className="font-playfair font-semibold text-lg text-tertiary mb-1">
-                                                    Stop Loss
-                                                </h4>
-                                                <p className="text-sm text-tertiary/70 font-crimson">
-                                                    Automatic exit at predetermined loss levels
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                                                <CheckCircle className="w-5 h-5 text-green-600" />
-                                            </div>
-                                            <div>
-                                                <h4 className="font-playfair font-semibold text-lg text-tertiary mb-1">
-                                                    Diversification
-                                                </h4>
-                                                <p className="text-sm text-tertiary/70 font-crimson">
-                                                    Spread risk across multiple commodities
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
-                                                <Shield className="w-5 h-5 text-yellow-600" />
-                                            </div>
-                                            <div>
-                                                <h4 className="font-playfair font-semibold text-lg text-tertiary mb-1">
-                                                    Leverage Control
-                                                </h4>
-                                                <p className="text-sm text-tertiary/70 font-crimson">
-                                                    Maintain conservative leverage ratios
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
-
             {/* Market Insights Section */}
             <section className="py-16 bg-gradient-to-br from-secondary/10 to-secondary/5">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center mb-16"
-                    >
-                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
+                <div className="mx-auto max-w-7xl space-y-12 px-4 sm:px-6 lg:px-8 md:space-y-20">
+                    {/* Header */}
+                    <div className="relative z-10 mx-auto max-w-4xl space-y-4 text-center">
+                        <p className="text-sm font-playfair font-semibold text-tertiary/80 uppercase tracking-[0.15em] mb-4">
                             MARKET INSIGHTS
                         </p>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
+                        <h2 className="text-balance text-4xl md:text-5xl lg:text-6xl font-bold font-playfair text-tertiary leading-tight">
                             Expert Analysis & Insights
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Stay ahead with expert analysis and market updates
-                        </p>
-                    </motion.div>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl leading-relaxed text-center">
+                                Stay ahead with expert analysis and market updates
+                            </p>
+                        </div>
+                    </div>
 
-                    <motion.div
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: true, amount: 0.2 }}
-                        variants={{
-                            hidden: {},
-                            show: { transition: { staggerChildren: 0.1 }}
-                        }}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                    >
+                    {/* Insights Grid */}
+                    <div className="relative mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
                         {[
-                            { title: "Technical Analysis", desc: "Advanced charting with 50+ technical indicators", badge: "Live", icon: TrendingUp, image: "/technical-analysis.jpg" },
-                            { title: "Market Reports", desc: "Daily market analysis and expert recommendations", badge: "Daily", icon: Globe, image: "/market-insights.jpg" },
-                            { title: "Trading Signals", desc: "AI-powered trading signals and alerts", badge: "Expert", icon: Users, image: "/risk-assessment.jpg" }
+                            { title: "Technical Analysis", image: "/technical-analysis.jpg" },
+                            { title: "Market Reports", image: "/market-insights.jpg" },
+                            { title: "Trading Signals", image: "/risk-assessment.jpg" }
                         ].map((insight, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, y: 40 }}
+                                initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.6 }}
-                                className="h-full"
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                className="group text-center transition-all duration-300"
                             >
-                                <div className="relative h-full flex flex-col shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl group min-h-[350px]">
-                                    {/* Background Image */}
-                                    <div className="absolute inset-0">
-                                        <img 
-                                            src={insight.image} 
-                                            alt={insight.title}
-                                            className="w-full h-full object-cover"
-                                        />
-                                        {/* Dark Overlay for text readability */}
-                                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
-                                    </div>
-                                    
-                                    {/* Content */}
-                                    <div className="relative z-10 flex flex-col flex-grow p-6">
-                                        <div className="flex justify-end mb-4">
-                                            <Badge className="bg-secondary/90 text-white font-crimson">{insight.badge}</Badge>
-                                        </div>
-                                        
-                                        <div className="flex-grow flex flex-col justify-center">
-                                            <h3 className="text-2xl font-playfair font-bold text-white mb-3">
-                                                {insight.title}
-                                            </h3>
-                                            <p className="text-white/90 mb-6 font-crimson text-base leading-relaxed">
-                                                {insight.desc}
-                                            </p>
-                                        </div>
-                                        
-                                        <button
-                                            onClick={() => navigate('/contact')}
-                                            className="bg-secondary hover:bg-secondary/90 text-white px-6 py-3 rounded-full font-semibold font-crimson transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                                        >
-                                            Explore
-                                            <ArrowRight className="w-4 h-4" />
-                                        </button>
-                                    </div>
+                                {/* Circular Image Container - Increased Size */}
+                                <div className="w-48 h-48 mx-auto mb-6 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border-2 border-secondary/20 overflow-hidden">
+                                    <img 
+                                        src={insight.image} 
+                                        alt={insight.title}
+                                        className="w-full h-full object-cover"
+                                        loading="lazy"
+                                    />
                                 </div>
+                                {/* Title */}
+                                <h3 className="text-lg md:text-xl font-bold font-playfair text-tertiary mb-6 min-h-[3.5rem] flex items-center justify-center">
+                                    {insight.title}
+                                </h3>
+                                {/* Button */}
+                                <button
+                                    onClick={() => navigate('/contact')}
+                                    className="bg-secondary hover:bg-secondary/90 text-white px-6 py-3 rounded-full font-semibold font-crimson transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 mx-auto"
+                                >
+                                    Explore Now
+                                    <ArrowRight className="w-4 h-4" />
+                                </button>
                             </motion.div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
             </section>
 

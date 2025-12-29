@@ -54,7 +54,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ value, label, progress,
                         <circle
                             cx="18" cy="18" r="16"
                             fill="none"
-                            stroke="#E6C674"
+                            stroke="#81a2b1"
                             strokeWidth="4"
                             strokeDasharray={`${progress} ${100 - progress}`}
                             strokeDashoffset="25"

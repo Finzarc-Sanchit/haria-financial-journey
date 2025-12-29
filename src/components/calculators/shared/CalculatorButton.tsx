@@ -9,7 +9,7 @@ const variantStyles = {
     primary:
         'bg-secondary text-secondary-foreground font-playfair px-8 py-3 rounded-full text-lg shadow-lg transition-transform duration-150 focus:outline-none focus:ring-2 focus:ring-secondary',
     secondary:
-        'bg-[#E6C674] text-[#3A3A3A] font-playfair px-8 py-3 rounded-full text-lg shadow-lg transition-transform duration-150 focus:outline-none focus:ring-2 focus:ring-[#E6C674]',
+        'bg-[#81a2b1] text-[#3A3A3A] font-playfair px-8 py-3 rounded-full text-lg shadow-lg transition-transform duration-150 focus:outline-none focus:ring-2 focus:ring-[#81a2b1]',
 };
 
 const CalculatorButton: React.FC<CalculatorButtonProps> = ({

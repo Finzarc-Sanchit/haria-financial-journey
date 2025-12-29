@@ -74,7 +74,7 @@ export function TestimonialCard({
         </div>
       </div>
       <div>
-        <p className="sm:text-md mt-4 text-sm text-muted-foreground font-crimson leading-relaxed">
+        <p className="sm:text-md mt-4 text-sm text-muted-foreground font-crimson leading-relaxed text-justify">
           {displayText}
         </p>
         {shouldTruncate && (

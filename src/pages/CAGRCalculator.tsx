@@ -46,7 +46,7 @@ function CAGRLineChart({ initialValue, finalValue, durationYears }: { initialVal
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" tick={{ fontSize: 14, fill: '#8B7355' }} label={{ value: 'Year', position: 'insideBottom', offset: -5 }} />
                     <YAxis tick={{ fontSize: 14, fill: '#8B7355' }} tickFormatter={formatINR} />
-                    <Tooltip formatter={(value: number) => formatINR(value)} contentStyle={{ backgroundColor: 'white', borderColor: '#E6C674', borderRadius: '8px', fontFamily: 'Crimson Text, serif' }} />
+                    <Tooltip formatter={(value: number) => formatINR(value)} contentStyle={{ backgroundColor: 'white', borderColor: '#81a2b1', borderRadius: '8px', fontFamily: 'Crimson Text, serif' }} />
                     <Line type="monotone" dataKey="value" stroke="#B4A078" strokeWidth={3} dot={{ r: 4, fill: '#8B7355' }} />
                 </LineChart>
             </ResponsiveContainer>

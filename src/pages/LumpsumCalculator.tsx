@@ -46,7 +46,7 @@ function LumpsumBarChart({ invested, returns, maturity }: { invested: number; re
                 <BarChart data={data} margin={{ top: 20, right: 30, left: 40, bottom: 5 }}>
                     <XAxis dataKey="name" tick={{ fontSize: 14, fill: '#8B7355' }} />
                     <YAxis hide />
-                    <Tooltip formatter={(value: number) => formatINR(value)} contentStyle={{ backgroundColor: 'white', borderColor: '#E6C674', borderRadius: '8px', fontFamily: 'Crimson Text, serif' }} />
+                    <Tooltip formatter={(value: number) => formatINR(value)} contentStyle={{ backgroundColor: 'white', borderColor: '#81a2b1', borderRadius: '8px', fontFamily: 'Crimson Text, serif' }} />
                     <Bar dataKey="value" fill="#B4A078" radius={[6, 6, 6, 6]}>
                         <LabelList dataKey="value" position="top" formatter={(v) => formatINR(v)} style={{ fill: '#8B7355', fontFamily: 'Playfair Display, serif', fontWeight: 600 }} />
                     </Bar>

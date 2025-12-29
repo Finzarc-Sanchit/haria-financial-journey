@@ -29,8 +29,8 @@ All colors MUST be HSL. Professional financial advisory theme.
     /* Luxury Newspaper Inspiration */
     --light-gray: 0 0% 98%;
     /* Light Gray #FAFAFA */
-    --champagne: 39 51% 90%;
-    /* Champagne Gold #F7E7CE */
+    --champagne: 199 24% 60%;
+    /* Blue Gray #81a2b1 */
     --deep-charcoal: 0 0% 17%;
     /* Deep Charcoal #2C2C2C */
 
@@ -653,7 +653,7 @@ input[type="range"]::-webkit-slider-thumb {
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  background: #E6C674;
+  background: #81a2b1;
   cursor: pointer;
   border: 2px solid white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -669,7 +669,7 @@ input[type="range"]::-moz-range-thumb {
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  background: #E6C674;
+  background: #81a2b1;
   cursor: pointer;
   border: 2px solid white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);

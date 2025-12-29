@@ -26,15 +26,17 @@ export function TestimonialsSection({
         )}>
             <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 text-center sm:gap-16 px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col items-center gap-4 sm:gap-8">
-                    <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider">
+                    <p className="text-sm font-playfair font-semibold text-tertiary/80 uppercase tracking-[0.15em]">
                         CLIENT TESTIMONIALS
                     </p>
                     <h2 className="max-w-[720px] text-4xl md:text-5xl lg:text-6xl font-bold font-playfair leading-tight text-tertiary">
                         {title}
                     </h2>
-                    <p className="text-lg md:text-xl max-w-[700px] font-crimson text-tertiary/80 leading-relaxed">
-                        {description}
-                    </p>
+                    <div className="flex justify-center">
+                        <p className="text-lg md:text-xl max-w-[700px] font-crimson text-tertiary/80 leading-relaxed text-center">
+                            {description}
+                        </p>
+                    </div>
                 </div>
 
                 <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">

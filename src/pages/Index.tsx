@@ -7,7 +7,6 @@ import ServicesSection from "@/components/ServicesSection";
 import ProcessSection from "@/components/ProcessSection";
 import CoreValues from "@/components/CoreValues";
 import { TestimonialsSection } from "@/components/ui/testimonials-with-marquee";
-import AMCShowcase from "@/components/AMCShowcase";
 import CTASection from "@/components/CTASection";
 
 const testimonials = [
@@ -22,7 +21,7 @@ const testimonials = [
   {
     author: {
       name: "Ashley",
-      handle: "Musician from Bangalore",
+      handle: "Musician, Bangalore",
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=faces",
     },
     text: "I heard about Haria investments through a common friend and I said to myself I definitely need to go pay them a visit. Being a small time business owner based in bangalore I took the first flight out that day and paid them a visit only to be greeted so warmly and professionally that I knew that this is surely the place that I would entrust my money in. Been approached by the so called best in the business by many companies things really didn't somehow narrow down for me with Investing but when I met mr. Rohan and when he began talking about the company, the approach, the attitude and keep things simple short sweet and to the point, it took me max of 45 mins that day before I signed up and even pumped in the money. It's been little over year now with mr Rohan and team and I'm so happy to be associated with them and I know that my money is in the best hands and I know I'll see my returns very soon and a big way. My SIP's are on point, timely updates and constant follow ups has just made this whole experience wonderful being from a different city altogether. I'm so glad to be associated with them and I don't hesitate whenever Rohan calls me and updates me and asks me I want to up the investment which I gladly agree to always. My wife too has now invested with Haria investors and if anyone reading this and is in two minds I highly suggest and recommend Haria investors and do get in touch with Rohan and he will gladly sort out your finances for you and you can sit back gladly and know that your money is in the best of hands. More power to you all. Keep doing what you doing. Many blessings.",
@@ -64,12 +63,11 @@ const Index = () => {
       <HeroSection />
       <StatsSection />
       <TestimonialsSection
-        title="Trusted by families across India"
+        title="Trusted by 1500+ clients across India"
         description="Thoughtful financial planning and consistent execution for long-term wealth creation."
         testimonials={testimonials}
       />
       <FeaturesSection />
-      <AMCShowcase />
       <AboutSection />
       <CoreValues />
       <ServicesSection />

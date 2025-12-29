@@ -77,7 +77,7 @@ const CalculatorHero: React.FC<CalculatorHeroProps> = ({
 
                             {/* Description */}
                             <motion.p 
-                                className="text-base md:text-lg font-crimson text-white/90 leading-relaxed mb-8"
+                                className="text-base md:text-lg font-crimson text-white/90 leading-relaxed mb-8 text-justify"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.4 }}
@@ -107,20 +107,6 @@ const CalculatorHero: React.FC<CalculatorHeroProps> = ({
                                 </button>
                             </motion.div>
 
-                            {/* Trust Badge */}
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.8, delay: 0.8 }}
-                                className="mt-8 flex items-center gap-2 text-white/60 text-sm font-crimson"
-                            >
-                                <div className="flex -space-x-2">
-                                    <div className="w-8 h-8 rounded-full bg-secondary border-2 border-tertiary"></div>
-                                    <div className="w-8 h-8 rounded-full bg-white/20 border-2 border-tertiary"></div>
-                                    <div className="w-8 h-8 rounded-full bg-white/10 border-2 border-tertiary"></div>
-                                </div>
-                                <span>Trusted by families since 1957</span>
-                            </motion.div>
                         </div>
                     </div>
 

@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CircularCarousel } from "@/components/ui/circular-carousel";
+import ProductGrid from "@/components/ui/product-grid";
 import { Timeline } from "@/components/ui/timeline";
 import {
     Building,
@@ -14,9 +14,6 @@ import {
     Flag,
     Building2,
     Award,
-    TrendingUp,
-    Shield,
-    DollarSign,
 } from "lucide-react";
 import { motion } from 'framer-motion';
 import ContactPopup from '@/components/ui/ContactPopup';
@@ -36,12 +33,12 @@ const FixedIncome = () => {
     const products = [
         {
             id: "fd",
-            title: "Fixed Deposits",
+            title: "Corporate Deposits",
             description: "Guaranteed returns with capital protection",
             icon: PiggyBank,
             rate: "6.5-8.5%",
             tenure: "7 days - 10 years",
-            minAmount: "₹10,000",
+            minAmount: "Variable",
             features: ["Guaranteed returns", "Capital protection", "Flexible tenure", "Quarterly interest"],
             image: "/Fixed Income/Fixed-deposits.jpg",
         },
@@ -52,7 +49,7 @@ const FixedIncome = () => {
             icon: Building,
             rate: "8-12%",
             tenure: "3-10 years",
-            minAmount: "₹10,000",
+            minAmount: "Variable",
             features: ["Higher returns", "Regular income", "Credit rating", "Liquidity"],
             image: "/Fixed Income/corporate-bonds.jpg",
         },
@@ -63,7 +60,7 @@ const FixedIncome = () => {
             icon: Flag,
             rate: "6-7.5%",
             tenure: "1-30 years",
-            minAmount: "₹10,000",
+            minAmount: "Variable",
             features: ["Sovereign guarantee", "Zero default risk", "Tax benefits", "Liquidity"],
             image: "/Fixed Income/government-securities.jpg",
         },
@@ -74,7 +71,7 @@ const FixedIncome = () => {
             icon: Building2,
             rate: "9-14%",
             tenure: "1-7 years",
-            minAmount: "₹10,000",
+            minAmount: "Variable",
             features: ["Higher yields", "Credit rating", "Regular interest", "Listing benefits"],
             image: "/Fixed Income/NCDs.jpg",
         },
@@ -85,7 +82,7 @@ const FixedIncome = () => {
             icon: Award,
             rate: "5-6%",
             tenure: "5 years",
-            minAmount: "₹50 Lakhs",
+            minAmount: "Max 50 Lakhs",
             features: ["Tax savings on LTCG", "Section 54EC benefits", "Lock-in period", "Sovereign guarantee"],
             image: "/Fixed Income/capital-gain-bonds.jpg",
         }
@@ -150,7 +147,7 @@ const FixedIncome = () => {
         ),
     }));
 
-    // FD Calculator
+    // Fixed Income Calculator
     useEffect(() => {
         const principal = investmentAmount;
         const rate = interestRate / 100;
@@ -237,12 +234,12 @@ const FixedIncome = () => {
 
                                 {/* Description */}
                                 <motion.p 
-                                    className="text-base md:text-lg font-crimson text-white/90 leading-relaxed mb-8"
+                                    className="text-base md:text-lg font-crimson text-white/90 leading-relaxed mb-8 text-justify"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.8, delay: 0.4 }}
                                 >
-                                    Secure your financial future with guaranteed returns. From FDs to government securities, choose the perfect fixed income instrument.
+                                    Secure your financial future with guaranteed returns. From corporate deposits to government securities, choose the perfect fixed income instrument.
                                 </motion.p>
 
                                 {/* CTA Buttons */}
@@ -267,20 +264,6 @@ const FixedIncome = () => {
                                     </button>
                                 </motion.div>
 
-                                {/* Trust Badge */}
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.8 }}
-                                    className="mt-8 flex items-center gap-2 text-white/60 text-sm font-crimson"
-                                >
-                                    <div className="flex -space-x-2">
-                                        <div className="w-8 h-8 rounded-full bg-secondary border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/20 border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/10 border-2 border-tertiary"></div>
-                                    </div>
-                                    <span>Trusted by families since 1957</span>
-                                </motion.div>
                             </div>
                         </div>
 
@@ -313,15 +296,16 @@ const FixedIncome = () => {
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
                             Fixed Income Products
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Choose from a wide range of fixed income instruments
-                        </p>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
+                                Choose from a wide range of fixed income instruments
+                            </p>
+                        </div>
                     </motion.div>
 
-                    {/* Carousel */}
-                    <CircularCarousel
+                    {/* Grid */}
+                    <ProductGrid
                         products={products}
-                        autoplay={true}
                         colors={{
                             title: "#1a5f7a",
                             description: "#6b7280",
@@ -337,7 +321,7 @@ const FixedIncome = () => {
                 </div>
             </section>
 
-            {/* FD Calculator Section */}
+            {/* Fixed Income Calculator Section */}
             <section className="py-16 bg-gradient-to-br from-secondary/10 to-secondary/5">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
@@ -351,11 +335,13 @@ const FixedIncome = () => {
                             CALCULATE RETURNS
                         </p>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
-                            FD Calculator
+                            Fixed Income Calculator
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Calculate your fixed deposit maturity amount
-                        </p>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
+                                Calculate your fixed income maturity amount
+                            </p>
+                        </div>
                     </motion.div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -479,9 +465,11 @@ const FixedIncome = () => {
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-white mb-4">
                             Laddering Strategy
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-white/80 max-w-3xl mx-auto">
-                            Optimize your returns with systematic investment laddering
-                        </p>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-white/80 max-w-3xl">
+                                Optimize your returns with systematic investment laddering
+                            </p>
+                        </div>
                     </motion.div>
                 </div>
                 
@@ -505,38 +493,31 @@ const FixedIncome = () => {
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
                             Strategic Advantages
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Strategic advantages of a well-planned laddering approach
-                        </p>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
+                                Strategic advantages of a well-planned laddering approach
+                            </p>
+                        </div>
                     </motion.div>
 
-                    <div className="space-y-8 md:space-y-12 max-w-4xl mx-auto">
+                    <div className="space-y-8 md:space-y-10 max-w-4xl mx-auto">
                         {/* Benefit 01 - Higher Returns */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="space-y-4"
+                            className="space-y-3"
                         >
-                            <div className="flex items-start gap-6">
-                                <div className="flex-shrink-0">
-                                    <div className="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center">
-                                        <TrendingUp className="w-8 h-8 text-secondary" />
-                                    </div>
-                                </div>
-                                <div className="flex-1">
-                                    <div className="text-5xl md:text-6xl font-bold font-playfair text-tertiary/20 mb-2">
-                                        01
-                                    </div>
-                                    <h3 className="text-xl md:text-2xl font-bold font-playfair text-tertiary mb-3">
-                                        Higher Returns
-                                    </h3>
-                                    <p className="text-base md:text-lg font-crimson text-tertiary/70 leading-relaxed">
-                                        Lock in better rates by investing across different time periods. Longer-term deposits typically offer higher interest rates, allowing you to maximize overall portfolio returns.
-                                    </p>
-                                </div>
+                            <div className="text-5xl md:text-6xl font-bold font-playfair text-tertiary/20">
+                                01
                             </div>
+                            <h3 className="text-xl md:text-2xl font-bold font-playfair text-tertiary">
+                                Higher Returns
+                            </h3>
+                            <p className="text-base md:text-lg font-crimson text-tertiary/70 leading-relaxed">
+                                Lock in better rates by investing across different time periods. Longer-term deposits typically offer higher interest rates, allowing you to maximize overall portfolio returns.
+                            </p>
                         </motion.div>
 
                         {/* Benefit 02 - Risk Management */}
@@ -545,26 +526,17 @@ const FixedIncome = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.1 }}
-                            className="space-y-4"
+                            className="space-y-3"
                         >
-                            <div className="flex items-start gap-6">
-                                <div className="flex-shrink-0">
-                                    <div className="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center">
-                                        <Shield className="w-8 h-8 text-secondary" />
-                                    </div>
-                                </div>
-                                <div className="flex-1">
-                                    <div className="text-5xl md:text-6xl font-bold font-playfair text-tertiary/20 mb-2">
-                                        02
-                                    </div>
-                                    <h3 className="text-xl md:text-2xl font-bold font-playfair text-tertiary mb-3">
-                                        Risk Management
-                                    </h3>
-                                    <p className="text-base md:text-lg font-crimson text-tertiary/70 leading-relaxed">
-                                        Spread maturity dates to reduce interest rate risk. As deposits mature regularly, you can reinvest at current market rates, protecting against rate fluctuations.
-                                    </p>
-                                </div>
+                            <div className="text-5xl md:text-6xl font-bold font-playfair text-tertiary/20">
+                                02
                             </div>
+                            <h3 className="text-xl md:text-2xl font-bold font-playfair text-tertiary">
+                                Risk Management
+                            </h3>
+                            <p className="text-base md:text-lg font-crimson text-tertiary/70 leading-relaxed">
+                                Spread maturity dates to reduce interest rate risk. As deposits mature regularly, you can reinvest at current market rates, protecting against rate fluctuations.
+                            </p>
                         </motion.div>
 
                         {/* Benefit 03 - Regular Income */}
@@ -573,33 +545,24 @@ const FixedIncome = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.2 }}
-                            className="space-y-4"
+                            className="space-y-3"
                         >
-                            <div className="flex items-start gap-6">
-                                <div className="flex-shrink-0">
-                                    <div className="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center">
-                                        <DollarSign className="w-8 h-8 text-secondary" />
-                                    </div>
-                                </div>
-                                <div className="flex-1">
-                                    <div className="text-5xl md:text-6xl font-bold font-playfair text-tertiary/20 mb-2">
-                                        03
-                                    </div>
-                                    <h3 className="text-xl md:text-2xl font-bold font-playfair text-tertiary mb-3">
-                                        Regular Income
-                                    </h3>
-                                    <p className="text-base md:text-lg font-crimson text-tertiary/70 leading-relaxed mb-4">
-                                        Quarterly interest payouts provide consistent cash flow. Staggered maturities ensure regular access to funds without compromising on returns or breaking deposits prematurely.
-                                    </p>
-                                    <Button
-                                        className="bg-secondary hover:bg-secondary/90 text-white font-crimson font-semibold"
-                                        onClick={() => navigate('/contact')}
-                                    >
-                                        Plan Your Ladder Strategy
-                                        <ArrowRight className="ml-2 h-4 w-4" />
-                                    </Button>
-                                </div>
+                            <div className="text-5xl md:text-6xl font-bold font-playfair text-tertiary/20">
+                                03
                             </div>
+                            <h3 className="text-xl md:text-2xl font-bold font-playfair text-tertiary">
+                                Regular Income
+                            </h3>
+                            <p className="text-base md:text-lg font-crimson text-tertiary/70 leading-relaxed mb-4">
+                                Quarterly interest payouts provide consistent cash flow. Staggered maturities ensure regular access to funds without compromising on returns or breaking deposits prematurely.
+                            </p>
+                            <Button
+                                className="bg-secondary hover:bg-secondary/90 text-white font-crimson font-semibold"
+                                onClick={() => navigate('/contact')}
+                            >
+                                Plan Your Ladder Strategy
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
                         </motion.div>
                     </div>
                 </div>

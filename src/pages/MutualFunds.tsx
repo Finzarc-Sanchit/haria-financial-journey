@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Slider } from "@/components/ui/slider";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
     TrendingUp,
     Shield,
     Scale,
     Coins,
-    Calculator,
     ArrowRight,
     CheckCircle,
 } from "lucide-react";
@@ -19,23 +13,17 @@ import ContactPopup from '@/components/ui/ContactPopup';
 import { useContactPopup } from '@/hooks/useContactPopup';
 import { useNavigate } from 'react-router-dom';
 import CTASection from '@/components/CTASection';
-import CircularCarousel from '@/components/ui/circular-carousel';
+import ProductGrid from '@/components/ui/product-grid';
+import AMCShowcase from '@/components/AMCShowcase';
 
 const MutualFunds = () => {
-    const [sipAmount, setSipAmount] = useState(5000);
-    const [sipDuration, setSipDuration] = useState(10);
-    const [expectedReturn, setExpectedReturn] = useState(12);
-    const [totalInvestment, setTotalInvestment] = useState(0);
-    const [totalValue, setTotalValue] = useState(0);
-    const [totalGain, setTotalGain] = useState(0);
-    const [riskLevel, setRiskLevel] = useState(3);
     const { isOpen, openPopup, closePopup } = useContactPopup();
     const navigate = useNavigate();
 
     const fundTypes = [
         {
             id: "equity",
-            title: "Equity Funds",
+            title: "Equity Mutual Funds",
             description: "High growth potential with market-linked returns",
             icon: TrendingUp,
             rate: "High Risk",
@@ -43,7 +31,12 @@ const MutualFunds = () => {
             minAmount: "₹500",
             returns: "12-18%",
             features: ["Market growth", "High returns", "Long-term focus", "Diversification"],
-            image: "/Mutual funds/equity.jpg"
+            image: "/Mutual funds/equity.jpg",
+            classifications: {
+                "Market Cap Based Active Funds": ["Large Cap", "Mid Cap", "Small Cap", "Flexi Cap", "Multi Cap"],
+                "Index Funds": ["Nifty 50", "Nifty Next 50", "Nifty 100", "Midcap150", "Smallcap", "Microcap", "Total Market Index Fund"],
+                "Sectoral and Thematic Funds": ["Financial Services", "Pharma", "Technology", "Consumption", "Infrastructure", "and many more"]
+            }
         },
         {
             id: "debt",
@@ -55,7 +48,12 @@ const MutualFunds = () => {
             minAmount: "₹500",
             returns: "6-9%",
             features: ["Stable returns", "Lower risk", "Regular income", "Capital preservation"],
-            image: "/Mutual funds/debt.jpg"
+            image: "/Mutual funds/debt.jpg",
+            classifications: {
+                "Short Term Debt Funds": ["Liquid Funds", "Ultra Short Term Funds", "Money Market Funds", "Low Duration Funds"],
+                "Medium Term to Long Term Debt Funds": ["Medium Term Funds", "Long Term Funds", "Corporate Bond Funds", "Dynamic Bond Fund", "Banking and PSU Fund"],
+                "Government Securities Fund": []
+            }
         },
         {
             id: "hybrid",
@@ -67,7 +65,12 @@ const MutualFunds = () => {
             minAmount: "₹500",
             returns: "8-12%",
             features: ["Balanced risk", "Moderate returns", "Flexible allocation", "Tax efficiency"],
-            image: "/Mutual funds/hybrid.jpg"
+            image: "/Mutual funds/hybrid.jpg",
+            classifications: {
+                "Equity Oriented Hybrid Funds": [],
+                "Debt Oriented Hybrid Funds": [],
+                "Multi Asset Funds": []
+            }
         },
         {
             id: "elss",
@@ -80,6 +83,18 @@ const MutualFunds = () => {
             returns: "12-16%",
             features: ["Tax benefits", "Equity exposure", "3-year lock-in", "Section 80C"],
             image: "/Mutual funds/ELSS.png"
+        },
+        {
+            id: "international",
+            title: "International Funds",
+            description: "Get exposure to global securities by investing in international funds",
+            icon: Coins,
+            rate: "High Risk",
+            tenure: "5+ years",
+            minAmount: "₹500",
+            returns: "10-15%",
+            features: ["Global diversification", "Currency exposure", "International markets", "Long-term growth"],
+            image: "/Mutual funds/international.jpg"
         }
     ];
 
@@ -124,38 +139,6 @@ const MutualFunds = () => {
         return () => window.removeEventListener('hashchange', scrollToHash);
     }, []);
 
-    // SIP Calculator
-    useEffect(() => {
-        const monthlyInvestment = sipAmount;
-        const months = sipDuration * 12;
-        const monthlyRate = expectedReturn / 12 / 100;
-
-        const totalInvested = monthlyInvestment * months;
-        const futureValue = monthlyInvestment * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
-        const totalGainAmount = futureValue - totalInvested;
-
-        setTotalInvestment(totalInvested);
-        setTotalValue(futureValue);
-        setTotalGain(totalGainAmount);
-
-        // Update risk level based on expected return
-        // 6-8%: Conservative (1-2)
-        // 9-12%: Moderate (3)
-        // 13-20%: Aggressive (4-5)
-        if (expectedReturn <= 8) {
-            setRiskLevel(Math.max(1, Math.round((expectedReturn - 6) / 2 + 1)));
-        } else if (expectedReturn <= 12) {
-            setRiskLevel(3);
-        } else {
-            setRiskLevel(Math.min(5, Math.round((expectedReturn - 13) / 2 + 4)));
-        }
-    }, [sipAmount, sipDuration, expectedReturn]);
-
-    const getRiskColor = (level: number) => {
-        if (level <= 2) return "text-green-500";
-        if (level <= 3) return "text-yellow-500";
-        return "text-red-500";
-    };
 
     const scrollToSection = (sectionId: string) => {
         const element = document.getElementById(sectionId);
@@ -205,9 +188,9 @@ const MutualFunds = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.8, delay: 0.2 }}
                                 >
-                                    Build Wealth Through{' '}
+                                    Explore Mutual Funds for{' '}
                                     <span className="relative inline-block">
-                                        <span className="relative z-10">Mutual Funds</span>
+                                        <span className="relative z-10">Your Various Needs</span>
                                         <span className="absolute bottom-0 left-0 w-full h-3 bg-secondary/30 -z-0"></span>
                                     </span>
                                 </motion.h1>
@@ -244,20 +227,6 @@ const MutualFunds = () => {
                                     </button>
                                 </motion.div>
 
-                                {/* Trust Badge */}
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.8 }}
-                                    className="mt-8 flex items-center gap-2 text-white/60 text-sm font-crimson"
-                                >
-                                    <div className="flex -space-x-2">
-                                        <div className="w-8 h-8 rounded-full bg-secondary border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/20 border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/10 border-2 border-tertiary"></div>
-                                    </div>
-                                    <span>Trusted by families since 1957</span>
-                                </motion.div>
                             </div>
                         </div>
 
@@ -269,152 +238,6 @@ const MutualFunds = () => {
                                 className="absolute inset-0 w-full h-full object-cover"
                             />
                             <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary opacity-20 rounded-full transform translate-x-1/2 translate-y-1/2 z-10"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* SIP Calculator Section */}
-            <section className="py-16 bg-gradient-to-br from-secondary/10 to-secondary/5">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center mb-16"
-                    >
-                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
-                            PLAN YOUR INVESTMENTS
-                        </p>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
-                            SIP Calculator
-                        </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Plan your investments and see the power of compounding
-                        </p>
-                    </motion.div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                        {/* Calculator Inputs */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-2xl font-playfair flex items-center text-tertiary">
-                                    <Calculator className="h-6 w-6 mr-2 text-secondary" />
-                                    Calculate Your Returns
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                <div>
-                                    <Label className="text-base font-crimson font-semibold text-tertiary">Monthly Investment (₹)</Label>
-                                    <div className="flex items-center space-x-4 mt-2">
-                                        <Slider
-                                            value={[sipAmount]}
-                                            onValueChange={(value) => setSipAmount(value[0])}
-                                            max={50000}
-                                            min={1000}
-                                            step={1000}
-                                            className="flex-1"
-                                        />
-                                        <Input
-                                            value={sipAmount.toLocaleString()}
-                                            onChange={(e) => setSipAmount(parseInt(e.target.value.replace(/,/g, '')) || 0)}
-                                            className="w-24 text-center font-crimson"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <Label className="text-base font-crimson font-semibold text-tertiary">Investment Duration (Years)</Label>
-                                    <div className="flex items-center space-x-4 mt-2">
-                                        <Slider
-                                            value={[sipDuration]}
-                                            onValueChange={(value) => setSipDuration(value[0])}
-                                            max={30}
-                                            min={1}
-                                            step={1}
-                                            className="flex-1"
-                                        />
-                                        <Input
-                                            value={sipDuration}
-                                            onChange={(e) => setSipDuration(parseInt(e.target.value) || 0)}
-                                            className="w-16 text-center font-crimson"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <Label className="text-base font-crimson font-semibold text-tertiary">Expected Return (%)</Label>
-                                    <div className="flex items-center space-x-4 mt-2">
-                                        <Slider
-                                            value={[expectedReturn]}
-                                            onValueChange={(value) => setExpectedReturn(value[0])}
-                                            max={20}
-                                            min={6}
-                                            step={1}
-                                            className="flex-1"
-                                        />
-                                        <Input
-                                            value={expectedReturn}
-                                            onChange={(e) => setExpectedReturn(parseInt(e.target.value) || 0)}
-                                            className="w-16 text-center font-crimson"
-                                        />
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        {/* Results Display */}
-                        <div className="space-y-6">
-                            <Card className="bg-gradient-to-br from-tertiary/10 to-transparent border-tertiary/20">
-                                <CardContent className="p-6">
-                                    <div className="text-center">
-                                        <div className="text-3xl font-playfair font-bold text-tertiary mb-2">
-                                            ₹{totalValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
-                                        </div>
-                                        <p className="text-tertiary/70 font-crimson">Total Value</p>
-                                    </div>
-                                </CardContent>
-                            </Card>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <Card className="bg-gradient-to-br from-secondary/20 to-transparent border-secondary/20">
-                                    <CardContent className="p-4 text-center">
-                                        <div className="text-xl font-playfair font-bold text-secondary mb-1">
-                                            ₹{totalInvestment.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
-                                        </div>
-                                        <p className="text-sm text-tertiary/70 font-crimson">Total Investment</p>
-                                    </CardContent>
-                                </Card>
-
-                                <Card>
-                                    <CardContent className="p-4 text-center">
-                                        <div className="text-xl font-playfair font-bold text-green-600 mb-1">
-                                            ₹{totalGain.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
-                                        </div>
-                                        <p className="text-sm text-tertiary/70 font-crimson">Total Gain</p>
-                                    </CardContent>
-                                </Card>
-                            </div>
-
-                            {/* Risk Meter */}
-                            <Card>
-                                <CardContent className="p-6">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <Label className="text-base font-crimson font-semibold text-tertiary">Risk Profile</Label>
-                                        <span className={`text-base font-semibold font-playfair ${getRiskColor(riskLevel)}`}>
-                                            {riskLevel <= 2 ? 'Conservative' : riskLevel <= 3 ? 'Moderate' : 'Aggressive'}
-                                        </span>
-                                    </div>
-                                    <div className="w-full bg-gray-200 rounded-full h-2">
-                                        <div
-                                            className={`h-2 rounded-full transition-all duration-500 ${riskLevel <= 2 ? 'bg-green-500' : riskLevel <= 3 ? 'bg-yellow-500' : 'bg-red-500'
-                                                }`}
-                                            style={{ width: `${(riskLevel / 5) * 100}%` }}
-                                        />
-                                    </div>
-                                </CardContent>
-                            </Card>
                         </div>
                     </div>
                 </div>
@@ -436,30 +259,179 @@ const MutualFunds = () => {
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
                             Choose Your Fund Type
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
                             Select the right fund type based on your goals and risk appetite
                         </p>
+                        </div>
                     </motion.div>
 
-                    {/* Carousel */}
-                    <CircularCarousel
-                        products={fundTypes}
-                        autoplay={true}
-                        colors={{
-                            title: "#1a5f7a",
-                            description: "#6b7280",
-                            content: "#4b5563",
-                        }}
-                        fontSizes={{
-                            title: "28px",
-                            description: "16px",
-                            content: "16px",
-                        }}
-                        onInvestNow={() => navigate('/contact')}
-                    />
+                    {/* Fund Types with Classifications */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        {fundTypes.map((fund, index) => (
+                            <motion.div
+                                key={fund.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
+                            >
+                                {/* Image */}
+                                <div className="bg-muted rounded-t-2xl aspect-video overflow-hidden">
+                                    <img
+                                        src={fund.image || "/placeholder.svg"}
+                                        alt={fund.title}
+                                        className="w-full h-full object-cover"
+                                        loading="lazy"
+                                    />
+                                </div>
+
+                                {/* Content */}
+                                <div className="p-6 flex flex-col flex-grow">
+                                    {/* Title and Badge */}
+                                    <div className="flex items-start justify-between gap-3 mb-3">
+                                        <h3 className="text-2xl font-playfair font-bold text-tertiary flex-1">
+                                            {fund.title}
+                                        </h3>
+                                        <Badge className="bg-secondary/20 text-secondary text-xs flex-shrink-0">
+                                            {fund.rate}
+                                        </Badge>
+                                    </div>
+
+                                    {/* Description */}
+                                    <p className="text-base font-crimson text-tertiary/80 leading-relaxed mb-4 text-justify">
+                                        {fund.description}
+                                    </p>
+
+                                    {/* Details */}
+                                    <div className="flex gap-4 text-sm mb-4 pb-4 border-b border-gray-200">
+                                        <div className="font-crimson text-tertiary/70">
+                                            <span className="font-semibold">Tenure: </span>
+                                            <span>{fund.tenure}</span>
+                                        </div>
+                                        <div className="font-crimson text-tertiary/70">
+                                            <span className="font-semibold">Min Amount: </span>
+                                            <span>{fund.minAmount}</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Classifications */}
+                                    {fund.classifications && (
+                                        <div className="mb-4">
+                                            <h4 className="font-playfair font-semibold text-tertiary mb-3 text-lg">
+                                                {fund.id === "equity" ? "Classification of Equity Funds –" :
+                                                 fund.id === "debt" ? "Classification of Debt Funds" :
+                                                 fund.id === "hybrid" ? "Classification of Hybrid Funds" :
+                                                 "Classifications"}
+                                            </h4>
+                                            <div className="space-y-3">
+                                                {Object.entries(fund.classifications).map(([category, items], catIndex) => (
+                                                    <div key={catIndex} className="mb-3">
+                                                        <h5 className="font-crimson font-semibold text-tertiary mb-2 text-sm">
+                                                            {category === "Market Cap Based Active Funds" ? "Market Cap Based Active Funds –" :
+                                                             category === "Index Funds" ? "Index Funds –" :
+                                                             category === "Sectoral and Thematic Funds" ? "Sectoral and Thematic Funds –" :
+                                                             category === "Short Term Debt Funds" ? "Short Term Debt Funds –" :
+                                                             category === "Medium Term to Long Term Debt Funds" ? "Medium Term to Long Term Debt Funds –" :
+                                                             category === "Government Securities Fund" ? "Government Securities Fund –" :
+                                                             category === "Equity Oriented Hybrid Funds" ? "Equity Oriented Hybrid Funds" :
+                                                             category === "Debt Oriented Hybrid Funds" ? "Debt Oriented Hybrid Funds" :
+                                                             category === "Multi Asset Funds" ? "Multi Asset Funds" :
+                                                             category}
+                                                        </h5>
+                                                        {items.length > 0 && (
+                                                            <div className="flex flex-wrap gap-2 ml-4">
+                                                                {items.map((item, itemIndex) => (
+                                                                    <Badge 
+                                                                        key={itemIndex} 
+                                                                        variant="outline" 
+                                                                        className="text-xs font-crimson border-tertiary/30 text-tertiary/80 bg-tertiary/5"
+                                                                    >
+                                                                        {item}
+                                                                    </Badge>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                        {category === "Index Funds" && (
+                                                            <p className="text-xs font-crimson text-tertiary/70 ml-4 mt-1 italic">
+                                                                These are passive funds which mirror the index performance.
+                                                            </p>
+                                                        )}
+                                                        {category === "Short Term Debt Funds" && (
+                                                            <p className="text-xs font-crimson text-tertiary/70 ml-4 mt-1 italic">
+                                                                For your short term needs of less than year.
+                                                            </p>
+                                                        )}
+                                                        {category === "Government Securities Fund" && (
+                                                            <p className="text-xs font-crimson text-tertiary/70 ml-4 mt-1">
+                                                                Invests only in Government Securities
+                                                            </p>
+                                                        )}
+                                                        {category === "Equity Oriented Hybrid Funds" && items.length === 0 && (
+                                                            <p className="text-xs font-crimson text-tertiary/70 ml-4 mt-1">
+                                                                Balanced mix with higher equity allocation
+                                                            </p>
+                                                        )}
+                                                        {category === "Debt Oriented Hybrid Funds" && items.length === 0 && (
+                                                            <p className="text-xs font-crimson text-tertiary/70 ml-4 mt-1">
+                                                                Balanced mix with higher debt allocation
+                                                            </p>
+                                                        )}
+                                                        {category === "Multi Asset Funds" && items.length === 0 && (
+                                                            <p className="text-xs font-crimson text-tertiary/70 ml-4 mt-1">
+                                                                Diversified across multiple asset classes
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* International Funds Special Description */}
+                                    {fund.id === "international" && (
+                                        <div className="mb-4">
+                                            <h4 className="font-playfair font-semibold text-tertiary mb-2 text-lg">
+                                                International Funds
+                                            </h4>
+                                            <p className="text-sm font-crimson text-tertiary/80 text-justify">
+                                                Get Exposure to global securities by investing in international funds.
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {/* Features */}
+                                    <div className="space-y-2 mb-4">
+                                        {fund.features.slice(0, 4).map((feature, i) => (
+                                            <div key={i} className="flex items-center gap-2">
+                                                <CheckCircle className="h-4 w-4 text-secondary flex-shrink-0" />
+                                                <span className="text-sm font-crimson text-tertiary/70">
+                                                    {feature}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Button - Aligned at bottom */}
+                                    <div className="mt-auto pt-4">
+                                        <button
+                                            onClick={() => navigate('/contact')}
+                                            className="w-full bg-secondary hover:bg-secondary/90 text-white font-crimson font-semibold py-3 rounded-full transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                                        >
+                                            Invest Now
+                                            <ArrowRight className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
+            {/* AMC Showcase Section */}
+            <AMCShowcase />
 
             {/* CTA Section */}
             <CTASection />

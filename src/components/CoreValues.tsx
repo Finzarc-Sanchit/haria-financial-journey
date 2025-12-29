@@ -53,17 +53,19 @@ const CoreValues = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section header */}
                 <div className="text-center mb-10">
-                    <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
+                    <p className="text-sm font-playfair font-semibold text-tertiary/80 uppercase tracking-[0.15em] mb-4">
                         OUR VALUES
                     </p>
                     <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-tertiary mb-6 leading-tight">
                         Guided by Integrity and Excellence
                     </h2>
-                    <p className="font-crimson text-lg md:text-xl text-tertiary/80 max-w-4xl mx-auto leading-relaxed">
-                        At Haria Investments, our values guide every interaction with clients,
-                        prospects, and the community. They are the foundation of the trust
-                        we've built over generations.
-                    </p>
+                    <div className="flex justify-center">
+                        <p className="font-crimson text-lg md:text-xl text-tertiary/80 max-w-4xl leading-relaxed text-center">
+                            At Haria Investments, our values guide every interaction with clients,
+                            prospects, and the community. They are the foundation of the trust
+                            we've built over generations.
+                        </p>
+                    </div>
                 </div>
 
                 {/* Values Grid */}
@@ -90,7 +92,7 @@ const CoreValues = () => {
                             </h3>
 
                             {/* Description */}
-                            <p className="font-crimson text-sm md:text-base text-tertiary/70 leading-relaxed">
+                            <p className="font-crimson text-sm md:text-base text-tertiary/70 leading-relaxed text-justify">
                                 {value.description}
                             </p>
                         </motion.div>

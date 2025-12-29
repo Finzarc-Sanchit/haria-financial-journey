@@ -14,7 +14,7 @@ import {
     Target,
     BarChart3,
     PieChart,
-    DollarSign,
+    Coins,
     Zap,
     CheckCircle,
     Award,
@@ -26,6 +26,7 @@ import {
     Trash2,
     Radio,
     AlertCircle,
+    Building,
 } from "lucide-react";
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { motion } from 'framer-motion';
@@ -33,10 +34,11 @@ import ContactPopup from '@/components/ui/ContactPopup';
 import { useContactPopup } from '@/hooks/useContactPopup';
 import { useNavigate } from 'react-router-dom';
 import CTASection from '@/components/CTASection';
-import CircularCarousel from '@/components/ui/circular-carousel';
+import ProductGrid from '@/components/ui/product-grid';
 import stockService, { StockData, POPULAR_INDIAN_STOCKS, Portfolio, PortfolioHolding } from '@/services/stockService';
 import { getAllSectors, getMarketCapCategories, NSE_STOCKS } from '@/services/stockDatabase';
 import PortfolioBuilder from '@/components/PortfolioBuilder';
+import MovingTicker from '@/components/MovingTicker';
 
 const EquityInvestment = () => {
     const [stockTicker, setStockTicker] = useState(0);
@@ -262,58 +264,94 @@ const EquityInvestment = () => {
         },
     ];
 
-    const investmentStrategies = [
+    const waysToInvest = [
         {
-            id: "value",
-            title: "Value Investing",
-            description: "Invest in undervalued stocks with strong fundamentals",
+            id: "indian-equities",
+            title: "Indian Equities",
+            description: "Direct ownership in listed Indian companies across market caps. Built for long term wealth creation with disciplined stock selection.",
+            icon: TrendingUp,
+            rate: "High Risk",
+            tenure: "5+ years",
+            minAmount: "₹500",
+            features: ["Direct ownership", "Long-term wealth", "Disciplined selection", "Market cap diversity"],
+            image: "/Equity investment/Value-investing.jpg"
+        },
+        {
+            id: "sectoral-etfs",
+            title: "Sectoral and Thematic ETFs",
+            description: "Target specific themes like IT, Pharma, Banking, Energy or global megatrends. Ideal when you want focused exposure without stock picking.",
+            icon: BarChart3,
+            rate: "Moderate Risk",
+            tenure: "3-5 years",
+            minAmount: "₹500",
+            features: ["Thematic exposure", "Focused strategy", "No stock picking", "Diversified themes"],
+            image: "/Equity investment/Growth-investing.jpg"
+        },
+        {
+            id: "reits-invits",
+            title: "REITs and INVITs",
+            description: "Earn regular income by investing in commercial real estate and infrastructure assets. Think rent and tolls without owning physical property.",
+            icon: Building,
+            rate: "Moderate Risk",
+            tenure: "3+ years",
+            minAmount: "₹5,000",
+            features: ["Regular income", "Real estate exposure", "Infrastructure assets", "No physical ownership"],
+            image: "/Equity investment/Dividend-investing.jpg"
+        },
+        {
+            id: "pms",
+            title: "PMS (Portfolio Management Services)",
+            description: "Customized equity portfolios managed by professionals based on your risk profile. Minimum investment of ₹50 lakhs as mandated by SEBI.",
+            icon: PieChart,
+            rate: "Moderate Risk",
+            tenure: "3-5 years",
+            minAmount: "₹50 Lakhs",
+            features: ["Professional management", "Customized portfolios", "Risk-based approach", "SEBI regulated"],
+            image: "/Portfolio Management/Discretionary-PMS.jpg"
+        },
+        {
+            id: "aif",
+            title: "AIF (Alternate Investment Funds)",
+            description: "Access private equity, structured credit, and alternative strategies beyond public markets. Minimum investment of ₹1 crore as per SEBI regulations.",
+            icon: Award,
+            rate: "High Risk",
+            tenure: "5+ years",
+            minAmount: "₹1 Crore",
+            features: ["Private equity", "Structured credit", "Alternative strategies", "SEBI regulated"],
+            image: "/Portfolio Management/Non-Discretionary-PMS.jpg"
+        },
+        {
+            id: "imp",
+            title: "IMP (Intelligent Model Portfolio)",
+            description: "Rule based portfolio strategy managed by Motilal that dynamically allocates assets. Designed to balance growth and risk using proven models.",
             icon: Target,
             rate: "Moderate Risk",
             tenure: "3-5 years",
             minAmount: "₹25,000",
-            successRate: 85,
-            returns: "12-18%",
-            features: ["Fundamental analysis", "Long-term focus", "Dividend income", "Risk management"],
-            image: "/Equity investment/Value-investing.jpg"
+            features: ["Rule-based strategy", "Dynamic allocation", "Growth & risk balance", "Proven models"],
+            image: "/Portfolio Management/Advisory-PMS.png"
         },
         {
-            id: "growth",
-            title: "Growth Investing",
-            description: "Focus on companies with high growth potential",
-            icon: TrendingUp,
+            id: "global-investments",
+            title: "Global Investments (US and International ETFs)",
+            description: "Invest in US stocks and global ETFs or Indian listed ETFs tracking US and Chinese indices. Choose to invest in INR or USD across international markets.",
+            icon: Coins,
             rate: "High Risk",
-            tenure: "5-10 years",
-            minAmount: "₹50,000",
-            successRate: 78,
-            returns: "15-25%",
-            features: ["High growth potential", "Innovation focus", "Market leadership", "Scalability"],
-            image: "/Equity investment/Growth-investing.jpg"
+            tenure: "5+ years",
+            minAmount: "₹5,000",
+            features: ["US stocks", "Global ETFs", "INR or USD", "International markets"],
+            image: "/Equity investment/Momentum-trading.jpg"
         },
         {
-            id: "dividend",
-            title: "Dividend Investing",
-            description: "Generate regular income through dividend-paying stocks",
-            icon: DollarSign,
-            rate: "Low Risk",
-            tenure: "3+ years",
-            minAmount: "₹20,000",
-            successRate: 92,
-            returns: "8-12%",
-            features: ["Regular income", "Stable companies", "Lower volatility", "Tax benefits"],
-            image: "/Equity investment/Dividend-investing.jpg"
-        },
-        {
-            id: "momentum",
-            title: "Momentum Trading",
-            description: "Trade based on price momentum and market trends",
+            id: "unlisted-shares",
+            title: "Unlisted Shares",
+            description: "Early access to high potential companies before they go public. Higher risk, higher upside, suitable for investors with patience and conviction.",
             icon: Zap,
             rate: "Very High Risk",
-            tenure: "Short-term",
+            tenure: "5+ years",
             minAmount: "₹1,00,000",
-            successRate: 65,
-            returns: "20-35%",
-            features: ["Technical analysis", "Short-term focus", "High frequency", "Trend following"],
-            image: "/Equity investment/Momentum-trading.jpg"
+            features: ["Early access", "Pre-IPO companies", "High upside", "Patient investors"],
+            image: "/Equity investment/unlisted.jpg"
         }
     ];
 
@@ -535,11 +573,14 @@ const EquityInvestment = () => {
 
     return (
         <div className="min-h-screen bg-background">
+            {/* Moving Ticker */}
+            <MovingTicker />
 
             {/* Hero Section - Landing Page Style */}
             <section 
                 id="hero"
-                className="relative w-full overflow-hidden min-h-screen flex items-center"
+                className="relative w-full overflow-hidden min-h-screen flex items-center pt-30"
+                style={{ paddingTop: '120px' }}
             >
                 <div className="w-full">
                     <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
@@ -564,7 +605,7 @@ const EquityInvestment = () => {
                                     className="mb-6"
                                 >
                                     <span className="text-xs md:text-sm font-crimson text-white/70 uppercase tracking-wider">
-                                        EQUITY INVESTMENT SERVICES
+                                        EQUITY
                                     </span>
                                 </motion.div>
 
@@ -577,44 +618,20 @@ const EquityInvestment = () => {
                                 >
                                     Build Wealth Through{' '}
                                     <span className="relative inline-block">
-                                        <span className="relative z-10">Strategic Equity</span>
+                                        <span className="relative z-10">Equity</span>
                                         <span className="absolute bottom-0 left-0 w-full h-3 bg-secondary/30 -z-0"></span>
                                     </span>
                     </motion.h1>
 
                                 {/* Description */}
                                 <motion.p 
-                                    className="text-base md:text-lg font-crimson text-white/90 leading-relaxed mb-8"
+                                    className="text-base md:text-lg font-crimson text-white/90 leading-relaxed mb-8 text-justify"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.8, delay: 0.4 }}
                                 >
                                     Expert guidance for direct stock investment and portfolio management. Access 5000+ stocks with zero brokerage fees.
                     </motion.p>
-
-                    {/* Live Stock Ticker */}
-                                {stocks && stocks.length > 0 && stocks[stockTicker] && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.8, delay: 0.5 }}
-                                        className="bg-white/10 backdrop-blur-sm rounded-lg p-4 mb-8"
-                                    >
-                                        <div className="flex items-center justify-between text-sm mb-2">
-                                            <span className="text-white/80 font-crimson">Live Market</span>
-                                            <span className={`flex items-center font-crimson ${getMoodColor(marketMood)}`}>
-                                                {getMoodIcon(marketMood)} {marketMood.toUpperCase()}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <span className="font-semibold text-white font-playfair">{stocks[stockTicker].symbol}</span>
-                                            <span className="font-semibold text-white font-playfair">₹{stocks[stockTicker].price.toLocaleString()}</span>
-                                            <span className={`font-semibold font-playfair ${stocks[stockTicker].change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                                {stocks[stockTicker].change >= 0 ? '+' : ''}{stocks[stockTicker].changePercent.toFixed(2)}%
-                                            </span>
-                                        </div>
-                                    </motion.div>
-                                )}
 
                                 {/* CTA Buttons */}
                                 <motion.div 
@@ -631,27 +648,13 @@ const EquityInvestment = () => {
                                         <ArrowRight className="w-4 h-4" />
                                     </button>
                                     <button 
-                                        onClick={() => scrollToSection('direct-stock-investment')}
+                                        onClick={() => scrollToSection('expert-portfolio-advisory')}
                                         className="border-2 border-white/30 hover:bg-white/10 text-white px-8 py-4 rounded-full font-semibold font-crimson transition-all backdrop-blur-sm flex items-center justify-center"
                                     >
-                                        Explore Stocks
+                                        Explore Services
                                     </button>
                                 </motion.div>
 
-                                {/* Trust Badge */}
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.8 }}
-                                    className="mt-8 flex items-center gap-2 text-white/60 text-sm font-crimson"
-                                >
-                                    <div className="flex -space-x-2">
-                                        <div className="w-8 h-8 rounded-full bg-secondary border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/20 border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/10 border-2 border-tertiary"></div>
-                                    </div>
-                                    <span>Trusted by families since 1957</span>
-                                </motion.div>
                             </div>
                         </div>
 
@@ -668,612 +671,33 @@ const EquityInvestment = () => {
                 </div>
             </section>
 
-            {/* Direct Stock Investment Section - Completely Redesigned */}
-            <section id="direct-stock-investment" className="py-16 bg-gradient-to-br from-secondary/10 to-secondary/5">
-                <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
-                    {/* Section Header */}
+            {/* Ways to Invest Section */}
+            <section id="ways-to-invest" className="py-16 bg-[#FAFAFA]">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, amount: 0.2 }}
                         transition={{ duration: 0.8 }}
-                        className="mb-8"
+                        className="text-center mb-16"
                     >
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-2">
-                                    DIRECT STOCK INVESTMENT
-                                </p>
-                                <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-bold text-tertiary mb-2">
-                                    Build Your Portfolio
-                                </h2>
-                                <p className="text-base md:text-lg font-crimson text-tertiary/80">
-                                    Invest in carefully selected stocks with expert guidance
-                                </p>
-                            </div>
-                            <div className="flex items-center gap-4">
-                                {/* Live Data Indicator */}
-                                <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg border border-secondary/20">
-                                    <Radio className={`h-4 w-4 ${isLiveData ? 'text-green-600 animate-pulse' : 'text-gray-400'}`} />
-                                    <span className="text-sm font-crimson text-tertiary">
-                                        {isLiveData ? 'LIVE' : 'DEMO'}
-                                    </span>
-                                    {lastUpdateTime && (
-                                        <span className="text-xs text-tertiary/60">
-                                            {lastUpdateTime.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
-                                        </span>
-                                    )}
-                                </div>
-                                <button
-                                    onClick={handleRefreshStocks}
-                                    className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-secondary/20 hover:bg-secondary/5 transition-colors"
-                                    disabled={loadingStocks}
-                                >
-                                    <RefreshCw className={`h-4 w-4 text-secondary ${loadingStocks ? 'animate-spin' : ''}`} />
-                                    <span className="text-sm font-crimson text-tertiary">Refresh</span>
-                                </button>
-                            </div>
+                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
+                            INVESTMENT OPTIONS
+                        </p>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
+                            Ways to invest with us
+                        </h2>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
+                                Explore diverse investment options tailored to your financial goals
+                            </p>
                         </div>
                     </motion.div>
 
-                    {/* 3-Column Layout: Filters | Stock Table | Portfolio */}
-                    <PortfolioBuilder
-                        liveStocks={liveStocks}
-                        displayedStocks={displayedStocks}
-                        selectedSectors={selectedSectors}
-                        selectedMarketCap={selectedMarketCap}
-                        selectedFilter={selectedFilter}
-                        stockSearch={stockSearch}
-                        sortBy={sortBy}
-                        sortOrder={sortOrder}
-                        portfolio={portfolio}
-                        onToggleSector={toggleSector}
-                        onSelectMarketCap={setSelectedMarketCap}
-                        onSelectFilter={setSelectedFilter}
-                        onSearchChange={setStockSearch}
-                        onSort={handleSort}
-                        onAddToPortfolio={confirmAddToPortfolio}
-                        onRemoveFromPortfolio={handleRemoveFromPortfolio}
-                    />
-                    {/* OLD CONTENT TO BE REMOVED - START */}
-                    <div style={{display: 'none'}}>
-                        {selectedStock && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6 }}
-                                >
-                                    <Card className="overflow-hidden">
-                                        <CardHeader className="bg-gradient-to-r from-tertiary to-tertiary/90 text-white">
-                                            <div className="flex items-center justify-between">
-                                                <div>
-                                                    <CardTitle className="text-3xl font-playfair flex items-center gap-3">
-                                                        {selectedStock.symbol}
-                                                        <Badge className={selectedStock.changePercent >= 0 ? "bg-green-600 text-white" : "bg-red-600 text-white"}>
-                                                            {selectedStock.changePercent >= 0 ? "+" : ""}{selectedStock.changePercent.toFixed(2)}%
-                                                        </Badge>
-                                                    </CardTitle>
-                                                    <p className="text-white/80 font-crimson mt-1">{selectedStock.name}</p>
-                                                    {selectedStock.sector && (
-                                                        <p className="text-white/60 font-crimson text-sm mt-1">{selectedStock.sector}</p>
-                                                    )}
-                                                </div>
-                                                <div className="text-right">
-                                                    <div className="text-4xl font-playfair font-bold">
-                                                        ₹{selectedStock.price.toFixed(2)}
-                                                    </div>
-                                                    <div className={`text-lg font-crimson ${selectedStock.changePercent >= 0 ? 'text-green-200' : 'text-red-200'}`}>
-                                                        {selectedStock.changePercent >= 0 ? '+' : ''}₹{selectedStock.change.toFixed(2)}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </CardHeader>
-                                        <CardContent className="p-6">
-                                            {/* Chart Period Selector */}
-                                            <div className="flex gap-2 mb-6">
-                                                {(['1D', '1W', '1M', '3M', '1Y'] as const).map((period) => (
-                                                    <button
-                                                        key={period}
-                                                        onClick={() => setChartPeriod(period)}
-                                                        className={`px-4 py-2 rounded-lg font-crimson text-sm transition-all ${
-                                                            chartPeriod === period
-                                                                ? 'bg-secondary text-white font-semibold'
-                                                                : 'bg-gray-100 text-tertiary hover:bg-gray-200'
-                                                        }`}
-                                                    >
-                                                        {period}
-                                                    </button>
-                                                ))}
-                                            </div>
-
-                                            {/* Price Chart */}
-                                            <div className="h-80 w-full">
-                                                <ResponsiveContainer width="100%" height="100%">
-                                                    <AreaChart data={chartData}>
-                                                        <defs>
-                                                            <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                                                                <stop offset="5%" stopColor="#DAA520" stopOpacity={0.3}/>
-                                                                <stop offset="95%" stopColor="#DAA520" stopOpacity={0}/>
-                                                            </linearGradient>
-                                                        </defs>
-                                                        <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                                                        <XAxis 
-                                                            dataKey="date" 
-                                                            stroke="#1a5f7a" 
-                                                            style={{ fontFamily: 'Crimson Text', fontSize: '12px' }}
-                                                        />
-                                                        <YAxis 
-                                                            stroke="#1a5f7a"
-                                                            style={{ fontFamily: 'Crimson Text', fontSize: '12px' }}
-                                                            tickFormatter={(value) => `₹${value}`}
-                                                        />
-                                                        <Tooltip 
-                                                            contentStyle={{ 
-                                                                background: '#fff',
-                                                                border: '2px solid #DAA520',
-                                                                borderRadius: '8px',
-                                                                fontFamily: 'Crimson Text'
-                                                            }}
-                                                            formatter={(value: any) => [`₹${value.toFixed(2)}`, 'Price']}
-                                                        />
-                                                        <Area 
-                                                            type="monotone" 
-                                                            dataKey="price" 
-                                                            stroke="#DAA520" 
-                                                            strokeWidth={3}
-                                                            fill="url(#colorPrice)"
-                                                        />
-                                                    </AreaChart>
-                                                </ResponsiveContainer>
-                                            </div>
-
-                                            {/* Stock Summary Grid */}
-                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                                                <div className="p-4 bg-gradient-to-br from-blue-50 to-white rounded-lg border border-blue-100">
-                                                    <div className="text-xs text-tertiary/60 font-crimson mb-1">Open</div>
-                                                    <div className="text-lg font-playfair font-bold text-tertiary">
-                                                        ₹{(selectedStock.open || selectedStock.price).toFixed(2)}
-                                                    </div>
-                                                </div>
-                                                <div className="p-4 bg-gradient-to-br from-green-50 to-white rounded-lg border border-green-100">
-                                                    <div className="text-xs text-tertiary/60 font-crimson mb-1">High</div>
-                                                    <div className="text-lg font-playfair font-bold text-green-600">
-                                                        ₹{selectedStock.high.toFixed(2)}
-                                                    </div>
-                                                </div>
-                                                <div className="p-4 bg-gradient-to-br from-red-50 to-white rounded-lg border border-red-100">
-                                                    <div className="text-xs text-tertiary/60 font-crimson mb-1">Low</div>
-                                                    <div className="text-lg font-playfair font-bold text-red-600">
-                                                        ₹{selectedStock.low.toFixed(2)}
-                                                    </div>
-                                                </div>
-                                                <div className="p-4 bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-100">
-                                                    <div className="text-xs text-tertiary/60 font-crimson mb-1">Prev Close</div>
-                                                    <div className="text-lg font-playfair font-bold text-tertiary">
-                                                        ₹{(selectedStock.previousClose || selectedStock.price).toFixed(2)}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* Additional Details */}
-                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                                                {selectedStock.marketCap && (
-                                                    <div className="p-4 bg-secondary/5 rounded-lg">
-                                                        <div className="text-xs text-tertiary/60 font-crimson mb-1">Market Cap</div>
-                                                        <div className="text-lg font-playfair font-bold text-tertiary">
-                                                            ₹{selectedStock.marketCap}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {selectedStock.peRatio && (
-                                                    <div className="p-4 bg-secondary/5 rounded-lg">
-                                                        <div className="text-xs text-tertiary/60 font-crimson mb-1">P/E Ratio</div>
-                                                        <div className="text-lg font-playfair font-bold text-tertiary">
-                                                            {selectedStock.peRatio.toFixed(2)}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                <div className="p-4 bg-secondary/5 rounded-lg">
-                                                    <div className="text-xs text-tertiary/60 font-crimson mb-1">Volume</div>
-                                                    <div className="text-lg font-playfair font-bold text-tertiary">
-                                                        {(selectedStock.volume / 1000000).toFixed(2)}M
-                                                    </div>
-                                                </div>
-                                                {selectedStock.week52High && (
-                                                    <div className="p-4 bg-secondary/5 rounded-lg">
-                                                        <div className="text-xs text-tertiary/60 font-crimson mb-1">52W High</div>
-                                                        <div className="text-lg font-playfair font-bold text-green-600">
-                                                            ₹{selectedStock.week52High.toFixed(2)}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {selectedStock.week52Low && (
-                                                    <div className="p-4 bg-secondary/5 rounded-lg">
-                                                        <div className="text-xs text-tertiary/60 font-crimson mb-1">52W Low</div>
-                                                        <div className="text-lg font-playfair font-bold text-red-600">
-                                                            ₹{selectedStock.week52Low.toFixed(2)}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {selectedStock.avgVolume && (
-                                                    <div className="p-4 bg-secondary/5 rounded-lg">
-                                                        <div className="text-xs text-tertiary/60 font-crimson mb-1">Avg Volume</div>
-                                                        <div className="text-lg font-playfair font-bold text-tertiary">
-                                                            {(selectedStock.avgVolume / 1000000).toFixed(2)}M
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-
-                                            {/* Action Button */}
-                                            <Button 
-                                                className="w-full bg-secondary hover:bg-secondary/90 text-white font-crimson font-semibold mt-6" 
-                                                onClick={() => navigate('/contact')}
-                                            >
-                                                <TrendingUp className="mr-2 h-4 w-4" />
-                                                Invest in {selectedStock.symbol}
-                                            </Button>
-                                        </CardContent>
-                                    </Card>
-                                </motion.div>
-                            )}
-                        
-                        {/* Right Column - Portfolio & Search */}
-                        <div className="space-y-6">
-                            {/* Stock Search */}
-                            <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6 }}
-                            >
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle className="text-xl font-playfair flex items-center text-tertiary">
-                                            <Search className="h-5 w-5 mr-2 text-secondary" />
-                                            Search Stocks
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="space-y-4">
-                                        <div className="relative">
-                                            <Input
-                                                placeholder="Search by name or symbol..."
-                                                value={searchQuery}
-                                                onChange={(e) => handleSearch(e.target.value)}
-                                                className="pl-10 font-crimson"
-                                            />
-                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-tertiary/60" />
-                                        </div>
-                                        
-                                        {/* Search Results Dropdown */}
-                                        {searchResults.length > 0 && (
-                                            <div className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                                {searchResults.map((result) => (
-                                                    <button
-                                                        key={result.symbol}
-                                                        onClick={() => handleSelectStock(result.symbol)}
-                                                        className="w-full px-4 py-3 text-left hover:bg-secondary/10 transition-colors border-b border-gray-100 last:border-b-0"
-                                                    >
-                                                        <div className="flex items-center justify-between">
-                                                            <div>
-                                                                <div className="font-semibold text-tertiary font-playfair">{result.symbol.replace('.NS', '')}</div>
-                                                                <div className="text-sm text-tertiary/70 font-crimson">{result.name}</div>
-                                                            </div>
-                                                            {result.sector && (
-                                                                <Badge variant="outline" className="text-xs">{result.sector}</Badge>
-                                                            )}
-                                                        </div>
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        )}
-
-                                        <div className="grid grid-cols-2 gap-3">
-                                            <div className="text-center p-3 bg-gradient-to-br from-secondary/10 to-transparent rounded-lg border border-secondary/20">
-                                                <div className="text-xl font-playfair font-bold text-tertiary">{POPULAR_INDIAN_STOCKS.length}+</div>
-                                                <div className="text-xs text-tertiary/70 font-crimson">Stocks</div>
-                                            </div>
-                                            <div className="text-center p-3 bg-gradient-to-br from-green-50 to-transparent rounded-lg border border-green-200">
-                                                <div className="text-xl font-playfair font-bold text-green-600">₹0</div>
-                                                <div className="text-xs text-tertiary/70 font-crimson">Brokerage</div>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-
-                            {/* Portfolio Diversification */}
-                            <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: 0.1 }}
-                            >
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle className="text-xl font-playfair flex items-center text-tertiary">
-                                            <PieChart className="h-5 w-5 mr-2 text-secondary" />
-                                            Sector Allocation
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="space-y-4">
-                                            {sectors.map((sector) => (
-                                                <div key={sector.name} className="space-y-2">
-                                                    <div className="flex items-center justify-between">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className={`w-3 h-3 rounded-full ${sector.color}`} />
-                                                            <span className="text-sm font-crimson text-tertiary">{sector.name}</span>
-                                                        </div>
-                                                        <span className="text-sm font-playfair font-bold text-tertiary">{sector.weight}%</span>
-                                                    </div>
-                                                    <div className="w-full bg-gray-200 rounded-full h-2">
-                                                        <div
-                                                            className={`h-2 rounded-full ${sector.color} transition-all duration-500`}
-                                                            style={{ width: `${sector.weight}%` }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        <div className="mt-6 p-4 bg-gradient-to-br from-secondary/10 to-transparent rounded-lg border border-secondary/20">
-                                            <div className="flex justify-between items-center mb-2">
-                                                <span className="text-sm text-tertiary/70 font-crimson">Portfolio Value</span>
-                                                <span className="text-xl font-playfair font-bold text-tertiary">₹{portfolioValue.toLocaleString()}</span>
-                                            </div>
-                                            <div className="flex justify-between items-center">
-                                                <span className="text-sm text-tertiary/70 font-crimson">Total Gain</span>
-                                                <span className="text-xl font-playfair font-bold text-green-600">+₹{portfolioGain.toLocaleString()}</span>
-                                            </div>
-                                            <div className="mt-3 pt-3 border-t border-tertiary/10">
-                                                <div className="flex items-center justify-between">
-                                                    <span className="text-sm text-tertiary/70 font-crimson">Return</span>
-                                                    <span className="text-lg font-playfair font-bold text-green-600">
-                                                        +{((portfolioGain / portfolioValue) * 100).toFixed(2)}%
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <Button 
-                                            className="w-full bg-secondary hover:bg-secondary/90 text-white font-crimson font-semibold mt-4" 
-                                            onClick={() => navigate('/contact')}
-                                        >
-                                            Start Building Portfolio
-                                            <ArrowRight className="ml-2 h-4 w-4" />
-                                        </Button>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-                        </div>
-                    </div>
-                    {/* OLD CONTENT TO BE REMOVED - END */}
-                </div>
-            </section>
-
-            {/* Portfolio Advisory Section */}
-            <section id="expert-portfolio-advisory" className="py-16 bg-[#FAFAFA]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center mb-16"
-                    >
-                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
-                            EXPERT PORTFOLIO ADVISORY
-                        </p>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
-                            Investment Strategies
-                        </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Get personalized investment strategies from our expert advisors
-                        </p>
-                    </motion.div>
-
-                    {/* Investment Strategies - Carousel */}
-                    <div className="mb-16">
-                        <CircularCarousel
-                            products={investmentStrategies}
-                            autoplay={true}
-                            colors={{
-                                title: "#1a5f7a",
-                                description: "#6b7280",
-                                content: "#4b5563",
-                            }}
-                            fontSizes={{
-                                title: "28px",
-                                description: "16px",
-                                content: "16px",
-                            }}
-                            onInvestNow={() => navigate('/contact')}
-                        />
-                    </div>
-
-                    {/* Expert Advisors */}
-                    <div className="text-center mb-12">
-                        <h3 className="text-3xl md:text-4xl font-playfair font-bold text-tertiary mb-4">
-                            Meet Our Expert Advisors
-                        </h3>
-                        <p className="text-lg font-crimson text-tertiary/80">
-                            Get personalized guidance from industry experts
-                        </p>
-                    </div>
-
-                    <motion.div
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: true, amount: 0.2 }}
-                        variants={{
-                            hidden: {},
-                            show: { transition: { staggerChildren: 0.1 }}
-                        }}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                    >
-                        {advisors.map((advisor, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 40 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
-                                className="flex flex-col items-center"
-                            >
-                                {/* Circular Icon */}
-                                <div className="relative mb-6">
-                                    <div className="w-48 h-48 rounded-full overflow-hidden shadow-lg border-4 border-white bg-secondary/20 flex items-center justify-center">
-                                        <Users className="w-24 h-24 text-secondary" />
-                                    </div>
-                                </div>
-
-                                {/* Content */}
-                                <div className="text-center mb-6">
-                                    <h4 className="text-xl md:text-2xl font-playfair font-bold text-tertiary mb-2">
-                                        {advisor.name}
-                                    </h4>
-                                    <p className="text-base font-crimson text-tertiary/80 mb-1">
-                                        {advisor.role}
-                                    </p>
-                                    <p className="text-sm text-secondary font-semibold font-playfair mb-3">
-                                        {advisor.experience}
-                                    </p>
-                                    <div className="flex items-center justify-center gap-2 mb-2">
-                                        <span className="text-sm text-tertiary/70 font-crimson">Success Rate:</span>
-                                        <span className="font-semibold text-secondary font-playfair">{advisor.successRate}%</span>
-                                    </div>
-                                    <p className="text-sm text-tertiary/70 font-crimson">
-                                        <span className="font-semibold">Specialization:</span> {advisor.specialization}
-                                    </p>
-                                </div>
-
-                                {/* Book Consultation Button */}
-                                <button
-                                    onClick={() => navigate('/contact')}
-                                    className="bg-secondary hover:bg-secondary/90 text-white px-6 py-3 rounded-full font-semibold font-crimson transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
-                                >
-                                    <Users className="w-4 h-4" />
-                                    <span>Book Consultation</span>
-                                </button>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Advanced Features Section */}
-            <section className="py-16 bg-gradient-to-br from-secondary/10 to-secondary/5">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center mb-16"
-                    >
-                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
-                            ADVANCED FEATURES
-                        </p>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
-                            Professional Trading Tools
-                        </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Advanced features for serious investors
-                        </p>
-                    </motion.div>
-
-                    <motion.div
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: true, amount: 0.2 }}
-                        variants={{
-                            hidden: {},
-                            show: { transition: { staggerChildren: 0.1 }}
-                        }}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                    >
-                        {[
-                            { title: "Technical Analysis", desc: "Advanced charting tools with 50+ technical indicators", badge: "Pro", image: "/technical-analysis.jpg" },
-                            { title: "Risk Assessment", desc: "AI-powered risk analysis and portfolio stress testing", badge: "New", image: "/risk-assessment.jpg" },
-                            { title: "Market Insights", desc: "Real-time market analysis and expert recommendations", badge: "Live", image: "/market-insights.jpg" }
-                        ].map((feature, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 40 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.6 }}
-                                className="h-full"
-                            >
-                                <div className="relative h-full flex flex-col shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl group min-h-[350px]">
-                                    {/* Background Image */}
-                                    <div className="absolute inset-0">
-                                        <img 
-                                            src={feature.image} 
-                                            alt={feature.title}
-                                            className="w-full h-full object-cover"
-                                        />
-                                        {/* Dark Overlay for text readability */}
-                                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
-                                    </div>
-                                    
-                                    {/* Content */}
-                                    <div className="relative z-10 flex flex-col flex-grow p-6">
-                                        <div className="flex justify-end mb-4">
-                                            <Badge className="bg-secondary/90 text-white">{feature.badge}</Badge>
-                                        </div>
-                                        
-                                        <div className="flex-grow flex flex-col justify-center">
-                                            <h3 className="text-2xl font-playfair font-bold text-white mb-3">
-                                                {feature.title}
-                                            </h3>
-                                            <p className="text-white/90 mb-6 font-crimson text-base leading-relaxed">
-                                                {feature.desc}
-                                            </p>
-                                        </div>
-                                        
-                                        <button
-                                            onClick={() => navigate('/contact')}
-                                            className="bg-secondary hover:bg-secondary/90 text-white px-6 py-3 rounded-full font-semibold font-crimson transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                                        >
-                                            Explore
-                                            <ArrowRight className="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Portfolio Management Types Section */}
-            <section id="pms-types" className="py-16 bg-gradient-to-br from-secondary/10 to-secondary/5">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center mb-16"
-                    >
-                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
-                            Management Types
-                        </p>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
-                            Portfolio Management Services
-                        </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Select the portfolio management service that fits your investment approach
-                        </p>
-                    </motion.div>
-
-                    {/* Portfolio Management Types - Carousel */}
+                    {/* Ways to Invest - Grid */}
                     <div>
-                        <CircularCarousel
-                            products={pmsTypes}
-                            autoplay={true}
+                        <ProductGrid
+                            products={waysToInvest}
                             colors={{
                                 title: "#1a5f7a",
                                 description: "#6b7280",
@@ -1286,107 +710,6 @@ const EquityInvestment = () => {
                             }}
                             onInvestNow={() => navigate('/contact')}
                         />
-                    </div>
-                </div>
-            </section>
-
-            {/* Why PMS Section */}
-            <section className="py-16 bg-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center mb-16"
-                    >
-                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
-                            BENEFITS
-                        </p>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
-                            Why Choose PMS?
-                        </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Professional management for high-net-worth individuals
-                        </p>
-                    </motion.div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                        {/* Left Column - Benefits List */}
-                        <div className="space-y-8 md:space-y-10">
-                            {/* Benefit 01 */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6 }}
-                                className="space-y-3"
-                            >
-                                <div className="text-5xl md:text-6xl font-bold font-playfair text-tertiary/20">
-                                    01
-                                </div>
-                                <h3 className="text-xl md:text-2xl font-bold font-playfair text-tertiary">
-                                    Risk Management
-                                </h3>
-                                <p className="text-base md:text-lg font-crimson text-tertiary/70 leading-relaxed">
-                                    Continuous monitoring and rebalancing to align with your risk profile.
-                                </p>
-                            </motion.div>
-
-                            {/* Benefit 02 */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: 0.1 }}
-                                className="space-y-3"
-                            >
-                                <div className="text-5xl md:text-6xl font-bold font-playfair text-tertiary/20">
-                                    02
-                                </div>
-                                <h3 className="text-xl md:text-2xl font-bold font-playfair text-tertiary">
-                                    Personalized Service
-                                </h3>
-                                <p className="text-base md:text-lg font-crimson text-tertiary/70 leading-relaxed">
-                                    Dedicated managers and custom strategies for your unique goals.
-                                </p>
-                            </motion.div>
-
-                            {/* Benefit 03 */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: 0.2 }}
-                                className="space-y-3"
-                            >
-                                <div className="text-5xl md:text-6xl font-bold font-playfair text-tertiary/20">
-                                    03
-                                </div>
-                                <h3 className="text-xl md:text-2xl font-bold font-playfair text-tertiary">
-                                    Expertise
-                                </h3>
-                                <p className="text-base md:text-lg font-crimson text-tertiary/70 leading-relaxed">
-                                    Access to experienced professionals and in-depth research.
-                                </p>
-                            </motion.div>
-                        </div>
-
-                        {/* Right Column - Image */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8 }}
-                            className="relative h-[500px] md:h-[600px] lg:h-[700px] rounded-2xl overflow-hidden shadow-2xl"
-                        >
-                            <img 
-                                src="/PMS.jpg" 
-                                alt="Portfolio Management Services"
-                                className="w-full h-full object-cover"
-                                loading="lazy"
-                            />
-                        </motion.div>
                     </div>
                 </div>
             </section>

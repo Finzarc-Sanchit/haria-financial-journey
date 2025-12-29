@@ -145,7 +145,7 @@ const ProcessSection = () => {
         </div>
 
         {/* Description */}
-        <p className="text-white/90 dark:text-white/90 text-base md:text-lg font-crimson mb-8 leading-relaxed">
+        <p className="text-white/90 dark:text-white/90 text-base md:text-lg font-crimson mb-8 leading-relaxed text-justify">
           {step.description}
         </p>
 
@@ -189,7 +189,7 @@ const ProcessSection = () => {
               <Shield className="w-5 h-5 text-secondary mr-2 flex-shrink-0" />
               Outcome
             </h4>
-            <p className="text-tertiary/80 text-sm md:text-base font-crimson leading-relaxed">
+            <p className="text-tertiary/80 text-sm md:text-base font-crimson leading-relaxed text-justify">
               {step.outcome}
             </p>
           </div>
@@ -202,15 +202,17 @@ const ProcessSection = () => {
     <section id="process" className="bg-tertiary py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-2">
-          <p className="text-sm font-crimson text-white/60 uppercase tracking-wider mb-4">
+          <p className="text-sm font-playfair font-semibold text-white/90 uppercase tracking-[0.15em] mb-4">
             OUR PROCESS
           </p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-white mb-4">
             Our Client-Focused Process
           </h2>
-          <p className="text-lg md:text-xl font-crimson text-white/80 max-w-3xl mx-auto">
-            A systematic, transparent approach designed to reduce anxiety and build confidence throughout your financial planning journey.
-          </p>
+          <div className="flex justify-center">
+            <p className="text-lg md:text-xl font-crimson text-white/80 max-w-3xl text-center">
+              A systematic, transparent approach designed to reduce anxiety and build confidence throughout your financial planning journey.
+            </p>
+          </div>
         </div>
       </div>
       
@@ -222,15 +224,17 @@ const ProcessSection = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div data-aos="fade-up" className="mb-12">
             <div className="text-center mb-12">
-              <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
+              <p className="text-sm font-playfair font-semibold text-tertiary/80 uppercase tracking-[0.15em] mb-4">
                 OUR COMMITMENT
               </p>
               <h3 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-tertiary mb-4 leading-tight">
                 Communication Standards
               </h3>
-              <p className="font-crimson text-lg md:text-xl text-tertiary/80 max-w-3xl mx-auto leading-relaxed">
-                Clear expectations for responsive, professional service
-              </p>
+              <div className="flex justify-center">
+                <p className="font-crimson text-lg md:text-xl text-tertiary/80 max-w-3xl leading-relaxed text-center">
+                  Clear expectations for responsive, professional service
+                </p>
+              </div>
             </div>
             <ColorChangeCards cards={communicationStandards} />
           </div>

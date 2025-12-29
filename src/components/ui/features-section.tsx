@@ -28,15 +28,17 @@ export function FeaturesSection() {
       <div className="mx-auto max-w-7xl space-y-12 px-4 sm:px-6 lg:px-8 md:space-y-20">
         {/* Header */}
         <div className="relative z-10 mx-auto max-w-4xl space-y-4 text-center">
-          <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
+          <p className="text-sm font-playfair font-semibold text-tertiary/80 uppercase tracking-[0.15em] mb-4">
             OUR SERVICES & EXPERTISE
           </p>
           <h2 className="text-balance text-4xl md:text-5xl lg:text-6xl font-bold font-playfair text-tertiary leading-tight">
             Comprehensive Financial Solutions
           </h2>
-          <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto leading-relaxed">
-            Backed by decades of experience and trusted by families across India
-          </p>
+          <div className="flex justify-center">
+            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl leading-relaxed text-center">
+              Backed by decades of experience and trusted by 1500+ clients across India
+            </p>
+          </div>
         </div>
 
         {/* Services Grid */}
@@ -60,7 +62,7 @@ export function FeaturesSection() {
                 {service.title}
               </h3>
               {/* Description */}
-              <p className="text-sm md:text-base font-crimson text-tertiary/70 leading-relaxed">
+              <p className="text-sm md:text-base font-crimson text-tertiary/70 leading-relaxed text-justify">
                 {service.description}
               </p>
             </div>

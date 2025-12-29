@@ -17,13 +17,13 @@ const CalculatorFormCard: React.FC<CalculatorFormCardProps> = ({ children, icon,
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay }}
-            className="w-full max-w-xl mx-auto h-full bg-card/80 backdrop-blur-lg shadow-card rounded-2xl border border-champagne/30 overflow-hidden"
+            className="w-full max-w-xl mx-auto h-full bg-card/80 backdrop-blur-lg shadow-card rounded-2xl border border-[#81a2b1]/30 overflow-hidden"
         >
             {/* Header section with gradient background */}
             {(title || subtitle) && (
-                <div className="pb-4 bg-gradient-to-r from-background to-champagne/20 px-8 pt-6">
+                <div className="pb-4 bg-gradient-to-r from-background to-[#81a2b1]/20 px-8 pt-6">
                     <div className="flex items-center gap-3">
-                        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-champagne/50">
+                        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#81a2b1]/50">
                             <span className="text-2xl text-secondary">{displayIcon}</span>
                         </span>
                         <div>

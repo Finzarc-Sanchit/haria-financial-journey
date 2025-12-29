@@ -122,7 +122,7 @@ export default function SIPDonutChart({ invested, returns }: { invested: number;
                 {/* Tooltip */}
                 {hovered !== null && (
                     <div
-                        className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-full bg-card/95 border border-champagne rounded-lg px-4 py-2 shadow-card text-base font-crimson"
+                        className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-full bg-card/95 border border-[#81a2b1] rounded-lg px-4 py-2 shadow-card text-base font-crimson"
                         style={{ zIndex: 10 }}
                     >
                         <span className="font-bold">{data[hovered].title}:</span>{' '}

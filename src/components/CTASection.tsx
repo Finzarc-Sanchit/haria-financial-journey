@@ -22,7 +22,7 @@ const CTASection = () => {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-playfair text-white leading-tight">
             Ready to Start Your Financial Journey?
           </h2>
-          <p className="text-lg md:text-xl font-crimson text-white/90 leading-relaxed">
+          <p className="text-lg md:text-xl font-crimson text-white/90 leading-relaxed text-center">
             Let's discuss your financial goals and create a personalized strategy for your success.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

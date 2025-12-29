@@ -30,13 +30,13 @@ const CalculatorResultCard: React.FC<CalculatorResultCardProps> = ({ metrics, ch
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay }}
-        className="w-full max-w-xl mx-auto h-full bg-gradient-to-br from-card/90 to-muted/80 backdrop-blur-lg rounded-2xl shadow-card border border-champagne/30 overflow-hidden"
+        className="w-full max-w-xl mx-auto h-full bg-gradient-to-br from-card/90 to-muted/80 backdrop-blur-lg rounded-2xl shadow-card border border-[#81a2b1]/30 overflow-hidden"
     >
         {/* Header section with gradient background */}
         {(title || subtitle) && (
-            <div className="pb-4 bg-gradient-to-r from-background to-champagne/20 px-8 pt-6">
+            <div className="pb-4 bg-gradient-to-r from-background to-[#81a2b1]/20 px-8 pt-6">
                 <div className="flex items-center gap-3">
-                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-champagne/50">
+                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#81a2b1]/50">
                         <span className="text-2xl text-secondary"><FaChartBar /></span>
                     </span>
                     <div>
@@ -65,7 +65,7 @@ const CalculatorResultCard: React.FC<CalculatorResultCardProps> = ({ metrics, ch
             {chart && <div className="w-full flex flex-col items-center mt-8">{chart}</div>}
             {/* Dynamic Explanations Section */}
             {explanations && explanations.length > 0 && (
-                <div className="mt-6 bg-champagne/20 rounded-xl p-4 shadow-card text-left max-w-md w-full mx-auto">
+                <div className="mt-6 bg-[#81a2b1]/20 rounded-xl p-4 shadow-card text-left max-w-md w-full mx-auto">
                     {explanations.map((exp, idx) => (
                         <div className="mb-2" key={exp.label}>
                             <span className="font-bold text-tertiary">{exp.label}:</span>

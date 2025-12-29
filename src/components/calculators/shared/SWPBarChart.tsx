@@ -9,7 +9,7 @@ interface SWPBarChartProps {
 
 const COLORS = {
     corpus: '#B4A078',
-    withdrawn: '#E6C674',
+    withdrawn: '#81a2b1',
     returns: '#8B7355',
     corpusLeft: '#6B8E23',
 };

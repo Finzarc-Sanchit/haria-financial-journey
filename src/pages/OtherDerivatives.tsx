@@ -5,7 +5,7 @@ import ContactPopup from '@/components/ui/ContactPopup';
 import { useContactPopup } from '@/hooks/useContactPopup';
 import { useNavigate } from 'react-router-dom';
 import CTASection from '@/components/CTASection';
-import CircularCarousel from '@/components/ui/circular-carousel';
+import ProductGrid from '@/components/ui/product-grid';
 
 const OtherDerivatives = () => {
     const { isOpen, openPopup, closePopup } = useContactPopup();
@@ -167,20 +167,6 @@ const OtherDerivatives = () => {
                                     </button>
                                 </motion.div>
 
-                                {/* Trust Badge */}
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.8 }}
-                                    className="mt-8 flex items-center gap-2 text-white/60 text-sm font-crimson"
-                                >
-                                    <div className="flex -space-x-2">
-                                        <div className="w-8 h-8 rounded-full bg-secondary border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/20 border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/10 border-2 border-tertiary"></div>
-                                    </div>
-                                    <span>Trusted by families since 1957</span>
-                                </motion.div>
                             </div>
                         </div>
 
@@ -213,15 +199,16 @@ const OtherDerivatives = () => {
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
                             Diverse Trading Opportunities
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Purpose-built frameworks across asset classes
-                        </p>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
+                                Purpose-built frameworks across asset classes
+                            </p>
+                        </div>
                     </motion.div>
 
-                    {/* Carousel */}
-                    <CircularCarousel
+                    {/* Grid */}
+                    <ProductGrid
                         products={derivativesProducts}
-                        autoplay={true}
                         colors={{
                             title: "#1a5f7a",
                             description: "#6b7280",
@@ -253,9 +240,11 @@ const OtherDerivatives = () => {
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
                             How We Operate
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Disciplined frameworks for derivative trading success
-                        </p>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
+                                Disciplined frameworks for derivative trading success
+                            </p>
+                        </div>
                     </motion.div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">

@@ -34,7 +34,7 @@ const TrustBlock: React.FC<TrustBlockProps> = ({
             </span>
             <div className="flex flex-wrap gap-2 justify-center mb-4">
                 {certifications.map(cert => (
-                    <span key={cert} className="font-crimson text-sm md:text-base bg-champagne/80 text-foreground rounded-full px-3 py-1 shadow animate-fade-in">
+                    <span key={cert} className="font-crimson text-sm md:text-base bg-[#81a2b1]/80 text-foreground rounded-full px-3 py-1 shadow animate-fade-in">
                         {cert}
                     </span>
                 ))}

@@ -29,9 +29,11 @@ const FAQSection: React.FC<FAQSectionProps> = ({ faqs, delay = 0 }) => {
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
                         Frequently Asked Questions
                     </h2>
-                    <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                        Common questions about calculators and investment planning
-                    </p>
+                    <div className="flex justify-center">
+                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
+                            Common questions about calculators and investment planning
+                        </p>
+                    </div>
                 </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">

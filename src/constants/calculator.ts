@@ -80,7 +80,7 @@ export const ANIMATION_CONFIG = {
 
 export const COLORS = {
     primary: '#FAFAFA',
-    secondary: '#E6C674',
+    secondary: '#81a2b1',
     tertiary: '#3A3A3A',
     accent: '#B4A078',
     success: '#10B981',

@@ -73,7 +73,7 @@ const FeatureDescription = ({ children }: { children?: React.ReactNode }) => {
   return (
     <p
       className={cn(
-        "text-base md:text-lg lg:text-xl max-w-full text-left",
+        "text-base md:text-lg lg:text-xl max-w-full text-justify",
         "text-white/90 font-normal font-crimson leading-relaxed",
         "mt-2 mb-3"
       )}

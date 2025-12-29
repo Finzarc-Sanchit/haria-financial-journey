@@ -21,7 +21,7 @@ export const PrimaryCTA: React.FC<CTAButtonProps> = ({ children = 'Schedule Cons
 
 export const SecondaryCTA: React.FC<CTAButtonProps> = ({ children = 'Get Personalized Plan', ...props }) => (
     <button
-        className={`bg-champagne text-foreground ${baseClass}`}
+        className={`bg-[#81a2b1] text-foreground ${baseClass}`}
         {...props}
     >
         {children}

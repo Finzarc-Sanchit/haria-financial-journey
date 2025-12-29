@@ -29,6 +29,9 @@ import CookieConsent from "./components/CookieConsent";
 import { useAnalyticsContext } from "./components/AnalyticsProvider";
 import Contact from "./pages/Contact";
 import FinancialHealthForm from "./pages/FinancialHealthForm";
+import WealthManagement from "./pages/WealthManagement";
+import InsuranceProtection from "./pages/InsuranceProtection";
+import WhatsAppButton from "./components/WhatsAppButton";
 
 // ErrorBoundary component
 class ErrorBoundary extends React.Component<{ children: React.ReactNode; }, { hasError: boolean; }> {
@@ -79,6 +82,8 @@ const AppContent = () => {
         <Route path="/cagr-calculator" element={<CAGRCalculator />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/financial-health-form" element={<FinancialHealthForm />} />
+        <Route path="/wealth-management" element={<WealthManagement />} />
+        <Route path="/insurance-protection" element={<InsuranceProtection />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={
           <ProtectedRoute>
@@ -88,6 +93,9 @@ const AppContent = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
       {!isAdminPage && <Footer />}
+
+      {/* WhatsApp Floating Button */}
+      {!isAdminPage && <WhatsAppButton />}
 
       {/* Cookie Consent Banner */}
       <CookieConsent

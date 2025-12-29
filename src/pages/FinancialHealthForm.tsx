@@ -357,7 +357,7 @@ const FinancialHealthForm = () => {
 
                   {/* Annual Income */}
                   <div>
-                    <Label className="font-crimson font-semibold text-base mb-3 block">3. Annual Income Range (Fixed + Variable) *</Label>
+                    <Label className="font-crimson font-semibold text-base mb-3 block">3. Annual Income (Fixed + Variable) *</Label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="annualIncome" className="font-crimson text-sm">Annual Income (₹)</Label>
@@ -385,50 +385,9 @@ const FinancialHealthForm = () => {
                   </div>
                   </div>
 
-                  {/* Tax Information */}
-                  <div>
-                    <Label className="font-crimson font-semibold text-base mb-3 block">4. Tax Bracket</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="taxBracket" className="font-crimson text-sm">Select Tax Bracket</Label>
-                      <Select 
-                        name="taxBracket" 
-                        value={formData.taxBracket}
-                        onValueChange={(value) => handleSelectChange("taxBracket", value)}
-                      >
-                        <SelectTrigger className="font-crimson">
-                          <SelectValue placeholder="Select tax bracket" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="0-5">0% - 5%</SelectItem>
-                          <SelectItem value="5-20">5% - 20%</SelectItem>
-                          <SelectItem value="20-30">20% - 30%</SelectItem>
-                          <SelectItem value="30+">30%+</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="taxRegime" className="font-crimson text-sm">Tax Regime</Label>
-                      <Select 
-                        name="taxRegime" 
-                        value={formData.taxRegime}
-                        onValueChange={(value) => handleSelectChange("taxRegime", value)}
-                      >
-                        <SelectTrigger className="font-crimson">
-                          <SelectValue placeholder="Select regime" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="old">Old Regime</SelectItem>
-                          <SelectItem value="new">New Regime</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  </div>
-
                   {/* Existing Loans */}
                   <div>
-                    <Label className="font-crimson font-semibold text-base mb-3 block">5. Any existing loans or liabilities</Label>
+                    <Label className="font-crimson font-semibold text-base mb-3 block">4. Any existing loans or liabilities</Label>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {[
                         { id: "home-loan", label: "Home Loan", value: "home" },
@@ -526,7 +485,7 @@ const FinancialHealthForm = () => {
 
                   {/* Current Assets */}
                   <div>
-                    <Label className="font-crimson font-semibold text-base mb-3 block">3. Current Assets (approximate value in ₹)</Label>
+                    <Label className="font-crimson font-semibold text-base mb-3 block">3. Assets (approximate value in ₹)</Label>
                     <div className="space-y-3">
                       <Input
                         name="bankSavingsFDs"
@@ -582,7 +541,7 @@ const FinancialHealthForm = () => {
 
                   {/* Current Liabilities */}
                   <div>
-                    <Label className="font-crimson font-semibold text-base mb-3 block">4. Current Liabilities</Label>
+                    <Label className="font-crimson font-semibold text-base mb-3 block">4. Liabilities</Label>
                     <div className="space-y-3">
                       <Textarea
                         name="outstandingLoans"
@@ -646,7 +605,6 @@ const FinancialHealthForm = () => {
                         <SelectItem value="capital-preservation">Capital Preservation</SelectItem>
                         <SelectItem value="regular-income">Regular Income</SelectItem>
                         <SelectItem value="balanced">Balanced Growth & Income</SelectItem>
-                        <SelectItem value="high-growth">High Growth</SelectItem>
                         <SelectItem value="wealth-creation">Wealth Creation</SelectItem>
                       </SelectContent>
                     </Select>
@@ -838,7 +796,7 @@ const FinancialHealthForm = () => {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="shortTermGoals" className="font-crimson font-semibold text-base">1. Short-term goals (1–3 years)</Label>
+                    <Label htmlFor="shortTermGoals" className="font-crimson font-semibold text-base">1. Short-term goals (0 to 2 years)</Label>
                     <Textarea
                       id="shortTermGoals"
                       name="shortTermGoals"
@@ -850,7 +808,7 @@ const FinancialHealthForm = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="mediumTermGoals" className="font-crimson font-semibold text-base">2. Medium-term goals (3–7 years)</Label>
+                    <Label htmlFor="mediumTermGoals" className="font-crimson font-semibold text-base">2. Medium-term goals (2 to 5 years)</Label>
                     <Textarea
                       id="mediumTermGoals"
                       name="mediumTermGoals"
@@ -862,7 +820,7 @@ const FinancialHealthForm = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="longTermGoals" className="font-crimson font-semibold text-base">3. Long-term goals (7+ years)</Label>
+                    <Label htmlFor="longTermGoals" className="font-crimson font-semibold text-base">3. Long-term goals (more than 5 years)</Label>
                     <Textarea
                       id="longTermGoals"
                       name="longTermGoals"

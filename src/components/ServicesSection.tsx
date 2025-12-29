@@ -18,6 +18,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -43,6 +44,7 @@ interface ServiceCategory {
 }
 
 const ServicesSection = () => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -51,44 +53,6 @@ const ServicesSection = () => {
   }, []);
 
   const serviceCategories: ServiceCategory[] = [
-    {
-      id: 'wealth',
-      title: 'Wealth Management Services',
-      description: 'We help you build, grow, and protect your wealth through comprehensive portfolio solutions. From strategic asset allocation to tax optimization, we provide data-driven strategies you can trust.',
-      bgImage: '/wealth-management.png',
-      bgOverlay: 'bg-tertiary/85',
-      buttonColor: 'bg-secondary',
-      buttonTextColor: 'text-white',
-      services: [
-        {
-          id: 'portfolio',
-          icon: TrendingUp,
-          title: 'Investment Portfolio Management',
-          description: 'Customized portfolio construction using modern portfolio theory and tactical asset allocation',
-          process: ['Initial risk assessment', 'Strategic allocation', 'Implementation', 'Ongoing monitoring', 'Quarterly reviews'],
-          details: 'As your fiduciary, we are legally bound to act in your best interest at all times.',
-          specializations: ['Equity portfolio management', 'Fixed income strategies', 'Alternative investments']
-        },
-        {
-          id: 'swp',
-          icon: PiggyBank,
-          title: 'SWP Calculator',
-          description: 'Plan your regular withdrawals with a Systematic Withdrawal Plan (SWP) for steady income.',
-          process: ['Current analysis', 'Goal setting', 'Gap analysis', 'Strategy implementation', 'Annual reviews'],
-          details: 'Specializing in SWP strategies and tax-efficient withdrawal planning.',
-          specializations: ['Systematic Withdrawal Plan', 'Retirement income', 'Tax-efficient withdrawals']
-        },
-        {
-          id: 'tax',
-          icon: Calculator,
-          title: 'Tax Optimization Strategies',
-          description: 'Tax-loss harvesting, charitable giving strategies, and estate planning coordination',
-          process: ['Annual tax planning', 'Strategy implementation', 'Year-end reviews', 'Next year planning'],
-          details: 'Typically save clients 15–25% in annual tax obligations.',
-          specializations: ['Tax-loss harvesting', 'ELSS planning', 'Section 80C optimization']
-        }
-      ]
-    },
     {
       id: 'insurance',
       title: 'Insurance & Protection Services',
@@ -126,12 +90,53 @@ const ServicesSection = () => {
           specializations: ['Will optimization', 'Trust structures', 'Beneficiary planning']
         }
       ]
+    },
+    {
+      id: 'wealth',
+      title: 'Wealth Management Services',
+      description: 'We help you build, grow, and protect your wealth through comprehensive portfolio solutions. From strategic asset allocation to tax optimization, we provide data-driven strategies you can trust.',
+      bgImage: '/wealth-management.png',
+      bgOverlay: 'bg-tertiary/85',
+      buttonColor: 'bg-secondary',
+      buttonTextColor: 'text-white',
+      services: [
+        {
+          id: 'portfolio',
+          icon: TrendingUp,
+          title: 'Investment Portfolio Management',
+          description: 'Customized portfolio construction using modern portfolio theory and tactical asset allocation',
+          process: ['Initial risk assessment', 'Strategic allocation', 'Implementation', 'Ongoing monitoring', 'Quarterly reviews'],
+          details: 'As your fiduciary, we are legally bound to act in your best interest at all times.',
+          specializations: ['Equity portfolio management', 'Fixed income strategies', 'Alternative investments']
+        },
+        {
+          id: 'swp',
+          icon: PiggyBank,
+          title: 'SWP Calculator',
+          description: 'Plan your regular withdrawals with a Systematic Withdrawal Plan (SWP) for steady income.',
+          process: ['Current analysis', 'Goal setting', 'Gap analysis', 'Strategy implementation', 'Annual reviews'],
+          details: 'Specializing in SWP strategies and tax-efficient withdrawal planning.',
+          specializations: ['Systematic Withdrawal Plan', 'Retirement income', 'Tax-efficient withdrawals']
+        },
+        {
+          id: 'tax',
+          icon: Calculator,
+          title: 'Tax Optimization Strategies',
+          description: 'Tax-loss harvesting, charitable giving strategies, and estate planning coordination',
+          process: ['Annual tax planning', 'Strategy implementation', 'Year-end reviews', 'Next year planning'],
+          details: 'Typically save clients 15–25% in annual tax obligations.',
+          specializations: ['Tax-loss harvesting', 'ELSS planning', 'Section 80C optimization']
+        }
+      ]
     }
   ];
 
   const handleCategoryClick = (category: ServiceCategory) => {
-    setSelectedCategory(category);
-    setIsDialogOpen(true);
+    if (category.id === 'wealth') {
+      navigate('/wealth-management');
+    } else if (category.id === 'insurance') {
+      navigate('/insurance-protection');
+    }
   };
 
   return (
@@ -140,15 +145,17 @@ const ServicesSection = () => {
 
         {/* Section Title */}
         <div data-aos="fade-down" className="text-center mb-16">
-          <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
+          <p className="text-sm font-playfair font-semibold text-tertiary/80 uppercase tracking-[0.15em] mb-4">
             WHAT WE OFFER
           </p>
           <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-tertiary mb-6 leading-tight">
             Our Comprehensive Financial Services
           </h2>
-          <p className="font-crimson text-lg md:text-xl text-tertiary/80 max-w-4xl mx-auto leading-relaxed">
-            Transparent, comprehensive financial planning with clear fee structure and proven results
-          </p>
+          <div className="flex justify-center">
+            <p className="font-crimson text-lg md:text-xl text-tertiary/80 max-w-4xl leading-relaxed text-center">
+              Transparent, comprehensive financial planning with proven results
+            </p>
+          </div>
         </div>
 
         {/* Service Category Cards */}
@@ -184,12 +191,16 @@ const ServicesSection = () => {
                   {category.title}
                 </h3>
 
-                <p className="font-crimson text-base md:text-lg text-white/90 mb-8 leading-relaxed flex-grow">
+                <p className="font-crimson text-base md:text-lg text-white/90 mb-8 leading-relaxed flex-grow text-justify">
                   {category.description}
                 </p>
 
                 <div>
                   <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCategoryClick(category);
+                    }}
                     className={`${category.buttonColor} ${category.buttonTextColor} hover:scale-105 transition-transform duration-300 px-8 py-4 rounded-full font-semibold font-crimson flex items-center gap-2 group-hover:gap-4 transition-all`}
                   >
                     Learn more
@@ -212,7 +223,7 @@ const ServicesSection = () => {
                     <DialogTitle className="text-2xl md:text-3xl font-playfair text-tertiary mb-3 pr-8">
                       {selectedCategory.title}
                     </DialogTitle>
-                    <DialogDescription className="text-base md:text-lg font-crimson text-tertiary/80 leading-relaxed">
+                    <DialogDescription className="text-base md:text-lg font-crimson text-tertiary/80 leading-relaxed text-justify">
                       {selectedCategory.description}
                     </DialogDescription>
                   </DialogHeader>
@@ -239,7 +250,7 @@ const ServicesSection = () => {
                           <h4 className="font-playfair text-xl md:text-2xl font-bold text-tertiary mb-3">
                             {service.title}
                           </h4>
-                          <p className="font-crimson text-base text-tertiary/80 mb-4 leading-relaxed">
+                          <p className="font-crimson text-base text-tertiary/80 mb-4 leading-relaxed text-justify">
                             {service.description}
                           </p>
 

@@ -6,7 +6,7 @@ import ContactPopup from '@/components/ui/ContactPopup';
 import { useContactPopup } from '@/hooks/useContactPopup';
 import { useNavigate } from 'react-router-dom';
 import CTASection from '@/components/CTASection';
-import CircularCarousel from '@/components/ui/circular-carousel';
+import ProductGrid from '@/components/ui/product-grid';
 
 interface Product {
     id: string;
@@ -25,6 +25,7 @@ interface Product {
 const LifeInsurance = () => {
     const [testimonialIndex, setTestimonialIndex] = useState(0);
     const [expandedTestimonials, setExpandedTestimonials] = useState<Set<number>>(new Set());
+    const [activeStep, setActiveStep] = useState(0);
     const { isOpen, openPopup, closePopup } = useContactPopup();
     const navigate = useNavigate();
 
@@ -53,8 +54,8 @@ const LifeInsurance = () => {
             premium: "Starting ₹500/month",
             features: ["High coverage", "Low premium", "Flexible terms", "Easy claims"],
             rate: "₹500/month",
-            tenure: "10-30 years",
-            minAmount: "₹1 Crore",
+            tenure: "5 years to lifetime",
+            minAmount: "₹5 Lakhs",
             image: "/Life insurance/term-insurance.jpg"
         },
         {
@@ -64,10 +65,10 @@ const LifeInsurance = () => {
             icon: TrendingUp,
             coverage: "₹50 Lakhs - ₹5 Crore",
             premium: "Starting ₹2,000/month",
-            features: ["Lifelong coverage", "Cash value", "Dividend options", "Premium flexibility"],
+            features: ["Lifelong coverage", "Cash value", "Premium flexibility"],
             rate: "₹2,000/month",
             tenure: "Lifelong",
-            minAmount: "₹50 Lakhs",
+            minAmount: "₹2.5 Lakhs",
             image: "/Life insurance/life-insurance.jpg"
         },
         {
@@ -79,8 +80,8 @@ const LifeInsurance = () => {
             premium: "Starting ₹1,500/month",
             features: ["Guaranteed returns", "Maturity benefit", "Death benefit", "Tax savings"],
             rate: "₹1,500/month",
-            tenure: "10-25 years",
-            minAmount: "₹25 Lakhs",
+            tenure: "10-35 years",
+            minAmount: "₹2 Lakhs",
             image: "/Life insurance/endowment-plans.jpg"
         },
         {
@@ -89,11 +90,11 @@ const LifeInsurance = () => {
             description: "Market-linked returns with life cover",
             icon: TrendingUp,
             coverage: "₹10 Lakhs - ₹1 Crore",
-            premium: "Starting ₹1,000/month",
+            premium: "Starting ₹2,500/month",
             features: ["Market returns", "Life cover", "Fund switching", "Tax benefits"],
-            rate: "₹1,000/month",
-            tenure: "5-15 years",
-            minAmount: "₹10 Lakhs",
+            rate: "₹2,500/month",
+            tenure: "5-25 years",
+            minAmount: "₹2.5 Lakhs",
             image: "/Life insurance/ULIP-plans.jpg"
         },
         {
@@ -105,8 +106,8 @@ const LifeInsurance = () => {
             premium: "Starting ₹1,200/month",
             features: ["Survival benefits", "Maturity returns", "Life cover", "Bonus payout"],
             rate: "₹1,200/month",
-            tenure: "10-20 years",
-            minAmount: "₹10 Lakhs",
+            tenure: "10-25 years",
+            minAmount: "₹2.5 Lakhs",
             image: "/Life insurance/money-back-plans.jpg"
         },
         {
@@ -116,10 +117,10 @@ const LifeInsurance = () => {
             icon: PiggyBank,
             coverage: "₹5 Lakhs - ₹2 Crore",
             premium: "Starting ₹2,000/month",
-            features: ["Retirement income", "Deferred/Immediate annuity", "Tax benefits", "Optional life cover"],
+            features: ["Retirement income", "Deferred/Immediate annuity", "Optional life cover"],
             rate: "₹2,000/month",
             tenure: "Retirement age",
-            minAmount: "₹5 Lakhs",
+            minAmount: "₹1,00,000",
             image: "/Life insurance/pension-plans.jpg"
         }
     ];
@@ -279,20 +280,6 @@ const LifeInsurance = () => {
                                     </button>
                                 </motion.div>
 
-                                {/* Trust Badge */}
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.8 }}
-                                    className="mt-8 flex items-center gap-2 text-white/60 text-sm font-crimson"
-                                >
-                                    <div className="flex -space-x-2">
-                                        <div className="w-8 h-8 rounded-full bg-secondary border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/20 border-2 border-tertiary"></div>
-                                        <div className="w-8 h-8 rounded-full bg-white/10 border-2 border-tertiary"></div>
-                                    </div>
-                                    <span>Trusted by families since 1957</span>
-                </motion.div>
                             </div>
                         </div>
 
@@ -322,22 +309,23 @@ const LifeInsurance = () => {
                         transition={{ duration: 0.8 }}
                         className="text-center mb-16"
                     >
-                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
+                        <p className="text-sm font-playfair font-semibold text-tertiary/80 uppercase tracking-[0.15em] mb-4">
                             OUR PROTECTION PLANS
                         </p>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
                             Choose Your Protection Plan
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Tailored solutions for every life stage and financial goal
-                        </p>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
+                                Tailored solutions for every life stage and financial goal
+                            </p>
+                        </div>
                     </motion.div>
 
-                    {/* Protection Plans - Carousel */}
+                    {/* Protection Plans - Grid */}
                     <div>
-                        <CircularCarousel
+                        <ProductGrid
                             products={products}
-                            autoplay={true}
                             colors={{
                                 title: "#1a5f7a",
                                 description: "#6b7280",
@@ -434,68 +422,83 @@ const LifeInsurance = () => {
                         transition={{ duration: 0.8 }}
                         className="text-center mb-16"
                     >
-                        <p className="text-sm font-crimson text-tertiary/60 uppercase tracking-wider mb-4">
+                        <p className="text-sm font-playfair font-semibold text-tertiary/80 uppercase tracking-[0.15em] mb-4">
                             HOW IT WORKS
                         </p>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-tertiary mb-4">
                             Simple 4-Step Process
                         </h2>
-                        <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl mx-auto">
-                            Get your life insurance policy in just 4 easy steps
-                        </p>
+                        <div className="flex justify-center">
+                            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl text-center">
+                                Get your life insurance policy in just 4 easy steps
+                            </p>
+                        </div>
                     </motion.div>
 
-                    {/* Process Cards Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {processSteps.map((step, index) => (
-                            <motion.div
-                                key={step.id}
-                                initial={{ opacity: 0, y: 40 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
-                                className="flex flex-col items-center"
-                            >
-                                {/* Circular Image with Number Badge */}
-                                <div className="relative mb-6">
-                                    <div className="w-48 h-48 rounded-full overflow-hidden shadow-lg border-4 border-white">
-                                        <img 
-                                            src={step.image} 
-                                            alt={step.title}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </div>
-                                    {/* Number Badge */}
-                                    <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
-                                        <div className="w-16 h-16 rounded-full bg-tertiary flex items-center justify-center shadow-xl border-4 border-white">
-                                            <span className="text-2xl font-playfair font-bold text-white">
-                                                {String(step.id).padStart(2, '0')}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
+                    {/* Horizontal Timeline Tabs */}
+                    <div className="flex justify-center mb-8">
+                        <div className="flex items-center gap-2 bg-white/50 rounded-full p-2 shadow-md">
+                            {processSteps.map((step, index) => (
+                                <button
+                                    key={step.id}
+                                    onClick={() => setActiveStep(index)}
+                                    className={`px-6 py-3 rounded-full font-playfair font-semibold transition-all duration-300 ${
+                                        activeStep === index
+                                            ? 'bg-white text-tertiary shadow-lg'
+                                            : 'text-tertiary/60 hover:text-tertiary'
+                                    }`}
+                                >
+                                    {step.title}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
 
-                                {/* Content */}
-                                <div className="text-center mt-4 mb-6">
-                                    <h3 className="text-xl md:text-2xl font-playfair font-bold text-tertiary mb-3">
-                                        {step.title}
+                    {/* Process Content Card */}
+                    <motion.div
+                        key={activeStep}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="bg-white rounded-2xl shadow-xl p-8 md:p-12 min-h-[500px]"
+                    >
+                        <div className="flex flex-col lg:flex-row gap-8 items-center">
+                            {/* Left Side - Number and Title */}
+                            <div className="flex-shrink-0">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="w-16 h-16 rounded-full bg-tertiary flex items-center justify-center shadow-lg">
+                                        <span className="text-2xl font-playfair font-bold text-white">
+                                            {String(processSteps[activeStep].id).padStart(2, '0')}
+                                        </span>
+                                    </div>
+                                    <h3 className="text-3xl md:text-4xl font-playfair font-bold text-tertiary">
+                                        {processSteps[activeStep].title.toUpperCase()}
                                     </h3>
-                                    <p className="text-base font-crimson text-tertiary/70 leading-relaxed px-2">
-                                        {step.description}
-                                    </p>
                                 </div>
-
-                                {/* Call Now Button */}
+                                <p className="text-xl md:text-2xl font-playfair text-tertiary/80 leading-relaxed max-w-2xl">
+                                    {processSteps[activeStep].description}
+                                </p>
                                 <button
                                     onClick={() => navigate('/contact')}
-                                    className="bg-secondary hover:bg-secondary/90 text-white px-6 py-3 rounded-full font-semibold font-crimson transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
+                                    className="mt-8 bg-secondary hover:bg-secondary/90 text-white px-8 py-4 rounded-full font-semibold font-crimson transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
                                 >
-                                    <Phone className="w-4 h-4" />
+                                    <Phone className="w-5 h-5" />
                                     <span>Schedule Now</span>
                                 </button>
-                            </motion.div>
-                        ))}
-                    </div>
+                            </div>
+
+                            {/* Right Side - Image */}
+                            <div className="flex-1 w-full lg:w-auto">
+                                <div className="relative h-[300px] lg:h-[400px] rounded-xl overflow-hidden shadow-lg">
+                                    <img 
+                                        src={processSteps[activeStep].image} 
+                                        alt={processSteps[activeStep].title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </section>
 

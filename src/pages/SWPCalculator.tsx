@@ -166,7 +166,7 @@ const SWPCalculator = () => {
                                 error={errors.expectedReturns}
                             />
                             {warnings.length > 0 && (
-                                <div className="text-yellow-600 text-sm font-crimson animate-fade-in p-4 bg-yellow-50 rounded-lg">
+                                <div className="text-[#81a2b1] text-sm font-crimson animate-fade-in p-4 bg-[#81a2b1]/10 rounded-lg">
                                     {warnings.map((w, index) => (
                                         <div key={index}>{w}</div>
                                     ))}

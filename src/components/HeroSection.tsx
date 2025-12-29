@@ -39,7 +39,7 @@ const HeroSection = () => {
                 transition={{ duration: 0.6 }}
                 className="mb-6"
               >
-                <span className="text-xs md:text-sm font-crimson text-white/70 uppercase tracking-wider">
+                <span className="text-xs md:text-sm font-playfair font-semibold text-white/90 uppercase tracking-[0.15em]">
                   YOUR ONE STOP FINANCIAL SOLUTION
                 </span>
               </motion.div>
@@ -51,16 +51,16 @@ const HeroSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                Comprehensive Financial Planning for{' '}
+                Your One Stop Solution for{' '}
                 <span className="relative inline-block">
-                  <span className="relative z-10">Successful Professionals</span>
+                  <span className="relative z-10">Comprehensive Financial Planning</span>
                   <span className="absolute bottom-0 left-0 w-full h-3 bg-secondary/30 -z-0"></span>
                 </span>
               </motion.h1>
 
               {/* Description */}
               <motion.p 
-                className="text-base md:text-lg font-crimson text-white/90 leading-relaxed mb-8"
+                className="text-base md:text-lg font-crimson text-white/90 leading-relaxed mb-8 text-justify"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
@@ -102,7 +102,7 @@ const HeroSection = () => {
                   <div className="w-8 h-8 rounded-full bg-white/20 border-2 border-tertiary"></div>
                   <div className="w-8 h-8 rounded-full bg-white/10 border-2 border-tertiary"></div>
                 </div>
-                <span>Trusted by 1000+ families since 1957</span>
+                <span>Trusted by 1500+ clients since 1957</span>
               </motion.div>
             </div>
           </div>
