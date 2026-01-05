@@ -179,7 +179,7 @@ const Footer = () => {
                         {/* Copyright (Center) */}
                         <div className="text-center flex items-center justify-center px-1">
                             <p className="font-crimson text-[8px] sm:text-xs md:text-sm text-tertiary/60 leading-tight whitespace-nowrap">
-                                © Haria Investments {new Date().getFullYear()}
+                                © Haria Investments, {new Date().getFullYear()}
                             </p>
                         </div>
 

@@ -73,18 +73,6 @@ const MutualFunds = () => {
             }
         },
         {
-            id: "elss",
-            title: "ELSS Funds",
-            description: "Tax-saving equity funds with lock-in period",
-            icon: Coins,
-            rate: "High Risk",
-            tenure: "3 years (lock-in)",
-            minAmount: "₹500",
-            returns: "12-16%",
-            features: ["Tax benefits", "Equity exposure", "3-year lock-in", "Section 80C"],
-            image: "/Mutual funds/ELSS.png"
-        },
-        {
             id: "international",
             title: "International Funds",
             description: "Get exposure to global securities by investing in international funds",
@@ -112,13 +100,6 @@ const MutualFunds = () => {
             nav: "₹32.45",
             returns: "+12.3%",
             risk: "Moderate"
-        },
-        {
-            name: "Haria Tax Saver Fund",
-            category: "ELSS",
-            nav: "₹28.91",
-            returns: "+14.2%",
-            risk: "High"
         }
     ];
 

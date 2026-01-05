@@ -42,6 +42,14 @@ const testimonials = [
     },
     text: "Haria Investments has been my financial guide for the last five years. Their team helped me build a balanced portfolio with mutual funds, bonds, and equity, and the results have been consistently rewarding. What I appreciate most is their transparency — they explain every step in simple terms. I feel truly secure about my financial future.",
   },
+  {
+    author: {
+      name: "Haurdik and Urvi Agarwal",
+      handle: "Chartered Accountants, Mumbai",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=faces",
+    },
+    text: "As new parents, planning for our child's future became our priority. Haria Investments designed a long-term financial roadmap for us — from SIPs in mutual funds to gold and traditional investment options. Their clarity and patience stood out. Today, we invest confidently every month because we trust their expertise.",
+  },
 ];
 
 const Index = () => {
