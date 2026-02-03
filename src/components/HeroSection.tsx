@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import AnimatedTree from './AnimatedTree';
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section 
+    <section
       id="hero"
       className="relative w-full overflow-hidden min-h-screen flex items-center"
     >
@@ -23,9 +24,9 @@ const HeroSection = () => {
           <div className="relative bg-tertiary px-4 sm:px-6 lg:px-12 py-20 lg:py-0 flex items-center overflow-hidden">
             {/* Decorative Partial Logo */}
             <div className="absolute bottom-0 right-0 w-64 h-64 opacity-5 pointer-events-none">
-              <img 
-                src="/logo-wbg.png" 
-                alt="" 
+              <img
+                src="/logo-wbg.png"
+                alt=""
                 className="w-full h-full object-contain transform translate-x-1/3 translate-y-1/3 scale-150"
                 style={{ filter: 'brightness(0) invert(1)' }}
               />
@@ -45,7 +46,7 @@ const HeroSection = () => {
               </motion.div>
 
               {/* Main Headline */}
-              <motion.h1 
+              <motion.h1
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-playfair leading-tight text-white mb-6"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -59,7 +60,7 @@ const HeroSection = () => {
               </motion.h1>
 
               {/* Description */}
-              <motion.p 
+              <motion.p
                 className="text-base md:text-lg font-crimson text-white/90 leading-relaxed mb-8 text-justify"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -69,20 +70,20 @@ const HeroSection = () => {
               </motion.p>
 
               {/* CTA Buttons */}
-              <motion.div 
+              <motion.div
                 className="flex flex-col sm:flex-row gap-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                <button 
+                <button
                   onClick={() => navigate('/contact')}
                   className="bg-secondary hover:bg-secondary/90 text-white px-8 py-4 rounded-full font-semibold font-crimson transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                 >
                   <span>Schedule Consultation</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
-                <button 
+                <button
                   onClick={() => scrollToSection('features')}
                   className="border-2 border-white/30 hover:bg-white/10 text-white px-8 py-4 rounded-full font-semibold font-crimson transition-all backdrop-blur-sm flex items-center justify-center"
                 >
@@ -107,15 +108,16 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right Side - Image */}
-          <div className="relative bg-gray-900 min-h-[400px] lg:min-h-screen overflow-hidden">
-            {/* Hero Image */}
-            <img 
-              src="/hero-section-image.jpg" 
-              alt="Haria Investments Financial Planning"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            
+          {/* Right Side - Animated Tree */}
+          <div className="relative bg-gray-900 min-h-[400px] lg:min-h-screen overflow-hidden flex items-center justify-center p-8">
+            {/* Background gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
+
+            {/* Animated Tree Component */}
+            <div className="relative z-20 w-full h-full flex items-center justify-center">
+              <AnimatedTree />
+            </div>
+
             {/* Decorative Yellow Shape (like in reference) */}
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary opacity-20 rounded-full transform translate-x-1/2 translate-y-1/2 z-10"></div>
           </div>
