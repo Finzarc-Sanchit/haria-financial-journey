@@ -16,18 +16,57 @@ connectDB();
 app.use(helmet());
 
 // CORS configuration
-const allowedOrigins = config.client_url
-    ? (typeof config.client_url === 'string' ? config.client_url.split(',').map(url => url.trim()) : [config.client_url])
-    : ["http://localhost:8080", "http://localhost:5173"];
+const getAllowedOrigins = () => {
+    const defaultOrigins = ["http://localhost:8080", "http://localhost:5173"];
+    const productionOrigins = [
+        "https://www.hariainvestments.com",
+        "https://hariainvestments.com",
+        "http://www.hariainvestments.com",
+        "http://hariainvestments.com"
+    ];
+
+    if (config.client_url) {
+        const origins = typeof config.client_url === 'string'
+            ? config.client_url.split(',').map(url => url.trim())
+            : [config.client_url];
+        return [...origins, ...defaultOrigins];
+    }
+
+    // In production, include production origins even if CLIENT_URL is not set
+    if (config.node_env === 'production') {
+        return [...productionOrigins, ...defaultOrigins];
+    }
+
+    return defaultOrigins;
+};
+
+const allowedOrigins = getAllowedOrigins();
+
+// Log allowed origins on startup
+logger.info(`CORS allowed origins: ${allowedOrigins.join(', ')}`);
 
 app.use(
     cors({
         origin: function (origin, callback) {
             // Allow requests with no origin (like mobile apps, Postman, or server-to-server)
-            if (!origin) return callback(null, true);
+            if (!origin) {
+                logger.info('CORS: Allowing request with no origin');
+                return callback(null, true);
+            }
 
-            // Check if origin is in allowed list
-            if (allowedOrigins.includes(origin) || allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+            // Check if origin exactly matches or starts with any allowed origin
+            const isAllowed = allowedOrigins.some(allowed => {
+                // Exact match
+                if (origin === allowed) return true;
+                // Subdomain match (e.g., www.hariainvestments.com matches hariainvestments.com)
+                if (origin.endsWith(allowed.replace(/^https?:\/\//, ''))) return true;
+                // Starts with match
+                if (origin.startsWith(allowed)) return true;
+                return false;
+            });
+
+            if (isAllowed) {
+                logger.info(`CORS: Allowing origin: ${origin}`);
                 callback(null, true);
             } else {
                 // Log for debugging
@@ -37,7 +76,9 @@ app.use(
         },
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
+        allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+        preflightContinue: false,
+        optionsSuccessStatus: 204,
     })
 );
 app.use(express.json());
