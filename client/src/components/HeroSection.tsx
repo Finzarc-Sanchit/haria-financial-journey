@@ -1,7 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import AnimatedTree from './AnimatedTree';
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -108,15 +107,14 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right Side - Animated Tree */}
-          <div className="relative bg-gray-900 min-h-[400px] lg:min-h-screen overflow-hidden flex items-center justify-center p-8">
-            {/* Background gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
-
-            {/* Animated Tree Component */}
-            <div className="relative z-20 w-full h-full flex items-center justify-center">
-              <AnimatedTree />
-            </div>
+          {/* Right Side - Image */}
+          <div className="relative bg-gray-900 min-h-[400px] lg:min-h-screen overflow-hidden">
+            {/* Hero Image */}
+            <img
+              src="/hero-section-image.jpg"
+              alt="Haria Investments Financial Planning"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
 
             {/* Decorative Yellow Shape (like in reference) */}
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary opacity-20 rounded-full transform translate-x-1/2 translate-y-1/2 z-10"></div>
