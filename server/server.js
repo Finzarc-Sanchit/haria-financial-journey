@@ -14,9 +14,27 @@ const app = express();
 connectDB();
 
 app.use(helmet());
+
+// CORS configuration
+const allowedOrigins = config.client_url
+    ? (typeof config.client_url === 'string' ? config.client_url.split(',').map(url => url.trim()) : [config.client_url])
+    : ["http://localhost:8080", "http://localhost:5173"];
+
 app.use(
     cors({
-        origin: config.client_url || "http://localhost:8080",
+        origin: function (origin, callback) {
+            // Allow requests with no origin (like mobile apps, Postman, or server-to-server)
+            if (!origin) return callback(null, true);
+
+            // Check if origin is in allowed list
+            if (allowedOrigins.includes(origin) || allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+                callback(null, true);
+            } else {
+                // Log for debugging
+                logger.warn(`CORS blocked origin: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`);
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],

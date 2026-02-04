@@ -1,7 +1,28 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
+// Determine API base URL based on environment
+const getApiBaseUrl = () => {
+    // If explicitly set via environment variable, use it
+    if (import.meta.env.VITE_API_BASE_URL) {
+        return import.meta.env.VITE_API_BASE_URL;
+    }
+
+    // In production, use relative URL (same origin) or detect from window location
+    if (import.meta.env.PROD) {
+        // If deployed on same domain, use relative path
+        // Otherwise, construct from current origin
+        const origin = window.location.origin;
+        // Check if we're on a subdomain or need to use a different API domain
+        // For now, assume API is on same domain with /api path
+        return `${origin}/api/v1`;
+    }
+
+    // Development fallback
+    return "http://localhost:8000/api/v1";
+};
+
 const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1",
+    baseURL: getApiBaseUrl(),
     headers: {
         "Content-Type": "application/json",
     },
