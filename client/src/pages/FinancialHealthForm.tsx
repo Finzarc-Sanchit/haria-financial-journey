@@ -26,6 +26,8 @@ const FinancialHealthForm = () => {
     firstName: "",
     middleName: "",
     lastName: "",
+    email: "",
+    phone: "",
     dateOfBirth: "",
     maritalStatus: "",
     dependents: "",
@@ -136,6 +138,8 @@ const FinancialHealthForm = () => {
         firstName: "",
         middleName: "",
         lastName: "",
+        email: "",
+        phone: "",
         dateOfBirth: "",
         maritalStatus: "",
         dependents: "",
@@ -275,6 +279,34 @@ const FinancialHealthForm = () => {
                           onChange={handleInputChange}
                           required
                           placeholder="Last name"
+                          className="font-crimson"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="email" className="font-crimson text-sm">Email *</Label>
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                          placeholder="your.email@example.com"
+                          className="font-crimson"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="phone" className="font-crimson text-sm">Phone Number *</Label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          required
+                          placeholder="+91 12345 67890"
                           className="font-crimson"
                         />
                       </div>

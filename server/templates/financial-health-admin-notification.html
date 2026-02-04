@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>New Financial Health Assessment - Haria Investments</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f7fa;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 24px; background: #f5f7fa;">
+        <div style="text-align: center; margin-bottom: 28px;">
+            <h1 style="color: #27ae60; margin: 0 0 8px; font-size: 24px;">New Financial Health Assessment</h1>
+            <p style="color: #7f8c8d; font-size: 13px; margin: 0;">Haria Investments • Financial Health Summary</p>
+        </div>
+
+        <!-- Section 1: Personal & Professional Information -->
+        <div style="background: #ffffff; padding: 20px 24px; border-radius: 10px; margin-bottom: 18px; border-left: 4px solid #27ae60;">
+            <h2 style="color: #2c3e50; margin: 0 0 14px; font-size: 18px;">1. Personal &amp; Professional Information</h2>
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <tr>
+                    <td style="padding: 6px 0; width: 30%; color: #7f8c8d; font-weight: 600;">Full Name</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.fullName}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Email</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.email}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Phone</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.phone}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Date of Birth</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.dateOfBirth}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Age (calculated)</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.age}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Marital Status</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.maritalStatus}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Dependents</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.dependents}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Occupation Status</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.occupationStatus}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Annual Income</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.annualIncome}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Expected Growth Rate</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.expectedGrowthRate}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Tax Bracket</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.taxBracket}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Tax Regime</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.taxRegime}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Existing Loans</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.existingLoans}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Other Loan Details</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.otherLoan}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section 2: Current Financial Position -->
+        <div style="background: #ffffff; padding: 20px 24px; border-radius: 10px; margin-bottom: 18px; border-left: 4px solid #2980b9;">
+            <h2 style="color: #2c3e50; margin: 0 0 14px; font-size: 18px;">2. Current Financial Position</h2>
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <tr>
+                    <td style="padding: 6px 0; width: 30%; color: #7f8c8d; font-weight: 600;">Monthly Income</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.monthlyIncome}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Monthly Expenses</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.monthlyExpenses}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Emergency Fund</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.emergencyFund}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Emergency Fund (Months)</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.emergencyFundMonths}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Bank Savings / FDs</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.bankSavingsFDs}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Mutual Funds / Equity</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.mutualFundsEquity}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Bonds / Debentures</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.bondsDebentures}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Gold / Silver</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.goldSilver}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Real Estate</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.realEstate}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Retirement Accounts</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.retirementAccounts}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Insurance Details</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.insuranceDetails}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Outstanding Loans</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.outstandingLoans}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">EMI Commitments</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.emiCommitments}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section 3: Risk Profile & Investment Preferences -->
+        <div style="background: #ffffff; padding: 20px 24px; border-radius: 10px; margin-bottom: 18px; border-left: 4px solid #8e44ad;">
+            <h2 style="color: #2c3e50; margin: 0 0 14px; font-size: 18px;">3. Risk Profile &amp; Investment Preferences</h2>
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <tr>
+                    <td style="padding: 6px 0; width: 30%; color: #7f8c8d; font-weight: 600;">Comfort with Market Volatility</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.marketVolatilityComfort}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Primary Investment Objective</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.primaryInvestmentObjective}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Investment Horizon</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.investmentHorizon}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Preferred Asset Classes</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.preferredAssetClasses}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">International Investments</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.internationalInvestments}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section 4: Insurance & Protection Planning -->
+        <div style="background: #ffffff; padding: 20px 24px; border-radius: 10px; margin-bottom: 18px; border-left: 4px solid #c0392b;">
+            <h2 style="color: #2c3e50; margin: 0 0 14px; font-size: 18px;">4. Insurance &amp; Protection Planning</h2>
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <tr>
+                    <td style="padding: 6px 0; width: 30%; color: #7f8c8d; font-weight: 600;">Health Insurance</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.hasHealthInsurance}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Health Insurance Coverage</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.healthInsuranceCoverage}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Family Members Covered</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.healthInsuranceFamilyMembers}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Life Insurance</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.hasLifeInsurance}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Life Insurance Type</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.lifeInsuranceType}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Life Insurance Coverage</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.lifeInsuranceCoverage}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Other Protection</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.otherProtection}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Adequately Insured?</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.adequatelyInsured}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section 5: Goals & Aspirations -->
+        <div style="background: #ffffff; padding: 20px 24px; border-radius: 10px; margin-bottom: 18px; border-left: 4px solid #16a085;">
+            <h2 style="color: #2c3e50; margin: 0 0 14px; font-size: 18px;">5. Goals &amp; Aspirations</h2>
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <tr>
+                    <td style="padding: 6px 0; width: 30%; color: #7f8c8d; font-weight: 600;">Short-Term Goals</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.shortTermGoals}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Medium-Term Goals</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.mediumTermGoals}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Long-Term Goals</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.longTermGoals}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Specific Milestones</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.specificMilestones}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Other Milestone</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.otherMilestone}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section 6: Estate & Legacy Planning -->
+        <div style="background: #ffffff; padding: 20px 24px; border-radius: 10px; margin-bottom: 18px; border-left: 4px solid #d35400;">
+            <h2 style="color: #2c3e50; margin: 0 0 14px; font-size: 18px;">6. Estate &amp; Legacy Planning</h2>
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <tr>
+                    <td style="padding: 6px 0; width: 30%; color: #7f8c8d; font-weight: 600;">Will / Estate Plan</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.hasWillEstatePlan}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Trusts / Succession Planning</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.wantsTrustsSuccession}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Nominees Updated</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.nomineesUpdated}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section 7: Financial Behavior & Preferences -->
+        <div style="background: #ffffff; padding: 20px 24px; border-radius: 10px; margin-bottom: 18px; border-left: 4px solid #2c3e50;">
+            <h2 style="color: #2c3e50; margin: 0 0 14px; font-size: 18px;">7. Financial Behavior &amp; Preferences</h2>
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <tr>
+                    <td style="padding: 6px 0; width: 30%; color: #7f8c8d; font-weight: 600;">Investment Preference</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.investmentPreference}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Portfolio Review Frequency</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.portfolioReviewFrequency}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Investment Approach</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.investmentApproach}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Time Spent Tracking Investments</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.timeTrackingInvestments}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section 8: Advisor Expectations -->
+        <div style="background: #ffffff; padding: 20px 24px; border-radius: 10px; margin-bottom: 18px; border-left: 4px solid #9b59b6;">
+            <h2 style="color: #2c3e50; margin: 0 0 14px; font-size: 18px;">8. Advisor Expectations</h2>
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <tr>
+                    <td style="padding: 6px 0; width: 30%; color: #7f8c8d; font-weight: 600;">Advisor Expectations</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.advisorExpectations}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Preferred Review Meetings</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.preferredReviewMeetings}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; color: #7f8c8d; font-weight: 600;">Digital Access Preference</td>
+                    <td style="padding: 6px 0; color: #34495e;">{{assessment.digitalAccessPreference}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid #dfe6ec;">
+            <p style="color: #95a5a6; font-size: 11px; margin: 0;">
+                This notification was automatically generated by the Haria Investments financial health system.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
