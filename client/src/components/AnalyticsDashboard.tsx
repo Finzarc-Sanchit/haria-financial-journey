@@ -23,6 +23,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Badge } from '../components/ui/badge';
 import analyticsService from '../services/analyticsService';
+import { formatDateIST } from '../utils';
 
 interface AnalyticsOverview {
     overview: {
@@ -612,7 +613,7 @@ const AnalyticsDashboard: React.FC = () => {
                                             <div className="flex items-center gap-3">
                                                 <Calendar className="w-5 h-5 text-tertiary" />
                                                 <span className="font-crimson text-lg font-semibold text-tertiary">
-                                                    {new Date(day.date).toLocaleDateString()}
+                                                    {formatDateIST(day.date, { dateOnly: true })}
                                                 </span>
                                             </div>
                                             <div className="flex items-center gap-6 text-right">

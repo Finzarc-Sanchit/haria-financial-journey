@@ -4,6 +4,7 @@ const path = require("path");
 const config = require("../config/config");
 const logger = require("./logger");
 const { generateContactExcel, generateFinancialHealthExcel, generateFilename } = require("../utils/excelHelper");
+const { formatDateIST } = require("../utils/dateHelper");
 
 const transporter = nodemailer.createTransport({
     host: config.smtp_host,
@@ -70,9 +71,13 @@ const renderTemplate = (filename, data) => {
     const template = loadTemplate(filename);
     if (!template) return null;
 
+    // List of date field names that should be formatted
+    const dateFields = ['createdAt', 'updatedAt', 'dateOfBirth', 'date', 'timestamp', 'submittedAt'];
+
     return template.replace(/\{\{([^}]+)\}\}/g, (_, key) => {
         const pathParts = key.trim().split('.');
         let value = data;
+        const lastPart = pathParts[pathParts.length - 1];
 
         for (const part of pathParts) {
             if (value == null) break;
@@ -80,6 +85,17 @@ const renderTemplate = (filename, data) => {
         }
 
         if (value === undefined || value === null) return '';
+        
+        // Check if this is a date field and format it
+        if (dateFields.includes(lastPart) || value instanceof Date || (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value))) {
+            try {
+                return formatDateIST(value);
+            } catch (error) {
+                // If formatting fails, return the original value
+                logger.warn(`Failed to format date field ${key}:`, error);
+            }
+        }
+        
         if (Array.isArray(value)) {
             return value.map(v => capitalizeWords(String(v))).join(', ');
         }

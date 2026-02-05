@@ -35,7 +35,7 @@ import financialHealthService, {
     FinancialHealthAssessment,
     FinancialHealthStats,
 } from '../services/financialHealthService';
-import { formatOccupationStatus } from '../utils';
+import { formatOccupationStatus, formatDateIST } from '../utils';
 
 
 const Dashboard: React.FC = () => {
@@ -168,7 +168,7 @@ const Dashboard: React.FC = () => {
                 contact.email,
                 contact.services.join(', '),
                 contact.status,
-                new Date(contact.createdAt).toLocaleDateString(),
+                formatDateIST(contact.createdAt, { dateOnly: true }),
                 contact.message || ''
             ])
         ].map(row => row.map(field => `"${field}"`).join(',')).join('\n');
@@ -704,7 +704,7 @@ const Dashboard: React.FC = () => {
                                                                 </td>
                                                                 <td className="py-4 px-4">
                                                                     <p className="font-crimson text-lg text-muted-foreground">
-                                                                        {new Date(contact.createdAt).toLocaleDateString()}
+                                                                        {formatDateIST(contact.createdAt, { dateOnly: true })}
                                                                     </p>
                                                                 </td>
                                                                 <td className="py-4 px-4">
@@ -1006,7 +1006,7 @@ const Dashboard: React.FC = () => {
                                                                     </Badge>
                                                                 </td>
                                                                 <td className="py-4 px-4">
-                                                                    <p className="font-crimson text-lg text-muted-foreground">{new Date(a.createdAt).toLocaleDateString()}</p>
+                                                                    <p className="font-crimson text-lg text-muted-foreground">{formatDateIST(a.createdAt, { dateOnly: true })}</p>
                                                                 </td>
                                                                 <td className="py-4 px-4">
                                                                     <div className="flex items-center gap-3">
@@ -1186,7 +1186,7 @@ const Dashboard: React.FC = () => {
                                                 Created At
                                             </label>
                                             <p className="font-crimson text-lg text-muted-foreground">
-                                                {new Date(selectedContact.createdAt).toLocaleString()}
+                                                {formatDateIST(selectedContact.createdAt)}
                                             </p>
                                         </div>
                                         <div>
@@ -1194,7 +1194,7 @@ const Dashboard: React.FC = () => {
                                                 Last Updated
                                             </label>
                                             <p className="font-crimson text-lg text-muted-foreground">
-                                                {new Date(selectedContact.updatedAt).toLocaleString()}
+                                                {formatDateIST(selectedContact.updatedAt)}
                                             </p>
                                         </div>
                                     </div>
