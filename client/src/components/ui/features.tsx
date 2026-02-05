@@ -65,11 +65,11 @@ export function Features({
   };
 
   return (
-    <div className="py-16 px-4 sm:px-6 lg:px-8">
+    <div className="py-10 md:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -88,11 +88,11 @@ export function Features({
           </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 lg:gap-16 gap-8 items-center">
+        <div className="grid lg:grid-cols-2 lg:gap-10 gap-6 items-center">
           {/* Left Side - Features with Progress Lines */}
           <div
             ref={containerRef}
-            className="lg:space-y-8 md:space-x-6 lg:space-x-0 overflow-x-auto overflow-hidden no-scrollbar lg:overflow-visible flex lg:flex lg:flex-col flex-row order-1 pb-4 scroll-smooth"
+            className="lg:space-y-5 md:space-x-6 lg:space-x-0 overflow-x-auto overflow-hidden no-scrollbar lg:overflow-visible flex lg:flex lg:flex-col flex-row order-1 pb-2 scroll-smooth"
           >
             {features.map((feature, index) => {
               const Icon = feature.icon;
@@ -110,7 +110,7 @@ export function Features({
                   {/* Feature Content */}
                   <motion.div
                     className={`
-                    flex lg:flex-row flex-col items-start space-x-4 p-4 md:p-6 max-w-sm md:max-w-sm lg:max-w-2xl transition-all duration-300
+                    flex lg:flex-row flex-col items-start space-x-4 p-4 md:p-5 max-w-sm md:max-w-sm lg:max-w-2xl transition-all duration-300
                     ${
                       isActive
                         ? " bg-white shadow-xl rounded-xl border border-gray-200 "
@@ -162,7 +162,7 @@ export function Features({
                       >
                         {feature.description}
                       </p>
-                      <div className="mt-4 bg-gray-100 rounded-sm h-1 overflow-hidden">
+                      <div className="mt-3 bg-gray-100 rounded-sm h-1 overflow-hidden">
                         {isActive && (
                           <motion.div
                             className={`h-full ${progressGradientLight}`}
@@ -180,7 +180,7 @@ export function Features({
           </div>
 
           {/* Right Side - Image Display */}
-          <div className="relative order-1 max-w-lg mx-auto lg:order-2">
+          <div className="relative order-1 max-w-md mx-auto lg:order-2">
             <motion.div
               key={currentFeature}
               initial={{ opacity: 0, y: 50 }}
@@ -190,7 +190,7 @@ export function Features({
               className="relative"
             >
               <img
-                className="rounded-2xl border border-gray-50 shadow-lg w-full h-auto"
+                className="rounded-2xl border border-gray-50 shadow-lg w-full h-auto max-h-[44vh] object-cover"
                 src={features[currentFeature].image}
                 alt={features[currentFeature].title}
                 loading="lazy"

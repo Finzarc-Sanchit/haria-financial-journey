@@ -75,8 +75,19 @@ const Index = () => {
         description="Thoughtful financial planning and consistent execution for long-term wealth creation."
         testimonials={testimonials}
       />
-      <FeaturesSection />
-      <AboutSection />
+      <div className="relative">
+        {/* Features section - scrolls normally, then sticks when fully displayed */}
+        <div className="sticky top-0 z-0 min-h-screen">
+          <FeaturesSection />
+          {/* Extra scroll space with same background so Features fully displays before About starts */}
+          <div className="h-[80vh] bg-gradient-to-br from-secondary/10 to-secondary/5" aria-hidden="true" />
+        </div>
+        {/* About section - scrolls over Features from bottom, with slight delay */}
+        <div className="relative z-10 -mt-[100vh]">
+          <div className="h-[30vh]" aria-hidden="true" />
+          <AboutSection />
+        </div>
+      </div>
       <CoreValues />
       <ServicesSection />
       <ProcessSection />
