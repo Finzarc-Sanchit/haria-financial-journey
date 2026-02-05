@@ -140,11 +140,25 @@ const ServicesSection = () => {
   };
 
   return (
-    <section id="services" className="py-16 bg-[#FAFAFA]">
+    <motion.section
+      id="services"
+      className="py-16 bg-[#FAFAFA]"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Title */}
-        <div data-aos="fade-down" className="text-center mb-16">
+        <motion.div
+          data-aos="fade-down"
+          className="text-center mb-16"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+        >
           <p className="text-sm font-playfair font-semibold text-tertiary/80 uppercase tracking-[0.15em] mb-4">
             WHAT WE OFFER
           </p>
@@ -156,30 +170,52 @@ const ServicesSection = () => {
               Transparent, comprehensive financial planning with proven results
             </p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Service Category Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {serviceCategories.map((category, index) => (
             <motion.div
               key={category.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="relative rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group flex flex-col min-h-[350px] overflow-hidden"
+              transition={{ duration: 0.8, delay: index * 0.15, ease: "easeOut" }}
+              whileHover={{ scale: 1.015 }}
+              className="relative rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer group flex flex-col min-h-[350px] overflow-hidden"
               onClick={() => handleCategoryClick(category)}
-              style={{
-                backgroundImage: `url('${category.bgImage}')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
             >
-              {/* Color Overlay */}
-              <div className={`absolute inset-0 ${category.bgOverlay}`}></div>
+              {/* Cinematic Background Image - Slow Zoom In */}
+              <motion.div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `url('${category.bgImage}')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+                initial={{ scale: 1.08 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.6, ease: "easeOut" }}
+              />
 
-              {/* Content */}
-              <div className="relative z-10 p-6 md:p-8 flex flex-col h-full">
+              {/* Color Overlay - Fade In */}
+              <motion.div
+                className={`absolute inset-0 ${category.bgOverlay}`}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+              />
+
+              {/* Content - Depth Animation */}
+              <motion.div
+                className="relative z-10 p-6 md:p-8 flex flex-col h-full"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              >
                 <div className="flex items-center gap-3 mb-6">
                   <Building className="w-8 h-8 text-white" />
                   <span className="text-sm font-crimson text-white/90 uppercase tracking-wider">
@@ -201,13 +237,19 @@ const ServicesSection = () => {
                       e.stopPropagation();
                       handleCategoryClick(category);
                     }}
-                    className={`${category.buttonColor} ${category.buttonTextColor} hover:scale-105 transition-transform duration-300 px-8 py-4 rounded-full font-semibold font-crimson flex items-center gap-2 group-hover:gap-4 transition-all`}
+                    className={`${category.buttonColor} ${category.buttonTextColor} hover:scale-105 transition-transform duration-300 px-8 py-4 rounded-full font-semibold font-crimson flex items-center gap-2`}
                   >
                     Learn more
-                    <ArrowRight className="w-5 h-5" />
+                    <motion.span
+                      className="inline-block"
+                      whileHover={{ x: 4 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.span>
                   </button>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           ))}
         </div>
@@ -232,76 +274,76 @@ const ServicesSection = () => {
                 {/* Scrollable Content */}
                 <div className="flex-1 overflow-y-auto px-6 py-6">
 
-                {/* Sub-Services Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
-                  {selectedCategory.services.map((service, index) => (
-                    <motion.div
-                      key={service.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
-                      className="border border-gray-200 rounded-2xl p-6 hover:border-secondary/50 hover:shadow-lg transition-all duration-300"
-                    >
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center">
-                          <service.icon className="w-6 h-6 text-secondary" />
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-playfair text-xl md:text-2xl font-bold text-tertiary mb-3">
-                            {service.title}
-                          </h4>
-                          <p className="font-crimson text-base text-tertiary/80 mb-4 leading-relaxed text-justify">
-                            {service.description}
-                          </p>
+                  {/* Sub-Services Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+                    {selectedCategory.services.map((service, index) => (
+                      <motion.div
+                        key={service.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                        className="border border-gray-200 rounded-2xl p-6 hover:border-secondary/50 hover:shadow-lg transition-all duration-300"
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className="flex-shrink-0 w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center">
+                            <service.icon className="w-6 h-6 text-secondary" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-playfair text-xl md:text-2xl font-bold text-tertiary mb-3">
+                              {service.title}
+                            </h4>
+                            <p className="font-crimson text-base text-tertiary/80 mb-4 leading-relaxed text-justify">
+                              {service.description}
+                            </p>
 
-                          {/* Process Overview */}
-                          <div className="mb-4">
-                            <h5 className="font-playfair font-semibold text-tertiary mb-2 text-sm">
-                              Process Overview:
-                            </h5>
-                            <ul className="space-y-1">
-                              {service.process.map((step, i) => (
-                                <li key={i} className="font-crimson text-sm text-tertiary/70 flex items-center">
-                                  <div className="w-1.5 h-1.5 bg-secondary rounded-full mr-2 flex-shrink-0" />
-                                  {step}
-                                </li>
+                            {/* Process Overview */}
+                            <div className="mb-4">
+                              <h5 className="font-playfair font-semibold text-tertiary mb-2 text-sm">
+                                Process Overview:
+                              </h5>
+                              <ul className="space-y-1">
+                                {service.process.map((step, i) => (
+                                  <li key={i} className="font-crimson text-sm text-tertiary/70 flex items-center">
+                                    <div className="w-1.5 h-1.5 bg-secondary rounded-full mr-2 flex-shrink-0" />
+                                    {step}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {/* Details */}
+                            <p className="font-crimson text-sm text-tertiary/70 mb-3 italic">
+                              {service.details}
+                            </p>
+
+                            {/* Specializations */}
+                            <div className="flex flex-wrap gap-2 mb-4">
+                              {service.specializations.map((spec, i) => (
+                                <Badge key={i} variant="secondary" className="text-xs font-crimson">
+                                  {spec}
+                                </Badge>
                               ))}
-                            </ul>
-                          </div>
+                            </div>
 
-                          {/* Details */}
-                          <p className="font-crimson text-sm text-tertiary/70 mb-3 italic">
-                            {service.details}
-                          </p>
-
-                          {/* Specializations */}
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            {service.specializations.map((spec, i) => (
-                              <Badge key={i} variant="secondary" className="text-xs font-crimson">
-                                {spec}
-                              </Badge>
-                            ))}
-                          </div>
-                          
-                          {/* Schedule Now Button */}
-                          <div className="flex justify-end">
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setIsDialogOpen(false);
-                                window.location.href = '/contact';
-                              }}
-                              className="bg-secondary hover:bg-secondary/90 text-white px-6 py-2.5 rounded-full font-semibold font-crimson transition-all shadow-md hover:shadow-lg flex items-center gap-2"
-                            >
-                              Schedule Now
-                              <ArrowRight className="w-4 h-4" />
-                            </button>
+                            {/* Schedule Now Button */}
+                            <div className="flex justify-end">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setIsDialogOpen(false);
+                                  window.location.href = '/contact';
+                                }}
+                                className="bg-secondary hover:bg-secondary/90 text-white px-6 py-2.5 rounded-full font-semibold font-crimson transition-all shadow-md hover:shadow-lg flex items-center gap-2"
+                              >
+                                Schedule Now
+                                <ArrowRight className="w-4 h-4" />
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
@@ -309,7 +351,7 @@ const ServicesSection = () => {
         </Dialog>
 
       </div>
-    </section>
+    </motion.section>
   );
 };
 
