@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import AnimatedTree from './AnimatedTree';
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const HeroSection = () => {
       <div className="w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
           {/* Left Side - Content */}
-          <div className="relative bg-tertiary px-4 sm:px-6 lg:px-12 py-20 lg:py-0 flex items-center overflow-hidden">
+          <div className="relative bg-tertiary px-4 sm:px-6 lg:px-12 py-20 lg:py-0 flex items-center overflow-hidden order-2 lg:order-1">
             {/* Decorative Partial Logo */}
             <div className="absolute bottom-0 right-0 w-64 h-64 opacity-5 pointer-events-none">
               <img
@@ -107,14 +108,15 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right Side - Image */}
-          <div className="relative bg-gray-900 min-h-[400px] lg:min-h-screen overflow-hidden">
-            {/* Hero Image */}
-            <img
-              src="/hero-section-image.jpg"
-              alt="Haria Investments Financial Planning"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+          {/* Right Side - Animated Tree */}
+          <div className="relative bg-gray-900 min-h-[400px] lg:min-h-screen overflow-hidden flex items-center justify-center p-8 order-1 lg:order-2">
+            {/* Background gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
+
+            {/* Animated Tree Component */}
+            <div className="relative z-20 w-full h-full flex items-center justify-center">
+              <AnimatedTree />
+            </div>
 
             {/* Decorative Yellow Shape (like in reference) */}
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary opacity-20 rounded-full transform translate-x-1/2 translate-y-1/2 z-10"></div>

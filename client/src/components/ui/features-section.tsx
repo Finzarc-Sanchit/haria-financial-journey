@@ -1,5 +1,8 @@
-export function FeaturesSection() {
+import { Features } from "./features";
+import { Shield, TrendingUp, PiggyBank, BarChart3 } from "lucide-react";
 
+export function FeaturesSection() {
+  // Preserve all existing content exactly as it was
   const services = [
     {
       image: "/Commitment/General-insurance.jpg",
@@ -23,52 +26,37 @@ export function FeaturesSection() {
     }
   ];
 
-  return (
-    <section id="features" className="py-16 bg-gradient-to-br from-secondary/10 to-secondary/5">
-      <div className="mx-auto max-w-7xl space-y-12 px-4 sm:px-6 lg:px-8 md:space-y-20">
-        {/* Header */}
-        <div className="relative z-10 mx-auto max-w-4xl space-y-4 text-center">
-          <p className="text-sm font-playfair font-semibold text-tertiary/80 uppercase tracking-[0.15em] mb-4">
-            OUR SERVICES & EXPERTISE
-          </p>
-          <h2 className="text-balance text-4xl md:text-5xl lg:text-6xl font-bold font-playfair text-tertiary leading-tight">
-            Comprehensive Financial Solutions
-          </h2>
-          <div className="flex justify-center">
-            <p className="text-lg md:text-xl font-crimson text-tertiary/80 max-w-3xl leading-relaxed text-center">
-              Backed by decades of experience and trusted by 1500+ clients across India
-            </p>
-          </div>
-        </div>
+  // Map services to Features component format with appropriate icons
+  const features = services.map((service, index) => {
+    // Assign icons based on service type
+    let Icon = Shield; // default
+    if (service.title.includes("Mutual Funds") || service.title.includes("Equity")) {
+      Icon = TrendingUp;
+    } else if (service.title.includes("Fixed Income")) {
+      Icon = PiggyBank;
+    } else if (service.title.includes("Commodity")) {
+      Icon = BarChart3;
+    } else if (service.title.includes("Insurance")) {
+      Icon = Shield;
+    }
 
-        {/* Services Grid */}
-        <div className="relative mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className="group text-center transition-all duration-300"
-            >
-              {/* Circular Image Container */}
-              <div className="w-32 h-32 mx-auto mb-6 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border-2 border-secondary/20 overflow-hidden">
-                <img 
-                  src={service.image} 
-                  alt={service.title}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              {/* Title */}
-              <h3 className="text-lg md:text-xl font-bold font-playfair text-tertiary mb-3 min-h-[3.5rem] flex items-center justify-center">
-                {service.title}
-              </h3>
-              {/* Description */}
-              <p className="text-sm md:text-base font-crimson text-tertiary/70 leading-relaxed text-justify">
-                {service.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
+    return {
+      id: index + 1,
+      icon: Icon,
+      title: service.title,
+      description: service.description,
+      image: service.image,
+    };
+  });
+
+  return (
+    <section id="features" className="bg-gradient-to-br from-secondary/10 to-secondary/5">
+      <Features
+        features={features}
+        primaryColor="secondary"
+        progressGradientLight="bg-gradient-to-r from-secondary/80 to-secondary"
+        progressGradientDark="bg-gradient-to-r from-secondary/70 to-secondary/90"
+      />
     </section>
   );
 }
