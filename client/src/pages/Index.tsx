@@ -75,8 +75,22 @@ const Index = () => {
         description="Thoughtful financial planning and consistent execution for long-term wealth creation."
         testimonials={testimonials}
       />
-      <FeaturesSection />
-      <AboutSection />
+      <div className="relative">
+        {/* Features section - scrolls normally, then sticks when fully displayed */}
+        {/* Ensure sticky works on mobile by having proper container */}
+        <div className="sticky top-0 z-0 min-h-screen w-full">
+          <FeaturesSection />
+          {/* Extra scroll space with same background so Features fully displays before About starts */}
+          {/* Responsive heights: smaller on mobile, larger on desktop */}
+          <div className="h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] bg-gradient-to-br from-secondary/10 to-secondary/5" aria-hidden="true" />
+        </div>
+        {/* About section - scrolls over Features from bottom, with slight delay */}
+        {/* Responsive negative margin: smaller on mobile, larger on desktop */}
+        <div className="relative z-10 -mt-[50vh] sm:-mt-[60vh] md:-mt-[80vh] lg:-mt-[100vh]">
+          <div className="h-[15vh] sm:h-[20vh] md:h-[25vh] lg:h-[30vh]" aria-hidden="true" />
+          <AboutSection />
+        </div>
+      </div>
       <CoreValues />
       <ServicesSection />
       <ProcessSection />
