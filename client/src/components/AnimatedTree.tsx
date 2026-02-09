@@ -5,17 +5,30 @@ import { useEffect, useState } from 'react';
 // @ts-ignore - Vite handles ?raw imports
 import treeSvgRaw from '../assets/financial-tree1.svg?raw';
 
-const AnimatedTree = () => {
+interface AnimatedTreeProps {
+  /**
+   * intro  - full logo draw animation (used for loader)
+   * idle   - static logo with subtle floating leaves (used as background)
+   */
+  mode?: 'intro' | 'idle';
+  /**
+   * Called once when the intro animation has completely finished
+   * (trunk filled and leaves have started their idle float).
+   */
+  onIntroComplete?: () => void;
+}
+
+const AnimatedTree = ({ mode = 'intro', onIntroComplete }: AnimatedTreeProps) => {
   const [trunkPhase, setTrunkPhase] = useState<'hidden' | 'strokeDraw' | 'strokeSettle' | 'fillReveal'>('hidden');
   const [startIdle, setStartIdle] = useState(false);
-  const [trunkPath, setTrunkPath] = useState<{ d: string; fill: string } | null>(null);
-  const [leaves, setLeaves] = useState<Array<{ id: string; d: string; fill: string }>>([]);
+  const [trunkPath, setTrunkPath] = useState<{ d: string; fill: string; } | null>(null);
+  const [leaves, setLeaves] = useState<Array<{ id: string; d: string; fill: string; }>>([]);
 
   // Parse SVG and extract trunk and leaves
   useEffect(() => {
     const parser = new DOMParser();
     const svgDoc = parser.parseFromString(treeSvgRaw, 'image/svg+xml');
-    
+
     // Extract trunk path
     const trunkGroup = svgDoc.querySelector('[id="trunk"]');
     const trunkPathElement = trunkGroup?.querySelector('path');
@@ -35,35 +48,45 @@ const AnimatedTree = () => {
     }));
     setLeaves(leafData);
 
-    // Start trunk animation sequence
+    // If we're in "idle" mode, skip the intro sequence and go straight
+    // to the filled trunk with floating leaves.
+    if (mode === 'idle') {
+      setTrunkPhase('fillReveal');
+      setStartIdle(true);
+      return;
+    }
+
+    // Start trunk animation sequence for "intro" mode
     setTrunkPhase('strokeDraw');
 
-    // Phase 1: Stroke draw (2s)
+    // Make the whole intro much quicker (~2.5s total):
+    // Phase 1: Stroke draw (~1.2s)
     const timer1 = setTimeout(() => {
       setTrunkPhase('strokeSettle');
-    }, 2000);
+    }, 1200);
 
-    // Phase 2: Stroke settle (0.1s delay - shorter for faster transition)
+    // Phase 2: Stroke settle (short, then fill)
     const timer2 = setTimeout(() => {
       setTrunkPhase('fillReveal');
-    }, 2100);
+    }, 1400);
 
-    // Phase 3: Fill reveal (0.6s) - leaves start near end of stroke
-    // Leaves: ~1.2s (17 leaves * 0.08s delay + 0.6s duration)
-    // Total: 1.95s (leaves start) + 1.2s (leaves) = ~3.15s
+    // Phase 3: After trunk + first leaf pops in, start idle float and mark complete
     const timer3 = setTimeout(() => {
       setStartIdle(true);
-    }, 3150);
+      if (onIntroComplete) {
+        onIntroComplete();
+      }
+    }, 2500);
 
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
     };
-  }, []);
+  }, [mode, onIntroComplete]);
 
   // Trunk animation variants - 3 distinct phases
-  const trunkVariants = {
+  const trunkVariants: any = {
     hidden: {
       pathLength: 0,
       opacity: 0,
@@ -75,7 +98,7 @@ const AnimatedTree = () => {
       fillOpacity: 0, // Phase 1: Fill transparent during stroke draw
       transition: {
         pathLength: {
-          duration: 2,
+          duration: 1.2,
           ease: "easeInOut",
         },
         opacity: {
@@ -91,8 +114,8 @@ const AnimatedTree = () => {
       opacity: 1,
       fillOpacity: 0, // Phase 2: Keep fill transparent, stroke settles
       transition: {
-        duration: 0.1,
-        ease: "easeInOut",
+        duration: 0.2,
+        ease: "easeOut",
       },
     },
     fillReveal: {
@@ -110,7 +133,7 @@ const AnimatedTree = () => {
 
 
   // Leaf animation variants
-  const leafVariants = {
+  const leafVariants: any = {
     hidden: {
       scale: 0,
       opacity: 0,
@@ -119,39 +142,26 @@ const AnimatedTree = () => {
       scale: 1,
       opacity: 1,
       transition: {
-        scale: {
-          duration: 0.6,
-          delay: 1.95 + index * 0.08, // Start near end of stroke draw
-          ease: [0.34, 1.56, 0.64, 1], // backOut easing
-        },
-        opacity: {
-          duration: 0.4,
-          delay: 1.95 + index * 0.08,
-        },
+        duration: 0.8,
+        // Start shortly after trunk fill is complete in the faster intro
+        delay: 1.6 + index * 0.07,
       },
     }),
     float: {
       scale: 1,
       opacity: 1,
-      y: [0, -6, 0],
-      rotate: [-1, 1, -1],
+      rotate: [-6, 6, -6],
       transition: {
-        y: {
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        },
-        rotate: {
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        },
+        duration: 3.5,
+        repeat: Infinity,
+        ease: [0.4, 0, 0.6, 1],
       },
     },
   };
 
   // Determine if leaves should be visible (start earlier during stroke)
   const leavesVisible = trunkPhase !== 'hidden' || startIdle;
+  const initialLeafVariant = mode === 'idle' ? 'float' : 'hidden';
 
   return (
     <div className="relative w-full h-full flex items-center justify-center">
@@ -199,12 +209,12 @@ const AnimatedTree = () => {
             id={leaf.id}
             d={leaf.d}
             fill={leaf.fill}
-            initial="hidden"
+            initial={initialLeafVariant}
             animate={leavesVisible ? (startIdle ? "float" : "visible") : "hidden"}
             variants={leafVariants}
             custom={index}
             style={{
-              transformOrigin: "50% 50%",
+              transformOrigin: "50% 100%",
             }}
           />
         ))}
@@ -214,4 +224,3 @@ const AnimatedTree = () => {
 };
 
 export default AnimatedTree;
-

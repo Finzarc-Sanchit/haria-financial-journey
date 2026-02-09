@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import type { FinancialHealthAssessment } from "@/services/financialHealthService";
-import { formatOccupationStatus } from "@/utils";
+import { formatOccupationStatus, formatDateIST } from "@/utils";
 
 type Props = {
   assessment: FinancialHealthAssessment;
@@ -28,7 +28,7 @@ export default function FinancialHealthAssessmentView({ assessment, getStatusCol
             {assessment.firstName} {assessment.lastName}
           </p>
           <p className="font-crimson text-muted-foreground">
-            Submitted: {new Date(assessment.createdAt).toLocaleString()}
+            Submitted: {formatDateIST(assessment.createdAt)}
           </p>
         </div>
         <Badge className={`${getStatusColor(assessment.status)} border flex items-center gap-2 w-fit text-base px-3 py-1`}>
