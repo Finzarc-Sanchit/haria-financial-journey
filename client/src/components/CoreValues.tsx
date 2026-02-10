@@ -10,6 +10,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const CoreValues = () => {
+    // Tiny helpers for ultra-smooth, fully scroll-based motion (no inertia when scroll stops)
+    const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
+    const easeInOutCubic = (t: number) =>
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
     const values = [
         {
             title: "Objectivity",
@@ -92,15 +97,14 @@ const CoreValues = () => {
             const startY = 150;
 
             // Clamp v to valid range
-            const clampedV = Math.max(0, Math.min(1, v));
+            const clampedV = clamp01(v);
 
-            // Continuous transform: map scroll progress to y position
             // Before segment: stay below viewport
             if (clampedV < segmentStart) {
                 return startY;
             }
 
-            // After segment: stay at final position (continuous, not irreversible)
+            // After segment: stay at final position (lock in place, never move back)
             if (clampedV >= segmentEnd) {
                 return 0;
             }
@@ -108,47 +112,58 @@ const CoreValues = () => {
             // During segment: interpolate from startY to 0
             // Ensure segmentEnd > segmentStart to avoid division by zero
             const segmentRange = Math.max(0.00001, segmentEnd - segmentStart);
-            const segmentProgress = Math.min(1, Math.max(0, (clampedV - segmentStart) / segmentRange));
+            const segmentProgress = clamp01((clampedV - segmentStart) / segmentRange);
 
-            // More linear feel at start, then smooth ease-out
-            let eased;
-            if (segmentProgress < 0.3) {
-                eased = segmentProgress / 0.3;
-            } else {
-                const remainingProgress = (segmentProgress - 0.3) / 0.7;
-                eased = 0.3 + (1 - 0.3) * (1 - Math.pow(1 - remainingProgress, 3));
-            }
+            // Butter-smooth, controlled motion: slower start + slower end
+            const eased = easeInOutCubic(segmentProgress);
+            const finalY = startY * (1 - eased);
 
-            eased = Math.min(1, Math.max(0, eased));
-            const finalY = Math.max(0, startY * (1 - eased));
-            return finalY;
+            // Ensure we never return a value less than 0 or greater than startY
+            return Math.max(0, Math.min(startY, finalY));
         });
 
-        // Scale: card zooms out (1 → 0.75) when next card starts entering
+        // Scale: card zooms out (1 → 0.75) as the NEXT card enters (purely scroll-based, no inertia)
         // Previous card should shrink as new card slides up from bottom
         // Super smooth and slow zoom-out
+        const hasNextCard = index < total - 1;
+        const nextIndex = index + 1;
+        const nextStart = !hasNextCard ? 1 : nextIndex === 0 ? 0 : (nextIndex - 1) * segment;
+        const nextEnd = !hasNextCard ? 1 : nextIndex === 0 ? 0 : nextIndex * segment;
+
+        const zoomStart = nextStart;
+        const zoomEnd = nextEnd;
+        const zoomRange = Math.max(0.00001, zoomEnd - zoomStart);
+
+        // Timing tweaks:
+        // - First card: start zoom immediately to avoid dead scroll when sticky engages
+        // - Penultimate card: start a bit earlier so it doesn't vanish before zoom is noticeable
+        // Reduced delay so zoom begins sooner after the next card starts moving.
+        const startDelayPct = index === 0 ? 0 : index === total - 2 ? 0.05 : 0.08;
+        const endDelayPct = index === total - 2 ? 0.90 : 0.96;
+        const zoomStartDelayed = zoomStart + zoomRange * startDelayPct;
+        const zoomEndDelayed = zoomStart + zoomRange * endDelayPct;
+
         const scale = useTransform(scrollYProgress, (v) => {
             // If there's no next card, stay at full size
             if (index === total - 1) return 1;
 
-            // Zoom out while the NEXT card is entering (first 70% of next card's segment)
-            const nextIndex = index + 1;
-            const nextStart = nextIndex === 0 ? 0 : (nextIndex - 1) * segment;
-            const nextEnd = nextIndex === 0 ? 0 : nextIndex * segment;
-
-            const zoomStart = nextStart;
-            const zoomEnd = zoomStart + (nextEnd - zoomStart) * 0.7;
+            // Zoom out while the NEXT card is entering (spread across the FULL next card segment for slower zoom)
+            // Clamp v to valid range
+            const clampedV = clamp01(v);
 
             // Before the next card begins entering, keep full scale
-            if (v < zoomStart) return 1;
+            if (clampedV < zoomStartDelayed) return 1;
 
-            // After zoom window, fully zoomed out
-            if (v >= zoomEnd) return 0.75;
+            // After zoom window, fully zoomed out (lock in place, never scale back up)
+            if (clampedV >= zoomEndDelayed) return 0.75;
 
             // During zoom window
-            const zoomProgress = (v - zoomStart) / (zoomEnd - zoomStart);
-            const eased = 1 - Math.pow(1 - zoomProgress, 5);
-            return 1 - eased * 0.25; // 1 → 0.75
+            const zoomProgress = (clampedV - zoomStartDelayed) / (zoomEndDelayed - zoomStartDelayed);
+            const eased = easeInOutCubic(clamp01(zoomProgress));
+            const finalScale = 1 - eased * 0.25; // 1 → 0.75
+
+            // Ensure scale never goes below 0.75 or above 1
+            return Math.max(0.75, Math.min(1, finalScale));
         });
 
         // Subtle opacity fade for older cards (very subtle, super smooth)
@@ -159,7 +174,24 @@ const CoreValues = () => {
             // Ensure all other cards are hidden at v = 0, even if segmentStart = 0
             if (v <= 0 && index > 0) return 0;
 
+            // Smooth fade-in (fixes the "pop/jump" when a new card starts)
             if (v < segmentStart) return 0;
+            const fadeInEnd = segmentStart + segment * 0.22;
+            if (v < fadeInEnd) {
+                const t = clamp01((v - segmentStart) / Math.max(0.00001, fadeInEnd - segmentStart));
+                return easeInOutCubic(t);
+            }
+
+            // OPTION A:
+            // Prevent any transparency while the card is "settled" AND while it is zooming out:
+            // - From when it reaches its final position (segmentEnd) until zoom begins (zoomStartDelayed)
+            // - And throughout the zoom window (zoomStartDelayed → zoomEndDelayed)
+            // This avoids the "see-through" moment before zoom starts.
+            const clampedV = clamp01(v);
+            if (hasNextCard) {
+                if (clampedV >= segmentEnd && clampedV < zoomStartDelayed) return 1;
+                if (clampedV >= zoomStartDelayed && clampedV < zoomEndDelayed) return 1;
+            }
 
             // Last card should always be fully visible when active
             if (index === total - 1) {
@@ -170,15 +202,27 @@ const CoreValues = () => {
             if (v >= segmentEnd) {
                 // After this card's segment, fade it more aggressively if we're in the last card's segment
                 const lastCardSegmentStart = (total - 2) * segment;
-                const fadeStart = segmentEnd;
-                const fadeEnd = Math.min(1, segmentEnd + segment * 0.7);
+                // Default fade window
+                let fadeStart = segmentEnd;
+                let fadeEnd = Math.min(1, segmentEnd + segment * 0.7);
 
                 // If we're in the last card's segment, fade previous cards more
                 if (v >= lastCardSegmentStart) {
+                    // Penultimate card should NOT disappear quickly; keep it present longer
+                    // and fade to a higher floor so it remains readable under the final card.
+                    const isPenultimate = index === total - 2;
+                    if (isPenultimate) {
+                        fadeStart = segmentEnd + segment * 0.22; // start fading a bit later
+                        fadeEnd = Math.min(1, segmentEnd + segment * 0.98); // fade across almost the full last segment
+                    }
+
                     // Fade more aggressively when last card is active
-                    const fadeProgress = Math.min(1, (v - fadeStart) / (fadeEnd - fadeStart));
+                    const fadeProgress = clamp01((v - fadeStart) / Math.max(0.00001, fadeEnd - fadeStart));
                     const eased = 1 - Math.pow(1 - fadeProgress, 5);
-                    return Math.max(0.3, 1 - eased * 0.7); // Fade to 0.3 instead of 0.9
+                    // Penultimate: fade to 0.55, others: fade to 0.3
+                    const minOpacity = index === total - 2 ? 0.55 : 0.3;
+                    const fadeAmount = index === total - 2 ? 0.45 : 0.7;
+                    return Math.max(minOpacity, 1 - eased * fadeAmount);
                 }
 
                 // Normal fade for cards not in last segment
@@ -197,14 +241,6 @@ const CoreValues = () => {
         const yPercent = useTransform(y, (val) => `${val}%`);
 
         return { y, yPercent, scale, opacity };
-    });
-
-    // Compute activeIndex ONCE outside render loop to avoid hook violations
-    const activeIndex = useTransform(scrollYProgress, (v) => {
-        // Card 0 is visible at v=0; cards 1.. are distributed across v in [0..1]
-        if (v <= 0) return 0;
-        const seg = Math.min(segmentsCount - 1, Math.floor(v * segmentsCount));
-        return Math.min(total - 1, seg + 1);
     });
 
     return (
@@ -271,7 +307,7 @@ const CoreValues = () => {
                     className="hidden lg:block relative"
                 >
                     {/* Make the section tall so the sticky content has scroll room - increased for super slow, smooth scroll */}
-                    <div className="h-[360vh]">
+                    <div className="h-[2000vh]">
                         {/* Sticky container that locks once it fills the viewport */}
                         <div className="sticky top-24">
                             {/* Two separate card containers that together fill the viewport area */}
@@ -311,6 +347,8 @@ const CoreValues = () => {
                                     <div className="relative w-full h-full overflow-visible p-6 xl:p-8 2xl:p-10">
                                         {values.map((value, index) => {
                                             const { yPercent, scale, opacity } = cardTransforms[index];
+                                            // Apply About section theme to 2,4,6 cards (1-based indexing)
+                                            const isAboutTheme = (index + 1) % 2 === 0;
                                             // Higher index = higher z-index (stack on top)
                                             // Last card gets extra high z-index to ensure it's always on top
                                             const zIndex = index === total - 1 ? index + 10 : index;
@@ -331,13 +369,23 @@ const CoreValues = () => {
                                                             transformOrigin: "center center",
                                                             willChange: "transform",
                                                         }}
-                                                        className="w-full h-full flex flex-col rounded-[32px] bg-white shadow-2xl border border-slate-100 px-10 py-10 xl:px-16 xl:py-14"
+                                                        className={[
+                                                            "w-full h-full flex flex-col rounded-[32px] shadow-2xl border px-10 py-10 xl:px-16 xl:py-14",
+                                                            isAboutTheme
+                                                                ? "bg-tertiary text-white border-white/10"
+                                                                : "bg-white text-tertiary border-slate-100",
+                                                        ].join(" ")}
                                                     >
                                                         {/* Center main text block vertically */}
                                                         <div className="flex-1 flex items-center">
                                                             <div className="flex items-start justify-between gap-8 w-full">
                                                                 {/* Large index number */}
-                                                                <div className="text-tertiary font-playfair font-extrabold leading-none pr-6">
+                                                                <div
+                                                                    className={[
+                                                                        "font-playfair font-extrabold leading-none pr-6",
+                                                                        isAboutTheme ? "text-white/90" : "text-tertiary",
+                                                                    ].join(" ")}
+                                                                >
                                                                     <span className="block text-[9rem] xl:text-[10rem] 2xl:text-[11rem]">
                                                                         {String(index + 1).padStart(2, "0")}
                                                                     </span>
@@ -345,10 +393,20 @@ const CoreValues = () => {
 
                                                                 {/* Text content */}
                                                                 <div className="flex-1 max-w-xl">
-                                                                    <h3 className="font-playfair text-[2.6rem] xl:text-[3rem] 2xl:text-[3.4rem] font-bold text-tertiary mb-4 leading-tight">
+                                                                    <h3
+                                                                        className={[
+                                                                            "font-playfair text-[2.6rem] xl:text-[3rem] 2xl:text-[3.4rem] font-bold mb-4 leading-tight",
+                                                                            isAboutTheme ? "text-white" : "text-tertiary",
+                                                                        ].join(" ")}
+                                                                    >
                                                                         {value.title}
                                                                     </h3>
-                                                                    <p className="font-crimson text-xl xl:text-[1.35rem] text-tertiary/80 leading-relaxed">
+                                                                    <p
+                                                                        className={[
+                                                                            "font-crimson text-xl xl:text-[1.35rem] leading-relaxed",
+                                                                            isAboutTheme ? "text-white/80" : "text-tertiary",
+                                                                        ].join(" ")}
+                                                                    >
                                                                         {value.description}
                                                                     </p>
                                                                 </div>
@@ -359,24 +417,22 @@ const CoreValues = () => {
                                                         <div className="mt-6 flex items-center justify-between">
                                                             <div className="flex gap-2">
                                                                 {values.map((v, idx) => {
-                                                                    // Use activeIndex computed outside render loop
-                                                                    const dotWidth = useTransform(
-                                                                        activeIndex,
-                                                                        (activeIdx) => activeIdx === idx ? 32 : 12
-                                                                    );
-                                                                    const dotColor = useTransform(
-                                                                        activeIndex,
-                                                                        (activeIdx) => activeIdx === idx
-                                                                            ? "hsl(var(--secondary))"
-                                                                            : "hsl(var(--secondary) / 0.3)"
-                                                                    );
+                                                                    // Dots are STATIC (not scroll-driven):
+                                                                    // each card "owns" its dot state based on its own index.
+                                                                    const isThisCard = idx === index;
                                                                     return (
-                                                                        <motion.div
+                                                                        <div
                                                                             key={v.title}
                                                                             className="h-1.5 rounded-full"
                                                                             style={{
-                                                                                width: dotWidth,
-                                                                                backgroundColor: dotColor,
+                                                                                width: isThisCard ? 32 : 12,
+                                                                                backgroundColor: isThisCard
+                                                                                    ? (isAboutTheme
+                                                                                        ? "hsl(0 0% 100%)"
+                                                                                        : "hsl(var(--tertiary))")
+                                                                                    : (isAboutTheme
+                                                                                        ? "hsl(0 0% 100% / 0.3)"
+                                                                                        : "hsl(var(--tertiary) / 0.3)"),
                                                                             }}
                                                                         />
                                                                     );
