@@ -45,24 +45,34 @@ export function Features({
   useEffect(() => {
     const activeFeatureElement = featureRefs.current[currentFeature];
 
-    if (activeFeatureElement) {
-      // On mobile, scroll viewport to show active feature and its image below
-      // On desktop, the layout is side-by-side so minimal scrolling needed
-      const isMobile = window.innerWidth < 1024;
+    if (!activeFeatureElement) return;
 
-      if (isMobile) {
-        // Get element's position relative to document
-        const rect = activeFeatureElement.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const elementTop = rect.top + scrollTop;
-        const offset = 80; // Offset to account for header and show image below
+    // On mobile, auto-scrolling to the active feature caused the whole page to "jump"
+    // whenever the image changed. To keep the layout, structure, and image positions
+    // intact without disturbing the rest of the site, we now disable this behavior
+    // entirely on mobile.
+    const isMobile = window.innerWidth < 1024;
+    if (isMobile || !containerRef.current) return;
 
-        window.scrollTo({
-          top: elementTop - offset,
-          behavior: "smooth",
-        });
-      }
-    }
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    // Only adjust scroll if the features list is at least partially visible.
+    const sectionIsInView =
+      containerRect.bottom > 0 && containerRect.top < viewportHeight;
+
+    if (!sectionIsInView) return;
+
+    // Get element's position relative to document
+    const rect = activeFeatureElement.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const elementTop = rect.top + scrollTop;
+    const offset = 80; // Offset to account for header and show image below
+
+    window.scrollTo({
+      top: elementTop - offset,
+      behavior: "smooth",
+    });
   }, [currentFeature]);
 
   const handleFeatureClick = (index: number) => {
@@ -198,7 +208,7 @@ export function Features({
                       className="lg:hidden mt-3 mb-2"
                     >
                       <img
-                        className="rounded-xl border border-gray-50 shadow-lg w-full h-auto max-h-[30vh] object-cover"
+                        className="rounded-xl border border-gray-50 shadow-lg w-full h-[30vh] object-cover"
                         src={feature.image}
                         alt={feature.title}
                         loading="lazy"
@@ -221,7 +231,7 @@ export function Features({
               className="relative"
             >
               <img
-                className="rounded-2xl border border-gray-50 shadow-lg w-full h-auto max-h-[44vh] object-cover"
+                className="rounded-2xl border border-gray-50 shadow-lg w-full h-[44vh] object-cover"
                 src={features[currentFeature].image}
                 alt={features[currentFeature].title}
                 loading="lazy"
