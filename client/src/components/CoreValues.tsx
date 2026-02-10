@@ -6,8 +6,8 @@ import {
     IconLock,
     IconUsers,
 } from "@tabler/icons-react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const CoreValues = () => {
     const values = [
@@ -51,72 +51,161 @@ const CoreValues = () => {
 
     // Scroll-linked state for desktop experience
     const desktopSectionRef = useRef<HTMLDivElement | null>(null);
-    const [activeIndex, setActiveIndex] = useState(0);
 
     const { scrollYProgress } = useScroll({
         target: desktopSectionRef,
         // 0 when the top of the desktop block hits the top of the viewport,
         // 1 only when the bottom of the block reaches the bottom of the viewport.
-        // This keeps the section effectively "stuck" until the internal progress is complete.
+        // First value is immediately visible at scrollYProgress = 0 (no dead scroll)
         offset: ["start start", "end end"],
     });
 
     // Progress value for the bottom line:
     // - There are 6 values, so we divide the bar into 6 equal parts.
-    // - When we first enter the section, the bar is already at 1/6 (the first value is fully "earned").
-    // - As we scroll while the containers are stuck, it smoothly grows toward 100%.
+    // - When scrollYProgress = 0, bar is already at 1/6 (first value visible immediately).
+    // - As we scroll, it smoothly grows toward 100% with no dead scroll period.
     const barProgress = useTransform(scrollYProgress, (v) => {
-        const min = 1 / 6; // ≈16.7% filled on entry for the 1st value
-        const max = 1;
-        return min + (max - min) * v;
+        const firstValueProgress = 1 / 6; // First value is immediately "earned"
+        // Map scrollYProgress 0→1 to bar progress 1/6→1, eliminating dead scroll
+        return firstValueProgress + (1 - firstValueProgress) * v;
     });
 
-    // Scroll-based zoom for the right card, tightly mapped to the same scroll that drives the bar:
-    // For each value's segment of scroll:
-    // - When that value just becomes active, scale is 1 (same as left container)
-    // - As the per-value progress goes from 0 → 1,
-    //   the card slowly and smoothly zooms OUT to ~0.75 just before switching to the next value.
-    const cardScale = useTransform(scrollYProgress, (v) => {
-        const total = values.length || 1;
-        // 0..1 within the current value's 1/total scroll segment
-        const rawSegmentProgress = (v * total) % 1;
-        const segmentProgress = Math.min(1, Math.max(0, rawSegmentProgress));
+    // Create scroll-driven transforms for each card
+    const total = values.length;
+    // Card 0 is already visible without scrolling, so we distribute scroll time across the remaining cards
+    const segmentsCount = Math.max(1, total - 1);
+    const segment = 1 / segmentsCount;
 
-        const maxShrink = 0.25; // 25% zoom out
-        // Extra-smooth ease: very slow at start, faster near the end of the segment
-        const eased = Math.pow(segmentProgress, 3); // cubic ease-in
+    const cardTransforms = values.map((_, index) => {
+        // Card 0 is already in place; cards 1..N-1 use the full scroll range evenly
+        const segmentStart = index === 0 ? 0 : (index - 1) * segment;
+        const segmentEnd = index === 0 ? 0 : index * segment;
 
-        return 1 - eased * maxShrink;
-    });
+        // Vertical position: slides from bottom (far below viewport) to center (0%) during its segment
+        // First card (index 0) is already in place, no sliding needed
+        // Returns NUMBERS ONLY for smooth, continuous transforms
+        const y = useTransform(scrollYProgress, (v) => {
+            // First card is always in place
+            if (index === 0) return 0;
 
-    useEffect(() => {
-        const unsubscribe = scrollYProgress.on("change", (value) => {
-            // Only drive scroll-based behavior on desktop
-            if (typeof window === "undefined" || window.innerWidth < 1024) return;
+            // Start cards much further below (150% of card height) to feel like natural scroll from bottom
+            const startY = 150;
 
-            // Keep first value while the section is still sliding into place.
-            const startThreshold = 0.1; // ~first 10% of scroll: value stays at index 0
-            const total = values.length || 1;
+            // Clamp v to valid range
+            const clampedV = Math.max(0, Math.min(1, v));
 
-            const clamped =
-                value <= startThreshold
-                    ? 0
-                    : Math.min(1, (value - startThreshold) / (1 - startThreshold));
+            // Continuous transform: map scroll progress to y position
+            // Before segment: stay below viewport
+            if (clampedV < segmentStart) {
+                return startY;
+            }
 
-            // Map clamped 0..1 across N equal segments.
-            // Each time you naturally scroll past a segment boundary,
-            // the index steps to the next value – like normal scrolling.
-            let index = Math.floor(clamped * total);
+            // After segment: stay at final position (continuous, not irreversible)
+            if (clampedV >= segmentEnd) {
+                return 0;
+            }
 
-            // Clamp just in case
-            index = Math.max(0, Math.min(total - 1, index));
-            setActiveIndex(index);
+            // During segment: interpolate from startY to 0
+            // Ensure segmentEnd > segmentStart to avoid division by zero
+            const segmentRange = Math.max(0.00001, segmentEnd - segmentStart);
+            const segmentProgress = Math.min(1, Math.max(0, (clampedV - segmentStart) / segmentRange));
+
+            // More linear feel at start, then smooth ease-out
+            let eased;
+            if (segmentProgress < 0.3) {
+                eased = segmentProgress / 0.3;
+            } else {
+                const remainingProgress = (segmentProgress - 0.3) / 0.7;
+                eased = 0.3 + (1 - 0.3) * (1 - Math.pow(1 - remainingProgress, 3));
+            }
+
+            eased = Math.min(1, Math.max(0, eased));
+            const finalY = Math.max(0, startY * (1 - eased));
+            return finalY;
         });
 
-        return () => {
-            unsubscribe();
-        };
-    }, [scrollYProgress, values.length]);
+        // Scale: card zooms out (1 → 0.75) when next card starts entering
+        // Previous card should shrink as new card slides up from bottom
+        // Super smooth and slow zoom-out
+        const scale = useTransform(scrollYProgress, (v) => {
+            // If there's no next card, stay at full size
+            if (index === total - 1) return 1;
+
+            // Zoom out while the NEXT card is entering (first 70% of next card's segment)
+            const nextIndex = index + 1;
+            const nextStart = nextIndex === 0 ? 0 : (nextIndex - 1) * segment;
+            const nextEnd = nextIndex === 0 ? 0 : nextIndex * segment;
+
+            const zoomStart = nextStart;
+            const zoomEnd = zoomStart + (nextEnd - zoomStart) * 0.7;
+
+            // Before the next card begins entering, keep full scale
+            if (v < zoomStart) return 1;
+
+            // After zoom window, fully zoomed out
+            if (v >= zoomEnd) return 0.75;
+
+            // During zoom window
+            const zoomProgress = (v - zoomStart) / (zoomEnd - zoomStart);
+            const eased = 1 - Math.pow(1 - zoomProgress, 5);
+            return 1 - eased * 0.25; // 1 → 0.75
+        });
+
+        // Subtle opacity fade for older cards (very subtle, super smooth)
+        const opacity = useTransform(scrollYProgress, (v) => {
+            // First card is immediately visible at v = 0, no dead scroll
+            if (index === 0) return 1;
+
+            // Ensure all other cards are hidden at v = 0, even if segmentStart = 0
+            if (v <= 0 && index > 0) return 0;
+
+            if (v < segmentStart) return 0;
+
+            // Last card should always be fully visible when active
+            if (index === total - 1) {
+                if (v >= segmentStart) return 1;
+                return 0;
+            }
+
+            if (v >= segmentEnd) {
+                // After this card's segment, fade it more aggressively if we're in the last card's segment
+                const lastCardSegmentStart = (total - 2) * segment;
+                const fadeStart = segmentEnd;
+                const fadeEnd = Math.min(1, segmentEnd + segment * 0.7);
+
+                // If we're in the last card's segment, fade previous cards more
+                if (v >= lastCardSegmentStart) {
+                    // Fade more aggressively when last card is active
+                    const fadeProgress = Math.min(1, (v - fadeStart) / (fadeEnd - fadeStart));
+                    const eased = 1 - Math.pow(1 - fadeProgress, 5);
+                    return Math.max(0.3, 1 - eased * 0.7); // Fade to 0.3 instead of 0.9
+                }
+
+                // Normal fade for cards not in last segment
+                if (v >= fadeEnd) return 0.9;
+                if (v >= fadeStart) {
+                    const fadeProgress = (v - fadeStart) / (fadeEnd - fadeStart);
+                    // Super smooth quintic ease for ultra-gentle fade
+                    const eased = 1 - Math.pow(1 - fadeProgress, 5);
+                    return 1 - eased * 0.1; // 1 → 0.9
+                }
+            }
+            return 1;
+        });
+
+        // Convert numeric y to percentage string for style prop
+        const yPercent = useTransform(y, (val) => `${val}%`);
+
+        return { y, yPercent, scale, opacity };
+    });
+
+    // Compute activeIndex ONCE outside render loop to avoid hook violations
+    const activeIndex = useTransform(scrollYProgress, (v) => {
+        // Card 0 is visible at v=0; cards 1.. are distributed across v in [0..1]
+        if (v <= 0) return 0;
+        const seg = Math.min(segmentsCount - 1, Math.floor(v * segmentsCount));
+        return Math.min(total - 1, seg + 1);
+    });
 
     return (
         <section
@@ -181,8 +270,8 @@ const CoreValues = () => {
                     ref={desktopSectionRef}
                     className="hidden lg:block relative"
                 >
-                    {/* Make the section tall so the sticky content has scroll room */}
-                    <div className="h-[220vh]">
+                    {/* Make the section tall so the sticky content has scroll room - increased for super slow, smooth scroll */}
+                    <div className="h-[360vh]">
                         {/* Sticky container that locks once it fills the viewport */}
                         <div className="sticky top-24">
                             {/* Two separate card containers that together fill the viewport area */}
@@ -217,60 +306,87 @@ const CoreValues = () => {
                                     </div>
                                 </div>
 
-                                {/* Right column: value detail card, with scroll-driven in/out animation */}
+                                {/* Right column: scroll-driven stacked cards */}
                                 <div className="h-full flex">
-                                    <div className="relative w-full h-full">
-                                        <AnimatePresence mode="wait">
-                                            <motion.div
-                                                key={activeIndex}
-                                                initial={{ y: 80 }}
-                                                animate={{ y: 0 }}
-                                                exit={{ y: 0 }}
-                                                transition={{ duration: 0.75, ease: "linear" }}
-                                                style={{ scale: cardScale }}
-                                                className="absolute inset-0 flex flex-col rounded-[32px] bg-white shadow-2xl border border-slate-100 px-10 py-10 xl:px-16 xl:py-14"
-                                            >
-                                                {/* Center main text block vertically */}
-                                                <div className="flex-1 flex items-center">
-                                                    <div className="flex items-start justify-between gap-8 w-full">
-                                                        {/* Large index number */}
-                                                        <div className="text-tertiary font-playfair font-extrabold leading-none pr-6">
-                                                            <span className="block text-[9rem] xl:text-[10rem] 2xl:text-[11rem]">
-                                                                {String(activeIndex + 1).padStart(2, "0")}
-                                                            </span>
+                                    <div className="relative w-full h-full overflow-visible p-6 xl:p-8 2xl:p-10">
+                                        {values.map((value, index) => {
+                                            const { yPercent, scale, opacity } = cardTransforms[index];
+                                            // Higher index = higher z-index (stack on top)
+                                            // Last card gets extra high z-index to ensure it's always on top
+                                            const zIndex = index === total - 1 ? index + 10 : index;
+
+                                            return (
+                                                <motion.div
+                                                    key={index}
+                                                    style={{
+                                                        y: yPercent,
+                                                        zIndex: zIndex,
+                                                        opacity: opacity,
+                                                    }}
+                                                    className="absolute inset-0"
+                                                >
+                                                    <motion.div
+                                                        style={{
+                                                            scale: scale,
+                                                            transformOrigin: "center center",
+                                                            willChange: "transform",
+                                                        }}
+                                                        className="w-full h-full flex flex-col rounded-[32px] bg-white shadow-2xl border border-slate-100 px-10 py-10 xl:px-16 xl:py-14"
+                                                    >
+                                                        {/* Center main text block vertically */}
+                                                        <div className="flex-1 flex items-center">
+                                                            <div className="flex items-start justify-between gap-8 w-full">
+                                                                {/* Large index number */}
+                                                                <div className="text-tertiary font-playfair font-extrabold leading-none pr-6">
+                                                                    <span className="block text-[9rem] xl:text-[10rem] 2xl:text-[11rem]">
+                                                                        {String(index + 1).padStart(2, "0")}
+                                                                    </span>
+                                                                </div>
+
+                                                                {/* Text content */}
+                                                                <div className="flex-1 max-w-xl">
+                                                                    <h3 className="font-playfair text-[2.6rem] xl:text-[3rem] 2xl:text-[3.4rem] font-bold text-tertiary mb-4 leading-tight">
+                                                                        {value.title}
+                                                                    </h3>
+                                                                    <p className="font-crimson text-xl xl:text-[1.35rem] text-tertiary/80 leading-relaxed">
+                                                                        {value.description}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
                                                         </div>
 
-                                                        {/* Text content */}
-                                                        <div className="flex-1 max-w-xl">
-                                                            <h3 className="font-playfair text-[2.6rem] xl:text-[3rem] 2xl:text-[3.4rem] font-bold text-tertiary mb-4 leading-tight">
-                                                                {values[activeIndex].title}
-                                                            </h3>
-                                                            <p className="font-crimson text-xl xl:text-[1.35rem] text-tertiary/80 leading-relaxed">
-                                                                {values[activeIndex].description}
-                                                            </p>
+                                                        {/* Bottom controls / dots area */}
+                                                        <div className="mt-6 flex items-center justify-between">
+                                                            <div className="flex gap-2">
+                                                                {values.map((v, idx) => {
+                                                                    // Use activeIndex computed outside render loop
+                                                                    const dotWidth = useTransform(
+                                                                        activeIndex,
+                                                                        (activeIdx) => activeIdx === idx ? 32 : 12
+                                                                    );
+                                                                    const dotColor = useTransform(
+                                                                        activeIndex,
+                                                                        (activeIdx) => activeIdx === idx
+                                                                            ? "hsl(var(--secondary))"
+                                                                            : "hsl(var(--secondary) / 0.3)"
+                                                                    );
+                                                                    return (
+                                                                        <motion.div
+                                                                            key={v.title}
+                                                                            className="h-1.5 rounded-full"
+                                                                            style={{
+                                                                                width: dotWidth,
+                                                                                backgroundColor: dotColor,
+                                                                            }}
+                                                                        />
+                                                                    );
+                                                                })}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-
-                                                {/* Bottom controls / dots area */}
-                                                <div className="mt-6 flex items-center justify-between">
-                                                    <div className="flex gap-2">
-                                                        {values.map((v, idx) => (
-                                                            <button
-                                                                key={v.title}
-                                                                type="button"
-                                                                onClick={() => setActiveIndex(idx)}
-                                                                className={`h-1.5 rounded-full transition-all duration-300 ${idx === activeIndex
-                                                                    ? "w-8 bg-secondary"
-                                                                    : "w-3 bg-secondary/30"
-                                                                    }`}
-                                                                aria-label={v.title}
-                                                            />
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        </AnimatePresence>
+                                                    </motion.div>
+                                                </motion.div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             </div>
