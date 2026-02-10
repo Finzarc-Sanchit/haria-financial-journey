@@ -42,38 +42,12 @@ export function Features({
     }
   }, [progress, features.length]);
 
-  useEffect(() => {
-    const activeFeatureElement = featureRefs.current[currentFeature];
-
-    if (!activeFeatureElement) return;
-
-    // On mobile, auto-scrolling to the active feature caused the whole page to "jump"
-    // whenever the image changed. To keep the layout, structure, and image positions
-    // intact without disturbing the rest of the site, we now disable this behavior
-    // entirely on mobile.
-    const isMobile = window.innerWidth < 1024;
-    if (isMobile || !containerRef.current) return;
-
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-
-    // Only adjust scroll if the features list is at least partially visible.
-    const sectionIsInView =
-      containerRect.bottom > 0 && containerRect.top < viewportHeight;
-
-    if (!sectionIsInView) return;
-
-    // Get element's position relative to document
-    const rect = activeFeatureElement.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const elementTop = rect.top + scrollTop;
-    const offset = 80; // Offset to account for header and show image below
-
-    window.scrollTo({
-      top: elementTop - offset,
-      behavior: "smooth",
-    });
-  }, [currentFeature]);
+  // NOTE:
+  // We previously auto-scrolled the page to the active feature whenever
+  // `currentFeature` changed. That caused the sections around Features
+  // (especially About) to appear to "move" or be disturbed on desktop.
+  // To keep the layout and scroll position completely stable, that behavior
+  // has been removed. The auto-rotation and animations remain unchanged.
 
   const handleFeatureClick = (index: number) => {
     setCurrentFeature(index);
